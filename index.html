@@ -1260,6 +1260,46 @@ aside::-webkit-scrollbar{
   color:#334155!important;
   font-weight:800!important;
 }
+
+/* 8.14.2 — huy hiệu học tập trong bong bóng Cú, chỉ hiện khi đạt */
+#sv2Home .v8142-badge-line{
+  display:flex!important;align-items:center!important;gap:6px!important;
+  margin-top:6px!important;font-size:11px!important;line-height:1.25!important;
+  color:#6b4f00!important;font-weight:750!important;
+}
+#sv2Home .v8142-badge{
+  display:inline-flex!important;align-items:center!important;gap:4px!important;
+  padding:3px 8px!important;border-radius:999px!important;
+  background:#fffbeb!important;border:1px solid #fde68a!important;
+  color:#92400e!important;white-space:nowrap!important;
+}
+</style><style id="v8143-achievement-css">
+/* 8.14.3 — Góc thành tích học sinh */
+#studentV2 .v8143-ach-card{background:#fff;border:1px solid #e5eaf0;border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+#studentV2 .v8143-ach-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+#studentV2 .v8143-ach-title{font-size:18px;font-weight:850;color:#172554}
+#studentV2 .v8143-ach-sub{font-size:12px;color:#64748b;margin-top:3px}
+#studentV2 .v8143-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+#studentV2 .v8143-kpi{border:1px solid #e8edf3;border-radius:14px;padding:12px;background:#f8fafc}
+#studentV2 .v8143-kpi b{display:block;font-size:20px;color:#1e3a8a}.v8143-kpi span{font-size:11px;color:#64748b}
+#studentV2 .v8143-section-title{font-size:13px;font-weight:850;color:#334155;margin:16px 0 9px}
+#studentV2 .v8143-badges{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+#studentV2 .v8143-badge{min-height:92px;border:1px solid #e5e7eb;border-radius:14px;padding:10px;text-align:center;background:#fff}
+#studentV2 .v8143-badge .ico{font-size:26px;line-height:1.2}.v8143-badge strong{display:block;font-size:11px;color:#334155;margin-top:5px}
+#studentV2 .v8143-badge small{display:block;font-size:9.5px;color:#64748b;margin-top:3px;line-height:1.25}
+#studentV2 .v8143-badge.locked{filter:grayscale(1);opacity:.43;background:#f8fafc}
+#studentV2 .v8143-certs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#studentV2 .v8143-cert{border:1px solid #dbe4ef;border-radius:14px;padding:12px;background:linear-gradient(135deg,#fff,#f8fbff)}
+#studentV2 .v8143-cert strong{font-size:12px;color:#1e3a8a}.v8143-cert p{font-size:10.5px;color:#64748b;margin:4px 0 0}
+#studentV2 .v8143-empty{padding:12px;border:1px dashed #cbd5e1;border-radius:12px;color:#64748b;font-size:11px;background:#f8fafc}
+#studentV2 .v8143-home-link{margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border-radius:15px;background:linear-gradient(105deg,#f8fafc,#eef6ff);border:1px solid #dbeafe;cursor:pointer}
+#studentV2 .v8143-home-link b{color:#1e3a8a;font-size:13px}.v8143-home-link span{font-size:11px;color:#64748b}
+#studentV2 .v8143-go{border:0;border-radius:10px;padding:8px 12px;background:#1d4ed8;color:#fff;font-weight:750;cursor:pointer}
+#studentV2 .v8143-page{display:none;padding:18px 0}
+#studentV2 .v8143-page.active{display:block}
+#studentV2 .v8143-progress{display:flex;gap:8px;flex-wrap:wrap}
+#studentV2 .v8143-milestone{font-size:10.5px;padding:7px 9px;border-radius:10px;background:#f8fafc;border:1px solid #e5e7eb;color:#475569}
+@media(max-width:760px){#studentV2 .v8143-badges{grid-template-columns:repeat(2,1fr)}#studentV2 .v8143-certs{grid-template-columns:1fr}#studentV2 .v8143-summary{grid-template-columns:repeat(3,1fr)}}
 </style></head>
 <body>
 <div class="app">
@@ -5787,6 +5827,14 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
    const part=h<11?'Chào buổi sáng':h<18?'Chào buổi chiều':'Chào buổi tối';
    return `${part} ${s?.name||'em'}!`;
  }
+ function earnedStudyBadge(st){
+   const total=st.done+st.pending;
+   if(st.done>=20 && st.pending===0) return {icon:'🏆',name:'Chinh phục mục tiêu'};
+   if(st.done>=15) return {icon:'🥇',name:'Bền bỉ học tập'};
+   if(st.done>=10) return {icon:'🏅',name:'Tiến bộ nổi bật'};
+   if(st.done>=5)  return {icon:'🎖️',name:'Khởi động tích cực'};
+   return null;
+ }
  function rewardMessage(st){
    const total=st.done+st.pending;
    if(total===0) return 'Sẵn sàng cho một phiên học mới.';
@@ -5817,7 +5865,10 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
          `<span class="v8140-stat done">★ ${st.done} bài đã hoàn thành</span>`+
          `<span class="v8140-stat pending">📌 ${st.pending} nhiệm vụ đang chờ</span>`+
        `</span>`+
-       `<span class="v8141-reward-line">${rewardMessage(st)}</span>`;
+       `<span class="v8141-reward-line">${rewardMessage(st)}</span>`+
+       (earnedStudyBadge(st)
+         ? `<span class="v8142-badge-line">Huy hiệu mới: <span class="v8142-badge">${earnedStudyBadge(st).icon} ${earnedStudyBadge(st).name}</span></span>`
+         : '');
    }
    const originalInfo=welcome.firstElementChild;
    if(originalInfo && !originalInfo.classList.contains('sv2-streak')) originalInfo.remove();
@@ -5846,6 +5897,94 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
    }
  });
  mo.observe(document.body,{childList:true,subtree:true});
+})();
+</script><script id="v8143-achievement-controller">
+(function(){
+ const BADGES=[
+  {n:5, icon:'🎖️',name:'Khởi động tích cực',desc:'Hoàn thành 5 bài'},
+  {n:10,icon:'🏅',name:'Tiến bộ nổi bật',desc:'Hoàn thành 10 bài'},
+  {n:15,icon:'🥇',name:'Bền bỉ học tập',desc:'Hoàn thành 15 bài'},
+  {n:20,icon:'🏆',name:'Chinh phục mục tiêu',desc:'Hoàn thành 20 bài'}
+ ];
+ function student(){
+   try{
+    const id=(typeof state!=='undefined'&&state.currentStudentId)||null;
+    const a=(typeof state!=='undefined'&&Array.isArray(state.students))?state.students:[];
+    return a.find(x=>x.id===id)||a.find(x=>x.name==='Nguyễn Minh An')||{};
+   }catch(_){return {}}
+ }
+ function done(a){return ['done','submitted','graded','completed'].includes(String(a?.status||'').toLowerCase())||!!a?.submittedAt}
+ function stats(){
+   const s=student(), a=Array.isArray(s.assignments)?s.assignments.filter(x=>x.portalPublished!==false):[];
+   const d=a.filter(done).length, p=a.length-d;
+   return {s,done:d,pending:p,total:a.length};
+ }
+ function certificates(st){
+   const out=[];
+   if(st.done>=10) out.push({title:'Chứng nhận Tiến bộ học tập',desc:'Ghi nhận quá trình hoàn thành từ 10 nhiệm vụ học tập.'});
+   if(st.done>=20 && st.pending===0) out.push({title:'Chứng nhận Hoàn thành mục tiêu',desc:'Ghi nhận việc hoàn thành toàn bộ mục tiêu học tập hiện có.'});
+   return out;
+ }
+ function inner(){
+   const st=stats(), earned=BADGES.filter(b=>st.done>=b.n), certs=certificates(st);
+   return `<div class="v8143-ach-card">
+    <div class="v8143-ach-head"><div><div class="v8143-ach-title">🏆 Góc thành tích</div><div class="v8143-ach-sub">Ghi nhận nỗ lực, tiến bộ và các cột mốc học tập của ${st.s.name||'em'}.</div></div></div>
+    <div class="v8143-summary">
+      <div class="v8143-kpi"><b>${earned.length}</b><span>Huy hiệu đã đạt</span></div>
+      <div class="v8143-kpi"><b>${certs.length}</b><span>Chứng nhận</span></div>
+      <div class="v8143-kpi"><b>${st.done}</b><span>Bài đã hoàn thành</span></div>
+    </div>
+    <div class="v8143-section-title">Huy hiệu học tập</div>
+    <div class="v8143-badges">${BADGES.map(b=>`<div class="v8143-badge ${st.done>=b.n?'':'locked'}"><div class="ico">${b.icon}</div><strong>${b.name}</strong><small>${st.done>=b.n?'Đã đạt':b.desc}</small></div>`).join('')}</div>
+    <div class="v8143-section-title">Chứng nhận đạt được</div>
+    <div class="v8143-certs">${certs.length?certs.map(c=>`<div class="v8143-cert"><strong>📜 ${c.title}</strong><p>${c.desc}</p></div>`).join(''):`<div class="v8143-empty">Chưa có chứng nhận. Chứng nhận sẽ xuất hiện khi em đạt các cột mốc học tập phù hợp.</div>`}</div>
+    <div class="v8143-section-title">Hành trình tiến bộ</div>
+    <div class="v8143-progress">${[5,10,15,20].map(n=>`<span class="v8143-milestone">${st.done>=n?'✓':'○'} Mốc ${n} bài</span>`).join('')}</div>
+   </div>`;
+ }
+ function show(){
+   mount();
+   const home=document.getElementById('sv2Home'), page=document.getElementById('v8143AchievementPage');
+   if(home)home.style.display='none';
+   if(page){page.innerHTML=inner();page.classList.add('active');}
+   document.querySelectorAll('#studentV2 [data-v8143-ach]').forEach(x=>x.classList.add('active'));
+ }
+ function home(){
+   const page=document.getElementById('v8143AchievementPage');
+   if(page)page.classList.remove('active');
+   const h=document.getElementById('sv2Home'); if(h)h.style.display='';
+ }
+ function mount(){
+   const shell=document.getElementById('studentV2'); if(!shell)return;
+   let page=document.getElementById('v8143AchievementPage');
+   if(!page){
+     page=document.createElement('section'); page.id='v8143AchievementPage';page.className='v8143-page';
+     const home=document.getElementById('sv2Home'); (home?.parentNode||shell).appendChild(page);
+   }
+   const h=document.getElementById('sv2Home');
+   if(h&&!h.querySelector('.v8143-home-link')){
+     const st=stats(), e=BADGES.filter(b=>st.done>=b.n).length, c=certificates(st).length;
+     const card=document.createElement('div');card.className='v8143-home-link';
+     card.innerHTML=`<div><b>🏆 Góc thành tích</b><br><span>${e} huy hiệu · ${c} chứng nhận · Ghi nhận hành trình tiến bộ</span></div><button class="v8143-go" type="button">Xem thành tích</button>`;
+     card.onclick=show;h.appendChild(card);
+   }
+   // Add a lightweight sidebar navigation item near student navigation, if a suitable nav exists.
+   const nav=shell.querySelector('aside nav, .sv2-sidebar nav, .sv2-nav');
+   if(nav&&!nav.querySelector('[data-v8143-ach]')){
+     const el=document.createElement('button');el.type='button';el.setAttribute('data-v8143-ach','1');
+     el.innerHTML='🏆 <span>Góc thành tích</span>';el.onclick=show;
+     const ref=[...nav.children].find(x=>(x.textContent||'').includes('Tiến độ học tập'));
+     if(ref)nav.insertBefore(el,ref);else nav.appendChild(el);
+   }
+ }
+ window.v8143ShowAchievements=show;
+ window.v8143AchievementHome=home;
+ const obs=new MutationObserver(()=>mount());obs.observe(document.body,{childList:true,subtree:true});
+ document.addEventListener('click',e=>{
+   const t=e.target.closest('#studentV2 nav button,#studentV2 .sv2-nav button');
+   if(t&&!t.hasAttribute('data-v8143-ach'))home();
+ },true);
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })();
 </script></body>
 </html>
