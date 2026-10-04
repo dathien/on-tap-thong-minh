@@ -473,6 +473,53 @@ aside::-webkit-scrollbar{
 #otCssOwl .ot-chat{top:18px!important;width:260px!important;text-align:center!important}
 #otCssOwl .ot-owl-group{transform-origin:200px 245px!important}
 #otCssOwl .ot-hat{transform-origin:200px 118px!important}
+
+/* 8.12.2 — bố cục Tổng quan: Cú ÔT thành hàng riêng, không đè thẻ Nguyễn Minh An */
+#homePanel{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 292px!important;
+  column-gap:14px!important;
+  align-items:start!important;
+}
+/* Các phần tử thường của Tổng quan vẫn chiếm toàn chiều ngang */
+#homePanel > *{grid-column:1 / -1}
+/* Khối đầu tiên của dashboard dùng cột trái; trợ lý dùng cột phải */
+#homePanel > .dashboard-grid,
+#homePanel > .overview-grid{
+  grid-column:1!important;
+  padding-right:0!important;
+  width:100%!important;
+  min-width:0!important;
+}
+#homePanel > #otCssOwl{
+  grid-column:2!important;
+  grid-row:2!important;
+  position:relative!important;
+  top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;
+  width:292px!important;height:392px!important;
+  margin:0!important;
+  align-self:start!important;
+}
+#homePanel > #otCssOwl .ot-chat{
+  top:16px!important;width:250px!important;font-size:11.5px!important;
+}
+#homePanel > #otCssOwl .ot-chibi{
+  top:101px!important;width:258px!important;height:258px!important;
+}
+#homePanel > #otCssOwl .ot-name{bottom:10px!important}
+
+/* Nếu cấu trúc dashboard thực tế không phải con trực tiếp, không dùng absolute nữa */
+#homePanel #otCssOwl{
+  position:relative!important;
+}
+
+/* Tablet / cửa sổ hẹp: trợ lý xuống ngay dưới cụm thao tác đầu, không chạy xuống cuối danh sách */
+@media(max-width:1180px){
+ #homePanel{display:block!important}
+ #homePanel > #otCssOwl{width:100%!important;max-width:420px!important;height:390px!important;margin:16px auto!important}
+ #homePanel .dashboard-grid,#homePanel .overview-grid{padding-right:0!important}
+}
 </style></head>
 <body>
 <div class="app">
@@ -4808,7 +4855,7 @@ function teacherHome(){const h=document.getElementById('homePanel');return visib
 function studentHome(){const sh=document.querySelector('.sv2-student-shell,#studentV2');if(!visible(sh))return false;const a=sh.querySelector('.active,[aria-current="page"]');return !a||(a.textContent||'').toLowerCase().includes('trang chủ')}
 function parentHome(){const ph=document.querySelector('#parentV117,.pv117shell,.pv117-shell');if(!visible(ph))return false;const a=ph.querySelector('.active,[aria-current="page"]');const t=(a?.textContent||'').toLowerCase();return !a||t.includes('tổng quan')||t.includes('trang chủ')}
 function studentName(){try{const a=(typeof state!=='undefined'&&state.students)||[];return (a.find(x=>x.name==='Nguyễn Minh An')||a[0])?.name||'em'}catch(_){return'em'}}
-function place(){if(teacherHome()){const h=document.getElementById('homePanel');if(h&&box.parentElement!==h)h.appendChild(box)}else if(studentHome()){const t=document.querySelector('#studentV2 main,.sv2-student-shell main,#studentV2');if(t&&box.parentElement!==t)t.appendChild(box)}else if(parentHome()){const t=document.querySelector('#parentV117 .pv117main,#parentV117 main,#parentV117');if(t&&box.parentElement!==t)t.appendChild(box)}}
+function place(){if(teacherHome()){const h=document.getElementById('homePanel');if(h){const first=h.querySelector(':scope > .dashboard-grid,:scope > .overview-grid');if(box.parentElement!==h)h.appendChild(box);if(first&&box.previousElementSibling!==first)first.insertAdjacentElement('afterend',box)}}else if(studentHome()){const t=document.querySelector('#studentV2 main,.sv2-student-shell main,#studentV2');if(t&&box.parentElement!==t)t.appendChild(box)}else if(parentHome()){const t=document.querySelector('#parentV117 .pv117main,#parentV117 main,#parentV117');if(t&&box.parentElement!==t)t.appendChild(box)}}
 function update(){place();let m='';if(studentHome())m='Xin chào '+studentName()+'! Hôm nay mình cùng ôn tập thật hiệu quả nhé.';else if(parentHome())m='Xin chào Phụ huynh! Cú ÔT sẽ đồng hành cùng gia đình theo dõi quá trình ôn tập.';else if(teacherHome())m='Xin chào GV.Hồ Nguyễn Đa Thiện! Hôm nay thầy muốn bắt đầu với công việc nào?';speech.textContent=m;box.classList.toggle('is-visible',!!m)}
 window.addEventListener('mousemove',e=>{if(!box.classList.contains('is-visible'))return;const r=box.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height*.52,ang=Math.atan2(e.clientX-cx,e.clientY-cy),x=Math.sin(ang)*6,y=Math.cos(ang)*6;box.querySelectorAll('.ot-pupil').forEach(p=>p.style.transform=`translate(${x}px,${y}px)`)});
 update();document.addEventListener('click',()=>setTimeout(update,50),true);new MutationObserver(()=>requestAnimationFrame(update)).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','style','hidden']});
