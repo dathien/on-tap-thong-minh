@@ -588,6 +588,85 @@ aside::-webkit-scrollbar{
  #homePanel > .teacher-home > *{margin-bottom:14px!important}
  #homePanel > .teacher-home > #otCssOwl{width:100%!important;min-height:380px!important}
 }
+
+/* 8.12.4 — bỏ card cao/3 cột; trợ lý thành banner ngang gọn ngay dưới tiêu đề Tổng quan */
+#homePanel{display:block!important}
+#homePanel > .teacher-home{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.55fr) minmax(300px,.9fr)!important;
+  gap:14px!important;
+  margin-top:14px!important;
+}
+#homePanel > .teacher-home > .home-welcome{grid-column:1!important}
+#homePanel > .teacher-home > .student-summary{grid-column:2!important}
+#homePanel > .teacher-home > #otCssOwl{display:none!important}
+
+#homePanel > #otCssOwl{
+  display:none!important;
+}
+#homePanel > #otCssOwl.is-visible{
+  display:block!important;
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  max-width:none!important;
+  height:214px!important;
+  min-height:214px!important;
+  margin:14px 0 0!important;
+  padding:0!important;
+  border-radius:22px!important;
+  overflow:hidden!important;
+  background:linear-gradient(110deg,#ecfbf8 0%,#f4f8ff 58%,#f7f3ff 100%)!important;
+}
+#homePanel > #otCssOwl .ot-chat{
+  top:48px!important;
+  left:42px!important;
+  transform:none!important;
+  width:calc(100% - 390px)!important;
+  max-width:560px!important;
+  min-width:340px!important;
+  text-align:left!important;
+  font-size:14px!important;
+  line-height:1.5!important;
+  padding:15px 18px!important;
+}
+#homePanel > #otCssOwl .ot-chat:after{
+  left:auto!important;right:-9px!important;bottom:24px!important;
+  transform:rotate(-45deg)!important;
+}
+#homePanel > #otCssOwl .ot-chibi{
+  top:7px!important;
+  left:auto!important;
+  right:42px!important;
+  transform:none!important;
+  width:198px!important;
+  height:198px!important;
+}
+#homePanel > #otCssOwl .ot-name{
+  left:auto!important;right:72px!important;bottom:8px!important;
+  transform:none!important;
+}
+#homePanel > #otCssOwl:before{right:-30px!important;top:16px!important}
+#homePanel > #otCssOwl:after{left:-45px!important;bottom:-75px!important}
+
+/* Existing dashboard starts immediately after compact assistant banner */
+#homePanel > #otCssOwl + .teacher-home{margin-top:14px!important}
+
+@media(max-width:900px){
+ #homePanel > .teacher-home{display:block!important}
+ #homePanel > #otCssOwl.is-visible{height:300px!important}
+ #homePanel > #otCssOwl .ot-chat{
+   top:18px!important;left:50%!important;transform:translateX(-50%)!important;
+   width:88%!important;min-width:0!important;text-align:center!important
+ }
+ #homePanel > #otCssOwl .ot-chat:after{
+   left:50%!important;right:auto!important;bottom:-9px!important;transform:translateX(-50%) rotate(45deg)!important
+ }
+ #homePanel > #otCssOwl .ot-chibi{
+   top:88px!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:190px!important;height:190px!important
+ }
+ #homePanel > #otCssOwl .ot-name{left:50%!important;right:auto!important;transform:translateX(-50%)!important}
+}
 </style></head>
 <body>
 <div class="app">
@@ -4925,8 +5004,10 @@ function parentHome(){const ph=document.querySelector('#parentV117,.pv117shell,.
 function studentName(){try{const a=(typeof state!=='undefined'&&state.students)||[];return (a.find(x=>x.name==='Nguyễn Minh An')||a[0])?.name||'em'}catch(_){return'em'}}
 function place(){
  if(teacherHome()){
-   const target=document.querySelector('#homePanel > .teacher-home');
-   if(target&&box.parentElement!==target)target.appendChild(box);
+   const h=document.getElementById('homePanel');
+   const first=h&&h.querySelector(':scope > .teacher-home');
+   if(h&&box.parentElement!==h)h.appendChild(box);
+   if(h&&first&&box.nextElementSibling!==first)h.insertBefore(box,first);
  }else if(studentHome()){
    const target=document.querySelector('#studentV2 main,.sv2-student-shell main,#studentV2');
    if(target&&box.parentElement!==target)target.appendChild(box);
