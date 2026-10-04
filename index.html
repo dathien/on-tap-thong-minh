@@ -818,6 +818,36 @@ aside::-webkit-scrollbar{
  #homePanel > .panel-head > #otCssOwl .ot-chat{display:none!important}
  #homePanel > .teacher-home{display:block!important}
 }
+
+/* 8.13.1 — header gọn: Cú lớn vừa đủ, lời chào ngắn, không nhồi chữ */
+#homePanel > .panel-head{
+  min-height:96px!important;
+  padding-right:390px!important;
+}
+#homePanel > .panel-head > #otCssOwl.is-visible{
+  top:2px!important;right:8px!important;width:370px!important;height:90px!important;
+}
+#homePanel > .panel-head > #otCssOwl .ot-chibi{
+  top:-5px!important;right:0!important;width:96px!important;height:96px!important;
+}
+#homePanel > .panel-head > #otCssOwl .ot-chat{
+  display:flex!important;align-items:center!important;
+  top:20px!important;right:102px!important;
+  width:258px!important;min-height:48px!important;
+  padding:9px 13px!important;
+  font-size:11px!important;line-height:1.35!important;
+  font-weight:650!important;text-align:left!important;
+  border-radius:14px!important;
+}
+#homePanel > .panel-head > #otCssOwl .ot-chat:after{
+  right:-6px!important;bottom:17px!important;
+}
+@media(max-width:900px){
+ #homePanel > .panel-head{padding-right:98px!important}
+ #homePanel > .panel-head > #otCssOwl.is-visible{width:88px!important;height:84px!important}
+ #homePanel > .panel-head > #otCssOwl .ot-chibi{width:84px!important;height:84px!important}
+ #homePanel > .panel-head > #otCssOwl .ot-chat{display:none!important}
+}
 </style></head>
 <body>
 <div class="app">
@@ -5202,13 +5232,23 @@ function pendingStudentTasks(){
 }
 function personalizedGreeting(role){
  const t=timeGreeting(),info=dayInfo();
- if(role==='teacher') return `${t} GV.Hồ Nguyễn Đa Thiện! Hôm nay là ${info.day}. ${info.teacher}`;
+ if(role==='teacher'){
+   const short={
+    'thứ Hai':'Tuần mới nhiều năng lượng nhé thầy!',
+    'thứ Ba':'Chúc thầy một ngày làm việc hiệu quả!',
+    'thứ Tư':'Giữa tuần rồi, chúc thầy thật nhiều năng lượng!',
+    'thứ Năm':'Chúc thầy một ngày dạy học thật thuận lợi!',
+    'thứ Sáu':'Sắp cuối tuần rồi, chúc thầy hoàn thành thật tốt!',
+    'thứ Bảy':'Cuối tuần rồi, chúc thầy một ngày nhẹ nhàng!',
+    'Chủ nhật':'Chúc thầy một Chủ nhật thật nhẹ nhàng!'
+   };
+   return `${t} thầy Thiện! ${short[info.day]||''}`;
+ }
  if(role==='student'){
    const name=studentName(),pending=pendingStudentTasks();
-   const extra=pending>0?` Em còn ${pending} nhiệm vụ đang chờ.`:'';
-   return `${t} ${name}! Hôm nay là ${info.day}.${extra} ${info.student}`;
+   return pending>0?`${t} ${name}! Em còn ${pending} nhiệm vụ đang chờ nhé.`:`${t} ${name}! Chúc em học thật hiệu quả hôm nay!`;
  }
- return `${t} Phụ huynh! Hôm nay là ${info.day}. ${info.parent}`;
+ return `${t} Phụ huynh! Chúc gia đình một ngày thật thuận lợi!`;
 }
 function place(){
  if(teacherHome()){
