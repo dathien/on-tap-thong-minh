@@ -520,6 +520,74 @@ aside::-webkit-scrollbar{
  #homePanel > #otCssOwl{width:100%!important;max-width:420px!important;height:390px!important;margin:16px auto!important}
  #homePanel .dashboard-grid,#homePanel .overview-grid{padding-right:0!important}
 }
+
+/* 8.12.3 — sửa theo đúng DOM thật: Cú nằm cùng hàng với thao tác + hồ sơ học sinh */
+#homePanel{
+  display:block!important;
+}
+#homePanel > .teacher-home{
+  display:grid!important;
+  grid-template-columns:minmax(430px,1.45fr) minmax(250px,.82fr) 292px!important;
+  gap:14px!important;
+  align-items:stretch!important;
+  margin-top:18px!important;
+}
+#homePanel > .teacher-home > .home-welcome{
+  grid-column:1!important;
+  min-width:0!important;
+}
+#homePanel > .teacher-home > .student-summary{
+  grid-column:2!important;
+  min-width:0!important;
+}
+#homePanel > .teacher-home > #otCssOwl{
+  grid-column:3!important;
+  position:relative!important;
+  inset:auto!important;
+  width:292px!important;
+  height:auto!important;
+  min-height:100%!important;
+  margin:0!important;
+  align-self:stretch!important;
+}
+#homePanel > .teacher-home > #otCssOwl .ot-chat{
+  top:16px!important;
+  width:250px!important;
+  font-size:11.5px!important;
+}
+#homePanel > .teacher-home > #otCssOwl .ot-chibi{
+  top:100px!important;
+  width:250px!important;
+  height:250px!important;
+}
+#homePanel > .teacher-home > #otCssOwl .ot-name{
+  bottom:10px!important;
+}
+/* Gỡ khoảng trống do quy tắc 8.12.2 */
+#homePanel .dashboard-grid,
+#homePanel .overview-grid{
+  padding-right:0!important;
+}
+/* Học sinh gần đây luôn bắt đầu ngay sau hàng trên */
+#homePanel > .section-title{
+  margin-top:18px!important;
+}
+@media(max-width:1350px){
+ #homePanel > .teacher-home{
+   grid-template-columns:minmax(420px,1.35fr) minmax(250px,.85fr)!important;
+ }
+ #homePanel > .teacher-home > #otCssOwl{
+   grid-column:1 / -1!important;
+   width:100%!important;
+   min-height:360px!important;
+   max-width:none!important;
+ }
+}
+@media(max-width:900px){
+ #homePanel > .teacher-home{display:block!important}
+ #homePanel > .teacher-home > *{margin-bottom:14px!important}
+ #homePanel > .teacher-home > #otCssOwl{width:100%!important;min-height:380px!important}
+}
 </style></head>
 <body>
 <div class="app">
@@ -4855,7 +4923,18 @@ function teacherHome(){const h=document.getElementById('homePanel');return visib
 function studentHome(){const sh=document.querySelector('.sv2-student-shell,#studentV2');if(!visible(sh))return false;const a=sh.querySelector('.active,[aria-current="page"]');return !a||(a.textContent||'').toLowerCase().includes('trang chủ')}
 function parentHome(){const ph=document.querySelector('#parentV117,.pv117shell,.pv117-shell');if(!visible(ph))return false;const a=ph.querySelector('.active,[aria-current="page"]');const t=(a?.textContent||'').toLowerCase();return !a||t.includes('tổng quan')||t.includes('trang chủ')}
 function studentName(){try{const a=(typeof state!=='undefined'&&state.students)||[];return (a.find(x=>x.name==='Nguyễn Minh An')||a[0])?.name||'em'}catch(_){return'em'}}
-function place(){if(teacherHome()){const h=document.getElementById('homePanel');if(h){const first=h.querySelector(':scope > .dashboard-grid,:scope > .overview-grid');if(box.parentElement!==h)h.appendChild(box);if(first&&box.previousElementSibling!==first)first.insertAdjacentElement('afterend',box)}}else if(studentHome()){const t=document.querySelector('#studentV2 main,.sv2-student-shell main,#studentV2');if(t&&box.parentElement!==t)t.appendChild(box)}else if(parentHome()){const t=document.querySelector('#parentV117 .pv117main,#parentV117 main,#parentV117');if(t&&box.parentElement!==t)t.appendChild(box)}}
+function place(){
+ if(teacherHome()){
+   const target=document.querySelector('#homePanel > .teacher-home');
+   if(target&&box.parentElement!==target)target.appendChild(box);
+ }else if(studentHome()){
+   const target=document.querySelector('#studentV2 main,.sv2-student-shell main,#studentV2');
+   if(target&&box.parentElement!==target)target.appendChild(box);
+ }else if(parentHome()){
+   const target=document.querySelector('#parentV117 .pv117main,#parentV117 main,#parentV117');
+   if(target&&box.parentElement!==target)target.appendChild(box);
+ }
+}
 function update(){place();let m='';if(studentHome())m='Xin chào '+studentName()+'! Hôm nay mình cùng ôn tập thật hiệu quả nhé.';else if(parentHome())m='Xin chào Phụ huynh! Cú ÔT sẽ đồng hành cùng gia đình theo dõi quá trình ôn tập.';else if(teacherHome())m='Xin chào GV.Hồ Nguyễn Đa Thiện! Hôm nay thầy muốn bắt đầu với công việc nào?';speech.textContent=m;box.classList.toggle('is-visible',!!m)}
 window.addEventListener('mousemove',e=>{if(!box.classList.contains('is-visible'))return;const r=box.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height*.52,ang=Math.atan2(e.clientX-cx,e.clientY-cy),x=Math.sin(ang)*6,y=Math.cos(ang)*6;box.querySelectorAll('.ot-pupil').forEach(p=>p.style.transform=`translate(${x}px,${y}px)`)});
 update();document.addEventListener('click',()=>setTimeout(update,50),true);new MutationObserver(()=>requestAnimationFrame(update)).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','style','hidden']});
