@@ -848,6 +848,150 @@ aside::-webkit-scrollbar{
  #homePanel > .panel-head > #otCssOwl .ot-chibi{width:84px!important;height:84px!important}
  #homePanel > .panel-head > #otCssOwl .ot-chat{display:none!important}
 }
+
+/* 8.13.2 — Cú ÔT nằm giữa tiêu đề Tổng quan và "Hôm nay thầy/cô muốn làm gì?" */
+#homePanel > .panel-head{
+  min-height:0!important;
+  padding-right:0!important;
+}
+#homePanel > .panel-head > #otCssOwl{display:none!important}
+
+#homePanel > #otCssOwl.is-visible{
+  display:flex!important;
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  height:126px!important;
+  min-height:126px!important;
+  max-width:none!important;
+  box-sizing:border-box!important;
+  margin:12px 0 14px!important;
+  padding:0 150px 0 24px!important;
+  align-items:center!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  z-index:3!important;
+}
+#homePanel > #otCssOwl:before,
+#homePanel > #otCssOwl:after{display:none!important}
+
+#homePanel > #otCssOwl .ot-chat{
+  display:block!important;
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+  width:auto!important;
+  max-width:520px!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:12px 16px!important;
+  background:#fff!important;
+  border:1px solid #dfe7ef!important;
+  border-radius:16px!important;
+  box-shadow:0 6px 18px rgba(15,23,42,.08)!important;
+  color:#334155!important;
+  font-size:12px!important;
+  line-height:1.4!important;
+  text-align:left!important;
+}
+#homePanel > #otCssOwl .ot-chat:after{
+  content:""!important;
+  position:absolute!important;
+  right:-8px!important;
+  left:auto!important;
+  bottom:22px!important;
+  width:14px!important;
+  height:14px!important;
+  background:#fff!important;
+  border-right:1px solid #dfe7ef!important;
+  border-bottom:1px solid #dfe7ef!important;
+  transform:rotate(-45deg)!important;
+}
+#homePanel > #otCssOwl .ot-chibi{
+  position:absolute!important;
+  top:0!important;
+  right:24px!important;
+  left:auto!important;
+  width:126px!important;
+  height:126px!important;
+  transform:none!important;
+}
+#homePanel > #otCssOwl .ot-name{display:none!important}
+
+/* Khôi phục bố cục gốc ngay bên dưới */
+#homePanel > .teacher-home{
+  margin-top:0!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1.55fr) minmax(300px,.9fr)!important;
+  gap:14px!important;
+}
+@media(max-width:900px){
+ #homePanel > #otCssOwl.is-visible{
+   height:112px!important;min-height:112px!important;
+   padding:0 104px 0 8px!important;margin:8px 0 12px!important
+ }
+ #homePanel > #otCssOwl .ot-chibi{right:4px!important;width:104px!important;height:104px!important}
+ #homePanel > #otCssOwl .ot-chat{font-size:11px!important;padding:10px 12px!important}
+ #homePanel > .teacher-home{display:block!important}
+}
+
+/* 8.13.3 — nền nhẹ + cụm lời chào sát Cú */
+#homePanel > #otCssOwl.is-visible{
+  height:132px!important;
+  min-height:132px!important;
+  margin:12px 0 14px!important;
+  padding:0!important;
+  background:linear-gradient(105deg,#edf9f7 0%,#f2f7ff 58%,#f7f3ff 100%)!important;
+  border:1px solid #d9ebe8!important;
+  border-radius:20px!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+}
+#homePanel > #otCssOwl:before{
+  content:""!important;display:block!important;
+  position:absolute!important;right:-28px!important;top:-35px!important;
+  width:112px!important;height:112px!important;border-radius:50%!important;
+  background:rgba(255,218,120,.38)!important;
+}
+#homePanel > #otCssOwl:after{
+  content:""!important;display:block!important;
+  position:absolute!important;left:-34px!important;bottom:-70px!important;
+  width:126px!important;height:126px!important;border-radius:50%!important;
+  background:rgba(255,255,255,.48)!important;
+}
+#homePanel > #otCssOwl .ot-chibi{
+  top:3px!important;right:28px!important;
+  width:124px!important;height:124px!important;
+  z-index:3!important;
+}
+#homePanel > #otCssOwl .ot-chat{
+  position:absolute!important;
+  top:38px!important;
+  right:145px!important;
+  left:auto!important;
+  width:360px!important;
+  max-width:calc(100% - 190px)!important;
+  margin:0!important;
+  z-index:4!important;
+  font-size:12px!important;
+  line-height:1.4!important;
+  padding:12px 15px!important;
+}
+#homePanel > #otCssOwl .ot-chat:after{
+  right:-8px!important;left:auto!important;bottom:20px!important;
+}
+@media(max-width:900px){
+ #homePanel > #otCssOwl.is-visible{height:122px!important;min-height:122px!important}
+ #homePanel > #otCssOwl .ot-chibi{right:10px!important;width:112px!important;height:112px!important}
+ #homePanel > #otCssOwl .ot-chat{
+   right:116px!important;top:31px!important;
+   width:calc(100% - 145px)!important;max-width:none!important;
+   font-size:11px!important
+ }
+}
 </style></head>
 <body>
 <div class="app">
@@ -5252,8 +5396,11 @@ function personalizedGreeting(role){
 }
 function place(){
  if(teacherHome()){
-   const target=document.querySelector('#homePanel > .panel-head');
-   if(target&&box.parentElement!==target)target.appendChild(box);
+   const h=document.getElementById('homePanel');
+   const head=h&&h.querySelector(':scope > .panel-head');
+   const work=h&&h.querySelector(':scope > .teacher-home');
+   if(h&&box.parentElement!==h)h.appendChild(box);
+   if(h&&head&&work&&box.previousElementSibling!==head)h.insertBefore(box,work);
  }else if(studentHome()){
    const target=document.querySelector('#studentV2 main,.sv2-student-shell main,#studentV2');
    if(target&&box.parentElement!==target)target.appendChild(box);
