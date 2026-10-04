@@ -992,6 +992,86 @@ aside::-webkit-scrollbar{
    font-size:11px!important
  }
 }
+
+/* 8.13.4 — cùng phong cách trợ lý cho TRANG CHỦ HỌC SINH + PHỤ HUYNH */
+#studentV2 .sv2-student-main > #otCssOwl.is-visible,
+.sv2-student-shell .sv2-student-main > #otCssOwl.is-visible,
+#parentV117 .pv117main > #otCssOwl.is-visible{
+  display:block!important;
+  position:relative!important;
+  inset:auto!important;
+  box-sizing:border-box!important;
+  width:auto!important;
+  height:132px!important;
+  min-height:132px!important;
+  margin:14px 24px!important;
+  padding:0!important;
+  background:linear-gradient(105deg,#edf9f7 0%,#f2f7ff 58%,#f7f3ff 100%)!important;
+  border:1px solid #d9ebe8!important;
+  border-radius:20px!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  z-index:3!important;
+}
+#studentV2 .sv2-student-main > #otCssOwl:before,
+.sv2-student-shell .sv2-student-main > #otCssOwl:before,
+#parentV117 .pv117main > #otCssOwl:before{
+  content:""!important;display:block!important;position:absolute!important;
+  right:-28px!important;top:-35px!important;width:112px!important;height:112px!important;
+  border-radius:50%!important;background:rgba(255,218,120,.38)!important;
+}
+#studentV2 .sv2-student-main > #otCssOwl:after,
+.sv2-student-shell .sv2-student-main > #otCssOwl:after,
+#parentV117 .pv117main > #otCssOwl:after{
+  content:""!important;display:block!important;position:absolute!important;
+  left:-34px!important;bottom:-70px!important;width:126px!important;height:126px!important;
+  border-radius:50%!important;background:rgba(255,255,255,.48)!important;
+}
+#studentV2 .sv2-student-main > #otCssOwl .ot-chibi,
+.sv2-student-shell .sv2-student-main > #otCssOwl .ot-chibi,
+#parentV117 .pv117main > #otCssOwl .ot-chibi{
+  position:absolute!important;top:3px!important;right:28px!important;left:auto!important;
+  width:124px!important;height:124px!important;transform:none!important;z-index:3!important;
+}
+#studentV2 .sv2-student-main > #otCssOwl .ot-chat,
+.sv2-student-shell .sv2-student-main > #otCssOwl .ot-chat,
+#parentV117 .pv117main > #otCssOwl .ot-chat{
+  display:block!important;position:absolute!important;top:38px!important;right:145px!important;left:auto!important;
+  width:360px!important;max-width:calc(100% - 190px)!important;min-width:0!important;
+  margin:0!important;padding:12px 15px!important;transform:none!important;z-index:4!important;
+  background:#fff!important;border:1px solid #dfe7ef!important;border-radius:16px!important;
+  box-shadow:0 6px 18px rgba(15,23,42,.08)!important;color:#334155!important;
+  font-size:12px!important;line-height:1.4!important;text-align:left!important;
+}
+#studentV2 .sv2-student-main > #otCssOwl .ot-chat:after,
+.sv2-student-shell .sv2-student-main > #otCssOwl .ot-chat:after,
+#parentV117 .pv117main > #otCssOwl .ot-chat:after{
+  content:""!important;position:absolute!important;right:-8px!important;left:auto!important;bottom:20px!important;
+  width:14px!important;height:14px!important;background:#fff!important;
+  border-right:1px solid #dfe7ef!important;border-bottom:1px solid #dfe7ef!important;
+  transform:rotate(-45deg)!important;
+}
+#studentV2 .sv2-student-main > #otCssOwl .ot-name,
+.sv2-student-shell .sv2-student-main > #otCssOwl .ot-name,
+#parentV117 .pv117main > #otCssOwl .ot-name{display:none!important}
+
+@media(max-width:900px){
+ #studentV2 .sv2-student-main > #otCssOwl.is-visible,
+ .sv2-student-shell .sv2-student-main > #otCssOwl.is-visible,
+ #parentV117 .pv117main > #otCssOwl.is-visible{
+   height:122px!important;min-height:122px!important;margin:10px 12px!important;
+ }
+ #studentV2 .sv2-student-main > #otCssOwl .ot-chibi,
+ .sv2-student-shell .sv2-student-main > #otCssOwl .ot-chibi,
+ #parentV117 .pv117main > #otCssOwl .ot-chibi{
+   right:10px!important;width:112px!important;height:112px!important;
+ }
+ #studentV2 .sv2-student-main > #otCssOwl .ot-chat,
+ .sv2-student-shell .sv2-student-main > #otCssOwl .ot-chat,
+ #parentV117 .pv117main > #otCssOwl .ot-chat{
+   right:116px!important;top:31px!important;width:calc(100% - 145px)!important;max-width:none!important;font-size:11px!important;
+ }
+}
 </style></head>
 <body>
 <div class="app">
@@ -5402,11 +5482,22 @@ function place(){
    if(h&&box.parentElement!==h)h.appendChild(box);
    if(h&&head&&work&&box.previousElementSibling!==head)h.insertBefore(box,work);
  }else if(studentHome()){
-   const target=document.querySelector('#studentV2 main,.sv2-student-shell main,#studentV2');
-   if(target&&box.parentElement!==target)target.appendChild(box);
+   const main=document.querySelector('#studentV2 .sv2-student-main,.sv2-student-shell .sv2-student-main');
+   const top=main&&main.querySelector(':scope > .sv2-app > .sv2-top,:scope > .sv2-top');
+   if(main&&box.parentElement!==main)main.appendChild(box);
+   if(main&&top){
+     const app=top.parentElement;
+     if(app&&app!==main){
+       if(box.parentElement!==app)app.insertBefore(box,top.nextSibling);
+       else if(box.previousElementSibling!==top)app.insertBefore(box,top.nextSibling);
+     }else if(box.previousElementSibling!==top)main.insertBefore(box,top.nextSibling);
+   }
  }else if(parentHome()){
-   const target=document.querySelector('#parentV117 .pv117main,#parentV117 main,#parentV117');
-   if(target&&box.parentElement!==target)target.appendChild(box);
+   const main=document.querySelector('#parentV117 .pv117main');
+   const head=main&&main.querySelector(':scope > header');
+   const content=main&&main.querySelector(':scope > #pv117Content');
+   if(main&&box.parentElement!==main)main.appendChild(box);
+   if(main&&head&&content&&box.previousElementSibling!==head)main.insertBefore(box,content);
  }
 }
 function update(){
