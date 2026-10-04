@@ -467,6 +467,12 @@ aside::-webkit-scrollbar{
 #homePanel .dashboard-grid,#homePanel .overview-grid{padding-right:338px!important;box-sizing:border-box!important}
 @media(max-width:1180px){#otCssOwl{position:relative;top:auto;right:auto;width:100%;height:400px;margin:16px 0}#homePanel .dashboard-grid,#homePanel .overview-grid{padding-right:0!important}}
 @media(prefers-reduced-motion:reduce){#otCssOwl *{animation:none!important}}
+
+/* 8.12.1 — tỷ lệ theo mẫu Cú thầy chốt */
+#otCssOwl .ot-chibi{top:104px!important;width:286px!important;height:286px!important}
+#otCssOwl .ot-chat{top:18px!important;width:260px!important;text-align:center!important}
+#otCssOwl .ot-owl-group{transform-origin:200px 245px!important}
+#otCssOwl .ot-hat{transform-origin:200px 118px!important}
 </style></head>
 <body>
 <div class="app">
@@ -4716,32 +4722,78 @@ setTimeout(syncAllGrade10,0);
 })();
 </script><div aria-live="polite" id="otCssOwl">
 <div class="ot-chat" id="otCssOwlSpeech">Xin chào!</div>
-<div class="ot-chibi">
-<svg aria-label="Cú ÔT" viewbox="0 0 400 400">
-<ellipse cx="200" cy="355" fill="rgba(0,0,0,.10)" rx="90" ry="12"></ellipse>
+<div aria-label="Cú ÔT - trợ lý ôn tập" class="ot-chibi">
+<svg aria-label="Cú ÔT" role="img" viewbox="0 0 400 400">
+<ellipse cx="200" cy="362" fill="rgba(30,64,175,.13)" rx="98" ry="13"></ellipse>
 <g class="ot-owl-group">
-<circle cx="155" cy="345" fill="#ffb81c" r="14"></circle><circle cx="245" cy="345" fill="#ffb81c" r="14"></circle>
-<path d="M100,200 C100,100 300,100 300,200 C300,310 270,350 200,350 C130,350 100,310 100,200 Z" fill="#2563eb"></path>
-<ellipse cx="200" cy="285" fill="#f8fafc" rx="65" ry="50"></ellipse>
-<path d="M185,270 Q192,260 200,270 Q208,260 215,270 Q200,290 185,270 Z" fill="#93c5fd"></path>
-<path d="M160,290 Q167,280 175,290 Q183,280 190,290 Q175,310 160,290 Z" fill="#93c5fd"></path>
-<path d="M210,290 Q217,280 225,290 Q233,280 240,290 Q225,310 210,290 Z" fill="#93c5fd"></path>
-<ellipse cx="130" cy="235" fill="#ff8da1" opacity=".55" rx="18" ry="10"></ellipse><ellipse cx="270" cy="235" fill="#ff8da1" opacity=".55" rx="18" ry="10"></ellipse>
+<!-- chân -->
+<ellipse cx="154" cy="347" fill="#ffb719" rx="22" ry="14"></ellipse>
+<ellipse cx="246" cy="347" fill="#ffb719" rx="22" ry="14"></ellipse>
+<!-- tai -->
+<path d="M135 137 L92 96 Q83 88 88 80 Q94 72 104 79 L151 120 Z" fill="#2563eb"></path>
+<path d="M265 137 L308 96 Q317 88 312 80 Q306 72 296 79 L249 120 Z" fill="#2563eb"></path>
+<!-- thân -->
+<path d="M91 205 C91 127 137 102 200 102 C263 102 309 127 309 205
+                 C309 305 276 350 200 350 C124 350 91 305 91 205Z" fill="#2563eb"></path>
+<path d="M104 204 C104 139 143 116 200 116 C257 116 296 139 296 204
+                 C296 286 268 334 200 334 C132 334 104 286 104 204Z" fill="#2f6cf0"></path>
+<!-- bụng -->
+<ellipse cx="200" cy="278" fill="#f8fafc" rx="73" ry="64"></ellipse>
+<path d="M154 274 Q166 260 178 274 Q166 290 154 274Z" fill="#93c5fd"></path>
+<path d="M188 292 Q200 278 212 292 Q200 308 188 292Z" fill="#93c5fd"></path>
+<path d="M222 274 Q234 260 246 274 Q234 290 222 274Z" fill="#93c5fd"></path>
+<!-- má -->
+<ellipse cx="112" cy="224" fill="#f38db5" opacity=".88" rx="20" ry="11"></ellipse>
+<ellipse cx="288" cy="224" fill="#f38db5" opacity=".88" rx="20" ry="11"></ellipse>
+<!-- mắt -->
 <g class="ot-eye-group">
-<circle cx="160" cy="195" fill="#fff" r="42" stroke="#1e3a8a" stroke-width="4"></circle><circle cx="240" cy="195" fill="#fff" r="42" stroke="#1e3a8a" stroke-width="4"></circle>
-<g class="ot-pupil"><circle cx="160" cy="195" fill="#111827" r="31"></circle><circle cx="150" cy="180" fill="#fff" r="10"></circle><circle cx="172" cy="210" fill="#fff" r="4"></circle></g>
-<g class="ot-pupil"><circle cx="240" cy="195" fill="#111827" r="31"></circle><circle cx="230" cy="180" fill="#fff" r="10"></circle><circle cx="252" cy="210" fill="#fff" r="4"></circle></g>
+<circle cx="154" cy="188" fill="#fff" r="54" stroke="#1e3a8a" stroke-width="6"></circle>
+<circle cx="246" cy="188" fill="#fff" r="54" stroke="#1e3a8a" stroke-width="6"></circle>
+<g class="ot-pupil">
+<circle cx="154" cy="190" fill="#111827" r="39"></circle>
+<circle cx="139" cy="170" fill="#fff" r="13"></circle>
+<circle cx="170" cy="209" fill="#fff" r="6"></circle>
 </g>
-<path d="M190,215 Q200,225 210,215 Q200,235 190,215 Z" fill="#ff9f1a"></path>
-<g class="ot-hat" transform="translate(0,15)">
-<path d="M175,120 Q200,126 225,120 L225,110 Q200,116 175,110 Z" fill="#1e293b"></path>
-<polygon fill="#334155" points="200,85 250,103 200,118 150,103"></polygon><polygon fill="#1e293b" points="200,87 246,103 200,116 154,103"></polygon>
-<path d="M200,103 Q240,106 245,125" fill="none" stroke="#ffb81c" stroke-width="2"></path><circle cx="245" cy="127" fill="#ffb81c" r="4"></circle>
+<g class="ot-pupil">
+<circle cx="246" cy="190" fill="#111827" r="39"></circle>
+<circle cx="231" cy="170" fill="#fff" r="13"></circle>
+<circle cx="262" cy="209" fill="#fff" r="6"></circle>
 </g>
-<path d="M160,125 Q115,80 145,110" fill="none" stroke="#2563eb" stroke-linecap="round" stroke-width="14"></path>
-<path d="M240,125 Q285,80 255,110" fill="none" stroke="#2563eb" stroke-linecap="round" stroke-width="14"></path>
-<g class="ot-wing-l"><path d="M105,240 C80,240 85,280 110,280 Z" fill="#3b82f6"></path><rect fill="#27ae60" height="65" rx="4" width="50" x="90" y="242"></rect><rect fill="#fff" height="65" width="4" x="90" y="242"></rect><text fill="#fff" font-family="Arial" font-size="7" font-weight="bold" text-anchor="middle" x="117" y="265">ÔN TẬP</text><text fill="#fff" font-family="Arial" font-size="6" font-weight="bold" text-anchor="middle" x="117" y="276">THÔNG MINH</text><text fill="#fff" font-size="14" text-anchor="middle" x="117" y="296">📖</text></g>
-<g class="ot-wing-r"><path d="M295,240 C320,240 315,275 295,275 Z" fill="#3b82f6"></path><text font-size="20" x="302" y="255">👍</text></g>
+</g>
+<!-- mỏ -->
+<path d="M187 215 Q200 225 213 215 L200 237 Z" fill="#ffad18"></path>
+<!-- mũ tốt nghiệp -->
+<g class="ot-hat">
+<polygon fill="#172033" points="200,84 270,108 200,132 130,108"></polygon>
+<polygon fill="#26354d" points="200,88 260,108 200,127 140,108"></polygon>
+<path d="M157 119 Q200 137 243 119 L240 139 Q200 155 160 139Z" fill="#172033"></path>
+<path d="M248 112 Q271 121 269 150" fill="none" stroke="#ffbd18" stroke-width="4"></path>
+<circle cx="269" cy="153" fill="#ffbd18" r="6"></circle>
+</g>
+<!-- cánh trái + sách -->
+<g class="ot-wing-l">
+<path d="M101 237 C65 241 65 294 103 301 Q119 278 120 249Z" fill="#3b82f6"></path>
+<g transform="translate(58 234)">
+<rect fill="#ffffff" height="83" rx="3" width="61" x="0" y="0"></rect>
+<rect fill="#20a34a" height="83" rx="2" width="56" x="4" y="0"></rect>
+<rect fill="#e2e8f0" height="83" width="5" x="4" y="0"></rect>
+<text fill="#fff" font-family="Arial,sans-serif" font-size="9" font-weight="700" text-anchor="middle" x="34" y="31">ÔN TẬP</text>
+<text fill="#fff" font-family="Arial,sans-serif" font-size="7" font-weight="700" text-anchor="middle" x="34" y="44">THÔNG MINH</text>
+<rect fill="#fff" height="13" rx="1" width="17" x="26" y="57"></rect>
+<path d="M34.5 58 V69 M27 59 Q34 56 34.5 61 Q35 56 42 59" fill="none" stroke="#166534" stroke-width="1.4"></path>
+</g>
+</g>
+<!-- cánh phải + ngón cái -->
+<g class="ot-wing-r">
+<path d="M299 237 C333 241 333 288 299 298 Q282 277 281 249Z" fill="#3b82f6"></path>
+<g transform="translate(302 223)">
+<path d="M8 26 C5 26 3 24 3 21 V10 C3 7 5 5 8 5 H12
+                     C14 5 16 3 17 1 L20 -7 C21 -10 25 -9 26 -6
+                     C27 -2 25 3 24 6 H32 C37 6 39 10 37 14
+                     L33 24 C32 27 29 29 25 29 H13 C11 29 10 28 8 26Z" fill="#ffbf1f" stroke="#172554" stroke-width="2"></path>
+<rect fill="#ffbf1f" height="20" rx="2" stroke="#172554" stroke-width="2" width="9" x="-2" y="7"></rect>
+</g>
+</g>
 </g>
 </svg>
 </div>
