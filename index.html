@@ -620,7 +620,7 @@ aside::-webkit-scrollbar{
 }
 #homePanel > #otCssOwl .ot-chat{
   top:48px!important;
-  left:170px!important;
+  left:42px!important;
   transform:none!important;
   width:calc(100% - 390px)!important;
   max-width:560px!important;
@@ -666,6 +666,157 @@ aside::-webkit-scrollbar{
    top:88px!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:190px!important;height:190px!important
  }
  #homePanel > #otCssOwl .ot-name{left:50%!important;right:auto!important;transform:translateX(-50%)!important}
+}
+
+/* 8.12.5 — Cú ÔT nhỏ ở góc phải tiêu đề Tổng quan, hoàn toàn không nền */
+#homePanel{position:relative!important;display:block!important}
+#homePanel > #otCssOwl.is-visible{
+  display:block!important;
+  position:absolute!important;
+  top:10px!important;
+  right:28px!important;
+  left:auto!important;
+  bottom:auto!important;
+  width:250px!important;
+  height:102px!important;
+  min-height:0!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  z-index:30!important;
+  pointer-events:none!important;
+}
+#homePanel > #otCssOwl:before,
+#homePanel > #otCssOwl:after{display:none!important}
+#homePanel > #otCssOwl .ot-chat{
+  display:none!important;
+}
+#homePanel > #otCssOwl .ot-chibi{
+  position:absolute!important;
+  top:-3px!important;
+  right:0!important;
+  left:auto!important;
+  width:104px!important;
+  height:104px!important;
+  transform:none!important;
+  pointer-events:auto!important;
+}
+#homePanel > #otCssOwl .ot-name{
+  position:absolute!important;
+  right:106px!important;
+  left:auto!important;
+  top:35px!important;
+  bottom:auto!important;
+  transform:none!important;
+  margin:0!important;
+  padding:5px 10px!important;
+  border:0!important;
+  background:transparent!important;
+  color:#46617c!important;
+  font-size:10px!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+}
+#homePanel > .teacher-home{
+  margin-top:14px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1.55fr) minmax(300px,.9fr)!important;
+  gap:14px!important;
+}
+@media(max-width:900px){
+ #homePanel > #otCssOwl.is-visible{right:12px!important;width:112px!important;height:84px!important}
+ #homePanel > #otCssOwl .ot-chibi{width:82px!important;height:82px!important}
+ #homePanel > #otCssOwl .ot-name{display:none!important}
+ #homePanel > .teacher-home{display:block!important}
+}
+
+/* 8.12.6 — gắn Cú thật sự vào panel-head, ngay bên phải chữ Tổng quan */
+#homePanel > .panel-head{
+  position:relative!important;
+  min-height:112px!important;
+  padding-right:330px!important;
+  box-sizing:border-box!important;
+}
+#homePanel > .panel-head > #otCssOwl.is-visible{
+  display:block!important;
+  position:absolute!important;
+  top:4px!important;
+  right:10px!important;
+  left:auto!important;
+  bottom:auto!important;
+  width:310px!important;
+  height:104px!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  background:none!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  z-index:5!important;
+  pointer-events:none!important;
+}
+#homePanel > .panel-head > #otCssOwl:before,
+#homePanel > .panel-head > #otCssOwl:after{display:none!important}
+#homePanel > .panel-head > #otCssOwl .ot-chibi{
+  position:absolute!important;
+  top:-4px!important;
+  right:0!important;
+  left:auto!important;
+  width:108px!important;
+  height:108px!important;
+  transform:none!important;
+  pointer-events:auto!important;
+}
+#homePanel > .panel-head > #otCssOwl .ot-chat{
+  display:block!important;
+  position:absolute!important;
+  top:19px!important;
+  right:112px!important;
+  left:auto!important;
+  width:180px!important;
+  min-width:0!important;
+  max-width:none!important;
+  padding:9px 11px!important;
+  transform:none!important;
+  border-radius:13px!important;
+  background:#fff!important;
+  border:1px solid #e2e8f0!important;
+  box-shadow:0 5px 14px rgba(15,23,42,.08)!important;
+  color:#334155!important;
+  font-size:10px!important;
+  line-height:1.35!important;
+  text-align:left!important;
+}
+#homePanel > .panel-head > #otCssOwl .ot-chat:after{
+  left:auto!important;
+  right:-6px!important;
+  bottom:18px!important;
+  width:12px!important;
+  height:12px!important;
+  transform:rotate(-45deg)!important;
+}
+#homePanel > .panel-head > #otCssOwl .ot-name{display:none!important}
+
+/* Trả phần nội dung bên dưới về đúng bố cục gốc, không dành chỗ cho Cú nữa */
+#homePanel > .teacher-home{
+  margin-top:14px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1.55fr) minmax(300px,.9fr)!important;
+  gap:14px!important;
+}
+@media(max-width:900px){
+ #homePanel > .panel-head{min-height:96px!important;padding-right:104px!important}
+ #homePanel > .panel-head > #otCssOwl.is-visible{width:92px!important;height:92px!important;right:2px!important}
+ #homePanel > .panel-head > #otCssOwl .ot-chibi{width:90px!important;height:90px!important}
+ #homePanel > .panel-head > #otCssOwl .ot-chat{display:none!important}
+ #homePanel > .teacher-home{display:block!important}
 }
 </style></head>
 <body>
@@ -5001,13 +5152,68 @@ function visible(el){if(!el)return false;const s=getComputedStyle(el);return s.d
 function teacherHome(){const h=document.getElementById('homePanel');return visible(h)&&h.classList.contains('active')}
 function studentHome(){const sh=document.querySelector('.sv2-student-shell,#studentV2');if(!visible(sh))return false;const a=sh.querySelector('.active,[aria-current="page"]');return !a||(a.textContent||'').toLowerCase().includes('trang chủ')}
 function parentHome(){const ph=document.querySelector('#parentV117,.pv117shell,.pv117-shell');if(!visible(ph))return false;const a=ph.querySelector('.active,[aria-current="page"]');const t=(a?.textContent||'').toLowerCase();return !a||t.includes('tổng quan')||t.includes('trang chủ')}
-function studentName(){try{const a=(typeof state!=='undefined'&&state.students)||[];return (a.find(x=>x.name==='Nguyễn Minh An')||a[0])?.name||'em'}catch(_){return'em'}}
+
+function studentName(){
+ try{
+   const a=(typeof state!=='undefined'&&state.students)||[];
+   return (a.find(x=>x.name==='Nguyễn Minh An')||a[0])?.name||'em';
+ }catch(_){return'em'}
+}
+function timeGreeting(){
+ const h=new Date().getHours();
+ if(h<11)return'Chào buổi sáng';
+ if(h<18)return'Chào buổi chiều';
+ return'Chào buổi tối';
+}
+function dayInfo(){
+ const d=new Date().getDay();
+ return [
+  {day:'Chủ nhật',teacher:'Chúc thầy một Chủ nhật nhẹ nhàng. Nếu cần, mình cùng chuẩn bị kế hoạch ôn tập cho tuần mới nhé.',
+   student:'Chủ nhật rồi, em có thể ôn nhẹ một nội dung hoặc chuẩn bị cho tuần mới nhé.',
+   parent:'Chúc gia đình một Chủ nhật nhẹ nhàng. Mình có thể xem lại tiến độ của con trước tuần mới.'},
+  {day:'thứ Hai',teacher:'Tuần mới bắt đầu rồi. Hôm nay thầy muốn ưu tiên lớp hoặc nhiệm vụ nào trước?',
+   student:'Tuần mới bắt đầu rồi. Mình hoàn thành một nhiệm vụ nhỏ trước nhé!',
+   parent:'Tuần mới bắt đầu rồi. Mình cùng theo dõi những nhiệm vụ học tập quan trọng của con nhé.'},
+  {day:'thứ Ba',teacher:'Công việc tuần này đang thuận lợi chứ thầy? Mình có thể kiểm tra nhanh tiến độ học sinh.',
+   student:'Hôm nay mình tiếp tục giữ nhịp ôn tập nhé. Em muốn bắt đầu với nhiệm vụ nào?',
+   parent:'Hôm nay mình cùng xem con đang duy trì tiến độ học tập thế nào nhé.'},
+  {day:'thứ Tư',teacher:'Đã giữa tuần rồi. Hôm nay thầy muốn xem tiến độ hay chuẩn bị bài ôn tập mới?',
+   student:'Đã giữa tuần rồi. Mình xem còn nhiệm vụ nào cần hoàn thành nhé!',
+   parent:'Đã giữa tuần rồi. Đây là lúc phù hợp để xem tiến độ học tập của con.'},
+  {day:'thứ Năm',teacher:'Chúc thầy một ngày làm việc hiệu quả. Có học sinh nào cần theo dõi thêm không?',
+   student:'Chúc em một ngày học hiệu quả. Mình tiếp tục tiến thêm một bước nhé!',
+   parent:'Chúc gia đình một ngày thuận lợi. Mình cùng xem những nội dung con cần chú ý nhé.'},
+  {day:'thứ Sáu',teacher:'Sắp kết thúc tuần rồi. Mình xem nhanh kết quả học tập trong tuần nhé?',
+   student:'Sắp hết tuần rồi. Mình hoàn thành những nhiệm vụ còn lại thật gọn nhé!',
+   parent:'Sắp kết thúc tuần rồi. Mình cùng xem lại kết quả và tiến độ của con trong tuần nhé.'},
+  {day:'thứ Bảy',teacher:'Cuối tuần rồi, thầy vẫn đang đồng hành cùng học sinh. Mình rà nhanh những nhiệm vụ còn dang dở nhé.',
+   student:'Cuối tuần rồi. Em có thể ôn tập nhẹ nhàng và hoàn thành phần còn dang dở nhé.',
+   parent:'Cuối tuần là lúc thuận tiện để xem lại hành trình học tập của con trong tuần.'}
+ ][d];
+}
+function pendingStudentTasks(){
+ try{
+   const name=studentName();
+   const students=(typeof state!=='undefined'&&state.students)||[];
+   const s=students.find(x=>x.name===name);
+   const arr=(s&&Array.isArray(s.assignments))?s.assignments:[];
+   return arr.filter(a=>!['submitted','graded','done','completed'].includes(String(a.status||'').toLowerCase())).length;
+ }catch(_){return 0}
+}
+function personalizedGreeting(role){
+ const t=timeGreeting(),info=dayInfo();
+ if(role==='teacher') return `${t} GV.Hồ Nguyễn Đa Thiện! Hôm nay là ${info.day}. ${info.teacher}`;
+ if(role==='student'){
+   const name=studentName(),pending=pendingStudentTasks();
+   const extra=pending>0?` Em còn ${pending} nhiệm vụ đang chờ.`:'';
+   return `${t} ${name}! Hôm nay là ${info.day}.${extra} ${info.student}`;
+ }
+ return `${t} Phụ huynh! Hôm nay là ${info.day}. ${info.parent}`;
+}
 function place(){
  if(teacherHome()){
-   const h=document.getElementById('homePanel');
-   const first=h&&h.querySelector(':scope > .teacher-home');
-   if(h&&box.parentElement!==h)h.appendChild(box);
-   if(h&&first&&box.nextElementSibling!==first)h.insertBefore(box,first);
+   const target=document.querySelector('#homePanel > .panel-head');
+   if(target&&box.parentElement!==target)target.appendChild(box);
  }else if(studentHome()){
    const target=document.querySelector('#studentV2 main,.sv2-student-shell main,#studentV2');
    if(target&&box.parentElement!==target)target.appendChild(box);
@@ -5016,7 +5222,15 @@ function place(){
    if(target&&box.parentElement!==target)target.appendChild(box);
  }
 }
-function update(){place();let m='';if(studentHome())m='Xin chào '+studentName()+'! Hôm nay mình cùng ôn tập thật hiệu quả nhé.';else if(parentHome())m='Xin chào Phụ huynh! Cú ÔT sẽ đồng hành cùng gia đình theo dõi quá trình ôn tập.';else if(teacherHome())m='Xin chào GV.Hồ Nguyễn Đa Thiện! Hôm nay thầy muốn bắt đầu với công việc nào?';speech.textContent=m;box.classList.toggle('is-visible',!!m)}
+function update(){
+ place();
+ let m='';
+ if(studentHome())m=personalizedGreeting('student');
+ else if(parentHome())m=personalizedGreeting('parent');
+ else if(teacherHome())m=personalizedGreeting('teacher');
+ speech.textContent=m;
+ box.classList.toggle('is-visible',!!m);
+}
 window.addEventListener('mousemove',e=>{if(!box.classList.contains('is-visible'))return;const r=box.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height*.52,ang=Math.atan2(e.clientX-cx,e.clientY-cy),x=Math.sin(ang)*6,y=Math.cos(ang)*6;box.querySelectorAll('.ot-pupil').forEach(p=>p.style.transform=`translate(${x}px,${y}px)`)});
 update();document.addEventListener('click',()=>setTimeout(update,50),true);new MutationObserver(()=>requestAnimationFrame(update)).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','style','hidden']});
 })();
@@ -6936,7 +7150,7 @@ syncLegacy();
 #teacherAssessmentClassify .v111-setting{
   display:block!important; visibility:visible!important; opacity:1!important;
   min-height:118px; padding:12px; border:1px solid #bcd8e4; border-radius:12px;
-  background:#fff; grid-column:auto; 
+  background:#fff; grid-column:auto;
 }
 #teacherAssessmentClassify .v111-setting>label{
   display:block!important; margin:0 0 8px!important; font-weight:900!important;
