@@ -1300,6 +1300,102 @@ aside::-webkit-scrollbar{
 #studentV2 .v8143-progress{display:flex;gap:8px;flex-wrap:wrap}
 #studentV2 .v8143-milestone{font-size:10.5px;padding:7px 9px;border-radius:10px;background:#f8fafc;border:1px solid #e5e7eb;color:#475569}
 @media(max-width:760px){#studentV2 .v8143-badges{grid-template-columns:repeat(2,1fr)}#studentV2 .v8143-certs{grid-template-columns:1fr}#studentV2 .v8143-summary{grid-template-columns:repeat(3,1fr)}}
+
+/* 8.14.4 — sửa 2 lỗi ảnh thực tế: bong bóng bị cắt và menu Góc thành tích bị rớt chữ */
+#sv2Home .sv2-welcome.v8138-with-owl{
+  min-height:156px!important;
+  height:auto!important;
+  overflow:visible!important;
+}
+#sv2Home .v8138-student-owl{
+  height:156px!important;
+}
+#sv2Home .v8138-student-owl .ot-chat{
+  top:18px!important;
+  min-height:112px!important;
+  height:auto!important;
+  overflow:visible!important;
+  padding-bottom:12px!important;
+}
+#sv2Home .v8142-badge-line{
+  margin-top:7px!important;
+  min-height:24px!important;
+}
+#studentV2 [data-v8143-ach]{
+  width:100%!important;
+  min-height:44px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  padding:10px 14px!important;
+  text-align:left!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  border:0!important;
+  box-sizing:border-box!important;
+}
+#studentV2 [data-v8143-ach] > .v8144-ach-icon{
+  flex:0 0 20px!important;
+  width:20px!important;
+  text-align:center!important;
+  font-size:15px!important;
+}
+#studentV2 [data-v8143-ach] > .v8144-ach-label{
+  display:block!important;
+  min-width:0!important;
+  flex:1 1 auto!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  line-height:1.2!important;
+}
+@media(max-width:850px){
+ #sv2Home .sv2-welcome.v8138-with-owl{min-height:148px!important}
+ #sv2Home .v8138-student-owl{height:148px!important}
+ #sv2Home .v8138-student-owl .ot-chat{top:15px!important;min-height:108px!important}
+}
+</style><style id="v8145-direct-visual-fix">
+/* 8.14.5 — override đúng rule gốc của sidebar */
+#studentV2 .sv2-student-sidebar nav button[data-v8143-ach]{
+  width:100%!important;height:46px!important;padding:0 12px!important;
+  display:flex!important;align-items:center!important;gap:12px!important;
+  white-space:nowrap!important;overflow:hidden!important;
+  font-size:14px!important;line-height:1!important;
+}
+#studentV2 .sv2-student-sidebar nav button[data-v8143-ach] .v8144-ach-icon{
+  width:24px!important;min-width:24px!important;flex:0 0 24px!important;
+  font-size:18px!important;line-height:1!important;text-align:center!important;
+}
+#studentV2 .sv2-student-sidebar nav button[data-v8143-ach] .v8144-ach-label{
+  width:auto!important;min-width:0!important;max-width:none!important;
+  flex:1 1 auto!important;font-size:14px!important;line-height:1.2!important;
+  text-align:left!important;white-space:nowrap!important;overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+/* Thu gọn thông báo huy hiệu vào cùng dòng động viên để không bị cắt đáy */
+#sv2Home .sv2-welcome.v8138-with-owl{
+  min-height:132px!important;height:132px!important;overflow:hidden!important;
+}
+#sv2Home .v8138-student-owl{height:132px!important}
+#sv2Home .v8138-student-owl .ot-chat{
+  top:20px!important;min-height:0!important;height:auto!important;
+  padding:10px 15px!important;overflow:visible!important;
+}
+#sv2Home .v8141-reward-line{
+  display:inline!important;margin-top:0!important;
+}
+#sv2Home .v8142-badge-line{
+  display:inline!important;margin:0 0 0 7px!important;min-height:0!important;
+  font-size:11px!important;line-height:1.3!important;
+}
+#sv2Home .v8142-badge-line::before{content:"•";margin-right:7px;color:#94a3b8}
+#sv2Home .v8142-badge{
+  padding:2px 7px!important;font-size:10.5px!important;vertical-align:baseline!important;
+}
+@media(max-width:980px) and (min-width:701px){
+ #studentV2 .sv2-student-sidebar nav button[data-v8143-ach]{justify-content:center!important;padding:0!important}
+ #studentV2 .sv2-student-sidebar nav button[data-v8143-ach] .v8144-ach-label{display:none!important}
+}
 </style></head>
 <body>
 <div class="app">
@@ -5867,7 +5963,7 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
        `</span>`+
        `<span class="v8141-reward-line">${rewardMessage(st)}</span>`+
        (earnedStudyBadge(st)
-         ? `<span class="v8142-badge-line">Huy hiệu mới: <span class="v8142-badge">${earnedStudyBadge(st).icon} ${earnedStudyBadge(st).name}</span></span>`
+         ? `<span class="v8142-badge-line">Huy hiệu: <span class="v8142-badge">${earnedStudyBadge(st).icon} ${earnedStudyBadge(st).name}</span></span>`
          : '');
    }
    const originalInfo=welcome.firstElementChild;
@@ -5972,7 +6068,7 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
    const nav=shell.querySelector('aside nav, .sv2-sidebar nav, .sv2-nav');
    if(nav&&!nav.querySelector('[data-v8143-ach]')){
      const el=document.createElement('button');el.type='button';el.setAttribute('data-v8143-ach','1');
-     el.innerHTML='🏆 <span>Góc thành tích</span>';el.onclick=show;
+     el.innerHTML='<span class="v8144-ach-icon">🏆</span><span class="v8144-ach-label">Góc thành tích</span>';el.onclick=show;
      const ref=[...nav.children].find(x=>(x.textContent||'').includes('Tiến độ học tập'));
      if(ref)nav.insertBefore(el,ref);else nav.appendChild(el);
    }
