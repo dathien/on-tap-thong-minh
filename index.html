@@ -1190,6 +1190,76 @@ aside::-webkit-scrollbar{
  #sv2Home .v8138-student-owl .ot-chat{right:116px!important;width:calc(100% - 135px)!important;font-size:11px!important}
  #sv2Home .sv2-welcome.v8138-with-owl .sv2-streak{position:absolute!important;right:10px!important;top:8px!important}
 }
+
+/* 8.14.0 — Học sinh: gom "chưa hoàn thành" + "đã hoàn thành" vào bong bóng Cú */
+#sv2Home .sv2-welcome.v8138-with-owl{
+  grid-template-columns:1fr!important;
+}
+#sv2Home .sv2-welcome.v8138-with-owl .sv2-streak{
+  display:none!important;
+}
+#sv2Home .v8138-student-owl .ot-chat{
+  width:460px!important;
+  max-width:calc(100% - 175px)!important;
+  top:28px!important;
+  padding:11px 15px 10px!important;
+}
+#sv2Home .v8140-greeting-main{
+  display:block!important;
+  font-weight:750!important;
+  color:#243b53!important;
+}
+#sv2Home .v8140-greeting-stats{
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  flex-wrap:wrap!important;
+  margin-top:7px!important;
+}
+#sv2Home .v8140-stat{
+  display:inline-flex!important;
+  align-items:center!important;
+  min-height:25px!important;
+  padding:4px 9px!important;
+  border-radius:999px!important;
+  font-size:11px!important;
+  line-height:1.2!important;
+  font-weight:750!important;
+  white-space:nowrap!important;
+}
+#sv2Home .v8140-stat.pending{
+  color:#1d4ed8!important;
+  background:#eff6ff!important;
+  border:1px solid #dbeafe!important;
+}
+#sv2Home .v8140-stat.done{
+  color:#9a3412!important;
+  background:#fff7ed!important;
+  border:1px solid #fed7aa!important;
+}
+@media(max-width:850px){
+ #sv2Home .v8138-student-owl .ot-chat{
+   top:22px!important;
+   width:calc(100% - 130px)!important;
+   max-width:none!important;
+ }
+ #sv2Home .v8140-greeting-stats{gap:5px!important;margin-top:5px!important}
+ #sv2Home .v8140-stat{font-size:10px!important;padding:3px 7px!important}
+}
+
+/* 8.14.1 — lời khen/nhắc việc trưởng thành, phù hợp THCS/THPT */
+#sv2Home .v8141-reward-line{
+  display:block!important;
+  margin-top:5px!important;
+  font-size:11.5px!important;
+  line-height:1.35!important;
+  font-weight:650!important;
+  color:#52616f!important;
+}
+#sv2Home .v8141-reward-line strong{
+  color:#334155!important;
+  font-weight:800!important;
+}
 </style></head>
 <body>
 <div class="app">
@@ -5706,12 +5776,27 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
    }catch(_){return null}
  }
  function isDone(a){return ['done','submitted','graded','completed'].includes(String(a?.status||'').toLowerCase())||!!a?.submittedAt}
+ function studentStats(s){
+   const arr=Array.isArray(s?.assignments)?s.assignments.filter(a=>a.portalPublished!==false):[];
+   const done=arr.filter(a=>isDone(a)).length;
+   const pending=arr.filter(a=>!isDone(a)).length;
+   return {done,pending};
+ }
  function greeting(s){
    const h=new Date().getHours();
    const part=h<11?'Chào buổi sáng':h<18?'Chào buổi chiều':'Chào buổi tối';
-   const arr=Array.isArray(s?.assignments)?s.assignments.filter(a=>a.portalPublished!==false):[];
-   const pending=arr.filter(a=>!isDone(a)).length;
-   return `${part} ${s?.name||'em'}! Hôm nay em có ${pending} nhiệm vụ chưa hoàn thành.`;
+   return `${part} ${s?.name||'em'}!`;
+ }
+ function rewardMessage(st){
+   const total=st.done+st.pending;
+   if(total===0) return 'Sẵn sàng cho một phiên học mới.';
+   if(st.pending===0) return '<strong>Hoàn thành mục tiêu!</strong> Em có thể tự luyện hoặc xem lại kết quả.';
+   if(st.done===0) return 'Bắt đầu với một nhiệm vụ ngắn để tạo đà hôm nay nhé.';
+   const rate=st.done/total;
+   if(rate>=0.75) return '<strong>Tiến độ rất tốt.</strong> Chỉ còn một chặng ngắn nữa.';
+   if(rate>=0.50) return '<strong>Tiến độ tốt.</strong> Hãy duy trì nhịp học hiện tại.';
+   if(rate>=0.25) return '<strong>Đã có tiến bộ.</strong> Tiếp tục hoàn thành từng nhiệm vụ nhé.';
+   return '<strong>Khởi đầu tốt.</strong> Hoàn thành thêm một nhiệm vụ hôm nay nhé.';
  }
  window.v8138MountStudentOwl=function(){
    const welcome=document.querySelector('#sv2Home .sv2-welcome');
@@ -5724,10 +5809,25 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
    clone.className='v8138-student-owl';
    clone.innerHTML=source.innerHTML;
    const speech=clone.querySelector('.ot-chat');
-   if(speech)speech.textContent=greeting(s);
+   if(speech){
+     const st=studentStats(s);
+     speech.innerHTML=
+       `<span class="v8140-greeting-main">${greeting(s)}</span>`+
+       `<span class="v8140-greeting-stats">`+
+         `<span class="v8140-stat done">★ ${st.done} bài đã hoàn thành</span>`+
+         `<span class="v8140-stat pending">📌 ${st.pending} nhiệm vụ đang chờ</span>`+
+       `</span>`+
+       `<span class="v8141-reward-line">${rewardMessage(st)}</span>`;
+   }
    const originalInfo=welcome.firstElementChild;
    if(originalInfo && !originalInfo.classList.contains('sv2-streak')) originalInfo.remove();
    welcome.classList.add('v8138-with-owl');
+   [...welcome.querySelectorAll('*')].forEach(el=>{
+     const txt=(el.textContent||'').replace(/\s+/g,' ').trim();
+     if(/^★?\s*\d+\s*bài đã hoàn thành$/i.test(txt) && !el.closest('.v8138-student-owl')){
+       el.style.setProperty('display','none','important');
+     }
+   });
    welcome.insertBefore(clone,welcome.firstChild);
    return true;
  };
