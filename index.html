@@ -5512,6 +5512,57 @@ function update(){
 window.addEventListener('mousemove',e=>{if(!box.classList.contains('is-visible'))return;const r=box.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height*.52,ang=Math.atan2(e.clientX-cx,e.clientY-cy),x=Math.sin(ang)*6,y=Math.cos(ang)*6;box.querySelectorAll('.ot-pupil').forEach(p=>p.style.transform=`translate(${x}px,${y}px)`)});
 update();document.addEventListener('click',()=>setTimeout(update,50),true);new MutationObserver(()=>requestAnimationFrame(update)).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','style','hidden']});
 })();
+</script><script id="v8135-parent-logout-fix">
+(function(){
+  function isParentShellVisible(){
+    const p=document.getElementById('parentV117');
+    if(!p)return false;
+    const cs=getComputedStyle(p);
+    return cs.display!=='none' && cs.visibility!=='hidden';
+  }
+  function parentLogout(){
+    try{
+      /* hide parent shell immediately */
+      const p=document.getElementById('parentV117');
+      if(p){p.style.display='none';p.setAttribute('aria-hidden','true');}
+      /* clear only common session/login flags; keep learning data */
+      ['parentLoggedIn','parentSession','currentParent','loggedInParent','authRole','currentRole','userRole']
+        .forEach(k=>{try{localStorage.removeItem(k);sessionStorage.removeItem(k)}catch(_){}});
+      /* Return to role gateway if available; otherwise reveal login/gateway candidates */
+      const gateway=document.querySelector('#roleGateway,.role-gateway,#loginGateway,.login-gateway,[data-role-gateway]');
+      const parentLogin=document.querySelector('#parentLogin,.parent-login,#parentLoginScreen,[data-parent-login]');
+      if(gateway){
+        gateway.style.display='';
+        gateway.removeAttribute('hidden');
+        gateway.setAttribute('aria-hidden','false');
+      }else if(parentLogin){
+        parentLogin.style.display='';
+        parentLogin.removeAttribute('hidden');
+        parentLogin.setAttribute('aria-hidden','false');
+      }else{
+        location.reload();
+      }
+      window.scrollTo(0,0);
+    }catch(_){ location.reload(); }
+  }
+  window.parentV135Logout=parentLogout;
+
+  /* Capture phase: catches existing parent logout button even if old onclick is broken */
+  document.addEventListener('click',function(e){
+    if(!isParentShellVisible())return;
+    const el=e.target.closest('button,a');
+    if(!el)return;
+    const txt=(el.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+    if(txt==='đăng xuất'||txt.includes('đăng xuất')){
+      const inside=el.closest('#parentV117');
+      if(!inside)return;
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      parentLogout();
+    }
+  },true);
+})();
 </script></body>
 </html>
 <style>
