@@ -1072,6 +1072,74 @@ aside::-webkit-scrollbar{
    right:116px!important;top:31px!important;width:calc(100% - 145px)!important;max-width:none!important;font-size:11px!important;
  }
 }
+
+/* 8.13.6 — Học sinh: Cú ÔT thay trực tiếp khối "Chào Nguyễn Minh An" */
+#studentV2 .v8136-student-greeting-hidden,
+.sv2-student-shell .v8136-student-greeting-hidden{
+  display:none!important;
+}
+#studentV2 #otCssOwl.v8136-student-owl,
+.sv2-student-shell #otCssOwl.v8136-student-owl{
+  display:block!important;
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  height:132px!important;
+  min-height:132px!important;
+  box-sizing:border-box!important;
+  margin:14px 0 16px!important;
+  padding:0!important;
+  background:linear-gradient(105deg,#edf9f7 0%,#f2f7ff 58%,#f7f3ff 100%)!important;
+  border:1px solid #d9ebe8!important;
+  border-radius:20px!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+}
+#studentV2 #otCssOwl.v8136-student-owl:before,
+.sv2-student-shell #otCssOwl.v8136-student-owl:before{
+  content:""!important;display:block!important;position:absolute!important;
+  right:-28px!important;top:-35px!important;width:112px!important;height:112px!important;
+  border-radius:50%!important;background:rgba(255,218,120,.38)!important;
+}
+#studentV2 #otCssOwl.v8136-student-owl:after,
+.sv2-student-shell #otCssOwl.v8136-student-owl:after{
+  content:""!important;display:block!important;position:absolute!important;
+  left:-34px!important;bottom:-70px!important;width:126px!important;height:126px!important;
+  border-radius:50%!important;background:rgba(255,255,255,.48)!important;
+}
+#studentV2 #otCssOwl.v8136-student-owl .ot-chibi,
+.sv2-student-shell #otCssOwl.v8136-student-owl .ot-chibi{
+  position:absolute!important;top:3px!important;right:28px!important;left:auto!important;
+  width:124px!important;height:124px!important;transform:none!important;z-index:3!important;
+}
+#studentV2 #otCssOwl.v8136-student-owl .ot-chat,
+.sv2-student-shell #otCssOwl.v8136-student-owl .ot-chat{
+  display:block!important;position:absolute!important;top:35px!important;right:145px!important;left:auto!important;
+  width:430px!important;max-width:calc(100% - 190px)!important;min-width:0!important;
+  margin:0!important;padding:12px 15px!important;transform:none!important;z-index:4!important;
+  background:#fff!important;border:1px solid #dfe7ef!important;border-radius:16px!important;
+  box-shadow:0 6px 18px rgba(15,23,42,.08)!important;color:#243b53!important;
+  font-size:13px!important;line-height:1.45!important;text-align:left!important;
+}
+#studentV2 #otCssOwl.v8136-student-owl .ot-chat:after,
+.sv2-student-shell #otCssOwl.v8136-student-owl .ot-chat:after{
+  content:""!important;position:absolute!important;right:-8px!important;left:auto!important;bottom:20px!important;
+  width:14px!important;height:14px!important;background:#fff!important;
+  border-right:1px solid #dfe7ef!important;border-bottom:1px solid #dfe7ef!important;
+  transform:rotate(-45deg)!important;
+}
+#studentV2 #otCssOwl.v8136-student-owl .ot-name,
+.sv2-student-shell #otCssOwl.v8136-student-owl .ot-name{display:none!important}
+@media(max-width:900px){
+ #studentV2 #otCssOwl.v8136-student-owl,
+ .sv2-student-shell #otCssOwl.v8136-student-owl{height:122px!important;min-height:122px!important}
+ #studentV2 #otCssOwl.v8136-student-owl .ot-chibi,
+ .sv2-student-shell #otCssOwl.v8136-student-owl .ot-chibi{right:8px!important;width:108px!important;height:108px!important}
+ #studentV2 #otCssOwl.v8136-student-owl .ot-chat,
+ .sv2-student-shell #otCssOwl.v8136-student-owl .ot-chat{
+   right:112px!important;top:28px!important;width:calc(100% - 130px)!important;max-width:none!important;font-size:11px!important
+ }
+}
 </style></head>
 <body>
 <div class="app">
@@ -5470,29 +5538,50 @@ function personalizedGreeting(role){
  }
  if(role==='student'){
    const name=studentName(),pending=pendingStudentTasks();
-   return pending>0?`${t} ${name}! Em còn ${pending} nhiệm vụ đang chờ nhé.`:`${t} ${name}! Chúc em học thật hiệu quả hôm nay!`;
+   return pending>0
+     ? `${t} ${name}! Hôm nay em có ${pending} nhiệm vụ chưa hoàn thành.`
+     : `${t} ${name}! Hôm nay em đã hoàn thành các nhiệm vụ được giao.`;
  }
  return `${t} Phụ huynh! Chúc gia đình một ngày thật thuận lợi!`;
 }
+
+function studentGreetingAnchor(){
+ const root=document.querySelector('#studentV2,.sv2-student-shell');
+ if(!root)return null;
+ const nodes=[...root.querySelectorAll('h1,h2,h3,div,section')];
+ let title=nodes.find(el=>{
+   const txt=(el.textContent||'').replace(/\s+/g,' ').trim();
+   return /^Chào\s+Nguyễn Minh An\b/i.test(txt) && el.children.length<=6;
+ });
+ if(!title) title=nodes.find(el=>/^Chào\s+/i.test((el.textContent||'').replace(/\s+/g,' ').trim()) && /nhiệm vụ chưa hoàn thành/i.test((el.parentElement?.textContent||'')));
+ if(!title)return null;
+ let wrap=title;
+ for(let i=0;i<3 && wrap.parentElement && wrap.parentElement!==root;i++){
+   const txt=(wrap.textContent||'');
+   if(/nhiệm vụ chưa hoàn thành/i.test(txt))break;
+   wrap=wrap.parentElement;
+ }
+ return wrap;
+}
 function place(){
  if(teacherHome()){
+   box.classList.remove('v8136-student-owl');
    const h=document.getElementById('homePanel');
    const head=h&&h.querySelector(':scope > .panel-head');
    const work=h&&h.querySelector(':scope > .teacher-home');
    if(h&&box.parentElement!==h)h.appendChild(box);
    if(h&&head&&work&&box.previousElementSibling!==head)h.insertBefore(box,work);
  }else if(studentHome()){
-   const main=document.querySelector('#studentV2 .sv2-student-main,.sv2-student-shell .sv2-student-main');
-   const top=main&&main.querySelector(':scope > .sv2-app > .sv2-top,:scope > .sv2-top');
-   if(main&&box.parentElement!==main)main.appendChild(box);
-   if(main&&top){
-     const app=top.parentElement;
-     if(app&&app!==main){
-       if(box.parentElement!==app)app.insertBefore(box,top.nextSibling);
-       else if(box.previousElementSibling!==top)app.insertBefore(box,top.nextSibling);
-     }else if(box.previousElementSibling!==top)main.insertBefore(box,top.nextSibling);
+   const anchor=studentGreetingAnchor();
+   if(anchor&&anchor.parentElement){
+     anchor.classList.add('v8136-student-greeting-hidden');
+     box.classList.add('v8136-student-owl');
+     if(box.parentElement!==anchor.parentElement || box.nextElementSibling!==anchor){
+       anchor.parentElement.insertBefore(box,anchor);
+     }
    }
  }else if(parentHome()){
+   box.classList.remove('v8136-student-owl');
    const main=document.querySelector('#parentV117 .pv117main');
    const head=main&&main.querySelector(':scope > header');
    const content=main&&main.querySelector(':scope > #pv117Content');
