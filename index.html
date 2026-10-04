@@ -1140,6 +1140,56 @@ aside::-webkit-scrollbar{
    right:112px!important;top:28px!important;width:calc(100% - 130px)!important;max-width:none!important;font-size:11px!important
  }
 }
+
+/* 8.13.8 — student owl is mounted directly into .sv2-welcome */
+#sv2Home .sv2-welcome.v8138-with-owl{
+  min-height:132px!important;
+  padding:0!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:12px!important;
+  background:linear-gradient(105deg,#edf9f7 0%,#f2f7ff 58%,#f7f3ff 100%)!important;
+  border:1px solid #d9ebe8!important;
+  border-radius:20px!important;
+  overflow:hidden!important;
+}
+#sv2Home .v8138-student-owl{
+  position:relative!important;
+  height:132px!important;
+  min-width:0!important;
+}
+#sv2Home .v8138-student-owl .ot-chat{
+  position:absolute!important;
+  top:36px!important;
+  right:142px!important;
+  width:min(430px,calc(100% - 165px))!important;
+  padding:12px 15px!important;
+  background:#fff!important;
+  border:1px solid #dfe7ef!important;
+  border-radius:16px!important;
+  box-shadow:0 6px 18px rgba(15,23,42,.08)!important;
+  font-size:13px!important;line-height:1.45!important;color:#243b53!important;
+}
+#sv2Home .v8138-student-owl .ot-chat:after{
+  content:""!important;position:absolute!important;right:-8px!important;bottom:20px!important;
+  width:14px!important;height:14px!important;background:#fff!important;
+  border-right:1px solid #dfe7ef!important;border-bottom:1px solid #dfe7ef!important;
+  transform:rotate(-45deg)!important;
+}
+#sv2Home .v8138-student-owl .ot-chibi{
+  position:absolute!important;top:3px!important;right:10px!important;
+  width:124px!important;height:124px!important;
+}
+#sv2Home .v8138-student-owl .ot-name{display:none!important}
+#sv2Home .sv2-welcome.v8138-with-owl .sv2-streak{margin-right:18px!important;white-space:nowrap!important}
+@media(max-width:850px){
+ #sv2Home .sv2-welcome.v8138-with-owl{grid-template-columns:1fr!important}
+ #sv2Home .v8138-student-owl{height:122px!important}
+ #sv2Home .v8138-student-owl .ot-chibi{width:108px!important;height:108px!important}
+ #sv2Home .v8138-student-owl .ot-chat{right:116px!important;width:calc(100% - 135px)!important;font-size:11px!important}
+ #sv2Home .sv2-welcome.v8138-with-owl .sv2-streak{position:absolute!important;right:10px!important;top:8px!important}
+}
 </style></head>
 <body>
 <div class="app">
@@ -5696,6 +5746,57 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
       parentLogout();
     }
   },true);
+})();
+</script><script id="v8138-student-owl-authoritative">
+(function(){
+ function getStudent(){
+   try{
+     const id=(typeof state!=='undefined'&&state.currentStudentId)||null;
+     const list=(typeof state!=='undefined'&&Array.isArray(state.students))?state.students:[];
+     return list.find(x=>x.id===id)||list.find(x=>x.name==='Nguyễn Minh An')||null;
+   }catch(_){return null}
+ }
+ function isDone(a){return ['done','submitted','graded','completed'].includes(String(a?.status||'').toLowerCase())||!!a?.submittedAt}
+ function greeting(s){
+   const h=new Date().getHours();
+   const part=h<11?'Chào buổi sáng':h<18?'Chào buổi chiều':'Chào buổi tối';
+   const arr=Array.isArray(s?.assignments)?s.assignments.filter(a=>a.portalPublished!==false):[];
+   const pending=arr.filter(a=>!isDone(a)).length;
+   return `${part} ${s?.name||'em'}! Hôm nay em có ${pending} nhiệm vụ chưa hoàn thành.`;
+ }
+ window.v8138MountStudentOwl=function(){
+   const welcome=document.querySelector('#sv2Home .sv2-welcome');
+   const source=document.getElementById('otCssOwl');
+   if(!welcome||!source)return false;
+   const s=getStudent();
+   const old=welcome.querySelector('.v8138-student-owl');
+   if(old)old.remove();
+   const clone=document.createElement('div');
+   clone.className='v8138-student-owl';
+   clone.innerHTML=source.innerHTML;
+   const speech=clone.querySelector('.ot-chat');
+   if(speech)speech.textContent=greeting(s);
+   const originalInfo=welcome.firstElementChild;
+   if(originalInfo && !originalInfo.classList.contains('sv2-streak')) originalInfo.remove();
+   welcome.classList.add('v8138-with-owl');
+   welcome.insertBefore(clone,welcome.firstChild);
+   return true;
+ };
+ const oldRender=window.studentV2RenderHome;
+ if(typeof oldRender==='function'){
+   window.studentV2RenderHome=function(){
+     const r=oldRender.apply(this,arguments);
+     requestAnimationFrame(()=>window.v8138MountStudentOwl());
+     setTimeout(()=>window.v8138MountStudentOwl(),80);
+     return r;
+   };
+ }
+ const mo=new MutationObserver(()=>{
+   if(document.querySelector('#sv2Home .sv2-welcome')&&!document.querySelector('#sv2Home .v8138-student-owl')){
+     window.v8138MountStudentOwl();
+   }
+ });
+ mo.observe(document.body,{childList:true,subtree:true});
 })();
 </script></body>
 </html>
