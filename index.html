@@ -6082,6 +6082,51 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
  },true);
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })();
+</script><style id="v8146-teacher-single-panel-authoritative">
+/* 8.14.6 — Teacher workspace: exactly ONE sidebar page visible.
+   Must stay after legacy #homePanel{display:block!important} rules. */
+.layout > main.content > section.panel{
+  display:none!important;
+}
+.layout > main.content > section.panel.active{
+  display:block!important;
+}
+/* Tổng quan is visible only when it is the active route. */
+.layout > main.content > #homePanel:not(.active){
+  display:none!important;
+}
+.layout > main.content > #homePanel.active{
+  display:block!important;
+}
+@media print{
+  .layout > main.content > section.panel{display:none!important}
+  .layout > main.content > #reportPanel{display:block!important}
+}
+</style><script id="v8146-teacher-single-panel-guard">
+(function(){
+  const oldGoPanel=window.goPanel;
+  if(typeof oldGoPanel!=='function') return;
+  window.goPanel=function(name){
+    const result=oldGoPanel.apply(this,arguments);
+    const teacherMain=document.querySelector('.layout > main.content');
+    if(teacherMain){
+      teacherMain.querySelectorAll(':scope > section.panel').forEach(p=>{
+        const wanted=p.id===(name+'Panel');
+        p.classList.toggle('active',wanted);
+        p.setAttribute('aria-hidden',wanted?'false':'true');
+      });
+    }
+    return result;
+  };
+  /* Normalize the initial teacher view as well. */
+  const main=document.querySelector('.layout > main.content');
+  if(main){
+    main.querySelectorAll(':scope > section.panel').forEach(p=>{
+      const on=p.classList.contains('active');
+      p.setAttribute('aria-hidden',on?'false':'true');
+    });
+  }
+})();
 </script></body>
 </html>
 <style>
