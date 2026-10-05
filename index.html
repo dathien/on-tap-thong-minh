@@ -7725,6 +7725,112 @@ new MutationObserver(function(){requestAnimationFrame(run)}).observe(document.bo
 }
 </style>
 
+
+<style id="v9025-sidebar-canonical">
+/* Dùng CHÍNH thông số sidebar gốc của Trang chủ, không tự thiết kế lại */
+#v8143AchievementPage .v9012-shell,
+#v9018ProgressPage .v9018-shell,
+#v9021ResultsPage .v9021-shell{
+  grid-template-columns:230px minmax(0,1fr)!important;
+}
+#v8143AchievementPage .v9012-side,
+#v9018ProgressPage .v9018-side,
+#v9021ResultsPage .v9021-side,
+#sv2TestCenter .v907-side{
+  position:sticky!important;top:0!important;height:100vh!important;
+  box-sizing:border-box!important;padding:24px 12px!important;
+  background:linear-gradient(180deg,#1e3a70,#294796 58%,#263f86)!important;
+  color:#fff!important;z-index:8!important;
+  box-shadow:10px 0 28px rgba(30,58,138,.08)!important;
+  min-width:230px!important;max-width:230px!important;
+}
+
+/* Logo/brand giống .sv2-side-brand gốc */
+#v8143AchievementPage .v9012-brand,
+#v9018ProgressPage .v9018-brand,
+#v9021ResultsPage .v9021-brand,
+#sv2TestCenter .v907-brand{
+  display:flex!important;align-items:center!important;gap:12px!important;
+  height:auto!important;padding:0 8px 22px!important;
+  border-bottom:1px solid rgba(255,255,255,.18)!important;
+  box-sizing:border-box!important;
+}
+#v8143AchievementPage .v9012-logo,
+#v9018ProgressPage .v9018-logo,
+#v9021ResultsPage .v9021-logo{
+  width:42px!important;height:42px!important;min-width:42px!important;
+  border-radius:12px!important;background:#fff!important;color:#1e3a8a!important;
+}
+#v8143AchievementPage .v9012-brand b,
+#v9018ProgressPage .v9018-brand b,
+#v9021ResultsPage .v9021-brand b{
+  font-size:14px!important;line-height:1.25!important;
+}
+
+/* Tên GV: đặt đúng ngay dưới brand như Trang chủ */
+#v8143AchievementPage .v9012-teacher,
+#v9018ProgressPage .v9018-teacher,
+#v9021ResultsPage .v9021-teacher,
+#sv2TestCenter .v907-teacher{
+  height:auto!important;min-height:0!important;
+  padding:0!important;margin:0!important;border:0!important;
+  position:relative!important;display:block!important;
+  text-align:center!important;font-size:11px!important;font-weight:800!important;
+  transform:translateY(-9px)!important;
+}
+
+/* Nav gốc: padding-top 16px */
+#v8143AchievementPage .v9012-nav,
+#v9018ProgressPage .v9018-nav,
+#v9021ResultsPage .v9021-nav,
+#sv2TestCenter .v907-side nav{
+  display:flex!important;flex-direction:column!important;
+  gap:6px!important;padding-top:7px!important;
+  justify-content:flex-start!important;
+}
+#v8143AchievementPage .v9012-nav button,
+#v9018ProgressPage .v9018-nav button,
+#v9021ResultsPage .v9021-nav button,
+#sv2TestCenter .v907-side nav button{
+  width:100%!important;height:46px!important;min-height:46px!important;
+  border:0!important;border-radius:10px!important;padding:0 12px!important;margin:0!important;
+  background:transparent!important;color:#fff!important;
+  display:flex!important;align-items:center!important;gap:12px!important;
+  text-align:left!important;font-size:14px!important;font-weight:800!important;
+  line-height:1!important;box-sizing:border-box!important;transform:none!important;
+}
+#v8143AchievementPage .v9012-nav button span,
+#v9018ProgressPage .v9018-nav button span,
+#v9021ResultsPage .v9021-nav button span,
+#sv2TestCenter .v907-side nav button span{
+  width:24px!important;min-width:24px!important;text-align:center!important;font-size:18px!important;
+}
+#v8143AchievementPage .v9012-nav button.active,
+#v9018ProgressPage .v9018-nav button.active,
+#v9021ResultsPage .v9021-nav button.active,
+#sv2TestCenter .v907-side nav button.active{
+  background:#fbbf24!important;color:#172554!important;
+}
+
+/* QUAN TRỌNG: sidebar Trang chủ gốc có khoảng cách 90px sau đường phân nhóm.
+   Đây là chỗ các bản trước chưa đồng bộ. */
+#v8143AchievementPage .v9012-sep,
+#v9018ProgressPage .v9018-sep,
+#v9021ResultsPage .v9021-sep,
+#sv2TestCenter .v907-sep{
+  display:block!important;height:1px!important;min-height:1px!important;
+  background:rgba(255,255,255,.45)!important;
+  margin:12px 2px 90px!important;padding:0!important;border:0!important;
+}
+
+@media(max-width:980px){
+ #v8143AchievementPage .v9012-shell,#v9018ProgressPage .v9018-shell,#v9021ResultsPage .v9021-shell{grid-template-columns:76px minmax(0,1fr)!important}
+ #v8143AchievementPage .v9012-side,#v9018ProgressPage .v9018-side,#v9021ResultsPage .v9021-side,#sv2TestCenter .v907-side{padding:20px 8px!important;min-width:76px!important;max-width:76px!important}
+ #v8143AchievementPage .v9012-brand,#v9018ProgressPage .v9018-brand,#v9021ResultsPage .v9021-brand,#sv2TestCenter .v907-brand{justify-content:center!important;padding-left:0!important;padding-right:0!important}
+ #v8143AchievementPage .v9012-brand b,#v9018ProgressPage .v9018-brand b,#v9021ResultsPage .v9021-brand b{display:none!important}
+}
+</style>
+
 </body>
 </html>
 <style>
