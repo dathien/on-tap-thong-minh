@@ -7842,6 +7842,153 @@ window.backToRoleGateway=function(){
 })();
 </script>
 
+
+<style id="v9031-multisubject-qa-style">
+#v9031Lab{position:fixed;inset:0;z-index:40000;background:#f4f7fb;display:none;overflow:auto;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#172033}
+#v9031Lab.open{display:block}
+#v9031Lab .qa-head{position:sticky;top:0;z-index:3;background:linear-gradient(135deg,#173b72,#2855a5);color:#fff;padding:14px 22px;display:flex;gap:14px;align-items:center;box-shadow:0 2px 12px #0002}
+#v9031Lab .qa-head h2{font-size:20px;margin:0;flex:1}.qa-close{border:0;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer}
+#v9031Lab .qa-wrap{max-width:1180px;margin:auto;padding:20px}
+#v9031Lab .qa-info{background:#fff;border-radius:16px;padding:16px 18px;box-shadow:0 4px 18px #173b7212;margin-bottom:16px}
+#v9031Lab .qa-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+#v9031Lab .qa-tab{border:1px solid #d7dfec;background:#fff;padding:9px 14px;border-radius:999px;cursor:pointer;font-weight:750}
+#v9031Lab .qa-tab.active{background:#173b72;color:#fff;border-color:#173b72}
+#v9031Lab .qa-card{background:#fff;border-radius:16px;padding:18px;margin:13px 0;box-shadow:0 4px 18px #173b7212;border:1px solid #e8edf5}
+#v9031Lab .qa-card h3{margin:0 0 12px;font-size:17px}.qa-tag{font-size:12px;background:#eef4ff;padding:4px 8px;border-radius:999px;margin-left:7px}
+#v9031Lab .qa-options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}
+#v9031Lab .qa-opt{padding:11px 13px;border:1px solid #dce3ee;border-radius:11px;background:#fafcff;min-height:44px}
+#v9031Lab .qa-figure{margin:14px auto;max-width:460px;text-align:center}.qa-figure svg{width:100%;height:auto;max-height:270px}
+#v9031Lab pre{white-space:pre-wrap;overflow:auto;background:#101827;color:#eef5ff;padding:14px;border-radius:12px;line-height:1.55}
+#v9031Lab table{border-collapse:collapse;width:100%;margin:12px 0}#v9031Lab th,#v9031Lab td{border:1px solid #ccd5e2;padding:8px;text-align:center}
+#v9031Lab .qa-check{display:flex;gap:8px;align-items:center;margin-top:13px;font-weight:700}.qa-check input{width:18px;height:18px}
+#v9031Lab .qa-summary{display:flex;gap:12px;flex-wrap:wrap}.qa-stat{background:#fff;border-radius:14px;padding:12px 16px;box-shadow:0 3px 14px #173b7212}
+#v9031Lab .math{font-family:"Times New Roman",serif;font-size:1.08em}
+@media(max-width:700px){#v9031Lab .qa-options{grid-template-columns:1fr}#v9031Lab .qa-wrap{padding:12px}}
+</style>
+
+<div id="v9031Lab" aria-hidden="true">
+ <div class="qa-head"><h2>Phòng kiểm thử học liệu đa môn · 30 tình huống</h2><button class="qa-close" onclick="v9031Close()">Đóng</button></div>
+ <main class="qa-wrap">
+  <section class="qa-info">
+   <b>Mục tiêu:</b> kiểm tra công thức, chỉ số, ký hiệu, hình SVG, bảng, code và đáp án trên cùng engine trình duyệt.
+   Đây là dữ liệu QA độc lập, <b>không ghi vào ngân hàng câu hỏi thật</b>.
+   <div class="qa-tabs" id="v9031Tabs"></div>
+   <div class="qa-summary"><div class="qa-stat">Hiển thị: <b id="v9031Count">0/5</b></div><div class="qa-stat">Đạt thủ công: <b id="v9031Pass">0/5</b></div></div>
+  </section>
+  <div id="v9031Body"></div>
+ </main>
+</div>
+
+<script id="v9031-multisubject-qa">
+(function(){
+'use strict';
+const subjects=['Toán','Hình học','Vật lý','Hóa học','Sinh học','Tin học'];
+const figTriangle=`<div class="qa-figure"><svg viewBox="0 0 420 240" role="img" aria-label="Tam giác ABC"><polygon points="210,25 45,205 375,205" fill="#eef5ff" stroke="#173b72" stroke-width="4"/><line x1="210" y1="25" x2="210" y2="205" stroke="#ef7d32" stroke-width="3" stroke-dasharray="7 5"/><text x="202" y="18">A</text><text x="25" y="222">B</text><text x="382" y="222">C</text><text x="217" y="220">H</text><path d="M210 190 h15 v15" fill="none" stroke="#172033" stroke-width="2"/></svg></div>`;
+const figCircle=`<div class="qa-figure"><svg viewBox="0 0 420 250"><circle cx="210" cy="125" r="95" fill="#f6fbff" stroke="#173b72" stroke-width="4"/><line x1="115" y1="125" x2="305" y2="125" stroke="#ef7d32" stroke-width="3"/><line x1="210" y1="125" x2="270" y2="52" stroke="#28966f" stroke-width="3"/><circle cx="210" cy="125" r="4"/><text x="197" y="145">O</text><text x="101" y="120">A</text><text x="310" y="120">B</text><text x="275" y="48">M</text></svg></div>`;
+const figCircuit=`<div class="qa-figure"><svg viewBox="0 0 480 210"><path d="M70 50 H185 M295 50 H410 V165 H70 V50" fill="none" stroke="#173b72" stroke-width="4"/><path d="M185 30 V70 M205 20 V80 M275 30 V70 M295 20 V80" stroke="#172033" stroke-width="4"/><rect x="175" y="145" width="130" height="40" rx="8" fill="#fff4dd" stroke="#ef7d32" stroke-width="3"/><text x="220" y="171">R</text><text x="220" y="108">Nguồn</text></svg></div>`;
+const figDNA=`<div class="qa-figure"><svg viewBox="0 0 440 260"><path d="M120 20 C330 70 110 190 320 240 M320 20 C110 70 330 190 120 240" fill="none" stroke="#2855a5" stroke-width="5"/><g stroke="#ef7d32" stroke-width="3"><line x1="158" y1="39" x2="282" y2="39"/><line x1="190" y1="75" x2="250" y2="75"/><line x1="190" y1="185" x2="250" y2="185"/><line x1="158" y1="221" x2="282" y2="221"/></g><text x="202" y="132">ADN</text></svg></div>`;
+const data={
+'Toán':[
+['Phân số – căn – lũy thừa',`<span class="math">A = (√3 + 1)/(√3 − 1), &nbsp; x² + 2x − 3 = 0, &nbsp; 2⁻³ = 1/8</span>`],
+['Giới hạn và vô cực',`<span class="math">lim<sub>x→+∞</sub> (2x²−1)/(x²+3) = 2; &nbsp; x→−∞; &nbsp; (−∞; +∞)</span>`],
+['Đạo hàm',`<span class="math">f(x)=x³−3x+1 ⇒ f′(x)=3x²−3</span>`],
+['Tích phân nhiều ký hiệu',`<span class="math">∫<sub>0</sub><sup>1</sup> (3x²+2x) dx = [x³+x²]<sub>0</sub><sup>1</sup> = 2</span>`],
+['Ma trận – hệ',`<span class="math">A = [[1, 2], [3, 4]], &nbsp; det(A)=1·4−2·3=−2<br>{ 2x+y=5; &nbsp; x−y=1 }</span>`]
+],
+'Hình học':[
+['Tam giác + đường cao',`Cho tam giác ABC, AH ⟂ BC. Kiểm tra nhãn điểm, đường cao và ký hiệu vuông góc.${figTriangle}`],
+['Đường tròn',`Đường tròn tâm O, AB là đường kính, OM là bán kính.${figCircle}`],
+['Vectơ',`<span class="math">→AB + →BC = →AC; &nbsp; |→u| = √(u₁²+u₂²)</span>`],
+['Tọa độ Oxy',`<span class="math">A(−2;3), B(4;−1), AB = √[(4+2)²+(−1−3)²] = 2√13</span>`],
+['Không gian',`<span class="math">SA ⟂ (ABCD), &nbsp; (SAC) ∩ (SBD)=SO, &nbsp; d(A,(SBC))</span>`]
+],
+'Vật lý':[
+['Chuyển động',`<span class="math">v = v₀ + at; &nbsp; s = v₀t + ½at²</span>`],
+['Năng lượng',`<span class="math">E = mc²; &nbsp; W<sub>đ</sub> = ½mv²; &nbsp; W<sub>t</sub>=mgh</span>`],
+['Điện học',`<span class="math">U = IR; &nbsp; P = UI = I²R = U²/R</span>${figCircuit}`],
+['Sóng',`<span class="math">λ = v/f; &nbsp; u=Acos(ωt+φ)</span>`],
+['Đơn vị – chỉ số',`<span class="math">g ≈ 9,8 m/s²; &nbsp; ρ = m/V (kg/m³); &nbsp; 1 μF = 10⁻⁶ F</span>`]
+],
+'Hóa học':[
+['Chỉ số dưới/trên',`H₂SO₄, CO₂, NH₄⁺, Fe³⁺, SO₄²⁻, Al₂(SO₄)₃`],
+['Phản ứng một chiều',`2H₂ + O₂ → 2H₂O`],
+['Cân bằng thuận nghịch',`N₂ + 3H₂ ⇌ 2NH₃ &nbsp; (xúc tác, nhiệt độ, áp suất)`],
+['Kết tủa – khí',`AgNO₃ + HCl → AgCl↓ + HNO₃ &nbsp;&nbsp; CaCO₃ + 2HCl → CaCl₂ + CO₂↑ + H₂O`],
+['Công thức cấu tạo',`CH₃–CH₂–OH &nbsp;&nbsp; CH₃–COOH &nbsp;&nbsp; CH₂=CH₂`]
+],
+'Sinh học':[
+['ADN và chỉ số',`ADN gồm các nucleotide A, T, G, C. A = T; G = C.${figDNA}`],
+['Kiểu gen',`AaBb × AaBb; &nbsp; AABB, AaBb, aabb`],
+['Tỉ lệ phép lai',`<span class="math">F₂: 9 : 3 : 3 : 1; &nbsp; P(A_) = 3/4</span>`],
+['Di truyền quần thể',`<span class="math">p² + 2pq + q² = 1; &nbsp; p + q = 1</span>`],
+['Sinh thái – bảng',`<table><tr><th>Bậc dinh dưỡng</th><th>Năng lượng</th></tr><tr><td>Sinh vật sản xuất</td><td>10 000 kJ</td></tr><tr><td>Tiêu thụ bậc 1</td><td>1 000 kJ</td></tr></table>`]
+],
+'Tin học':[
+['Python không bị render như Toán',`<pre>def binary_search(a, x):
+    left, right = 0, len(a) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if a[mid] == x:
+            return mid
+        if a[mid] < x: left = mid + 1
+        else: right = mid - 1
+    return -1</pre>`],
+['HTML giữ nguyên thẻ dưới dạng code',`<pre>&lt;h1&gt;Ôn tập thông minh&lt;/h1&gt;
+&lt;img src="hinh.png" alt="Hình minh họa"&gt;</pre>`],
+['SQL',`<pre>SELECT Lop, AVG(Diem) AS DiemTB
+FROM KetQua
+GROUP BY Lop
+ORDER BY DiemTB DESC;</pre>`],
+['Logic',`<span class="math">(A ∧ B) ∨ ¬C; &nbsp; A XOR B; &nbsp; 101101₂ = 45₁₀</span>`],
+['Bảng dữ liệu',`<table><tr><th>MaHS</th><th>HoTen</th><th>Diem</th></tr><tr><td>HS001</td><td>Nguyễn An</td><td>8.5</td></tr><tr><td>HS002</td><td>Trần Bình</td><td>9.0</td></tr></table>`]
+]};
+
+let current='Toán';
+function escAttr(x){return x.replace(/"/g,'&quot;')}
+function render(){
+ const tabs=document.getElementById('v9031Tabs'), body=document.getElementById('v9031Body');
+ tabs.innerHTML=subjects.map(x=>`<button class="qa-tab ${x===current?'active':''}" data-sub="${x}">${x}</button>`).join('');
+ body.innerHTML=data[current].map((q,i)=>`<article class="qa-card">
+   <h3>${i+1}. ${q[0]} <span class="qa-tag">${current}</span></h3>
+   <div>${q[1]}</div>
+   <div class="qa-options"><div class="qa-opt"><b>A.</b> Nội dung đáp án có x², H₂O, v₀</div><div class="qa-opt"><b>B.</b> Đáp án dài để kiểm tra xuống dòng trên màn hình nhỏ</div><div class="qa-opt"><b>C.</b> √3, ±∞, →AB, Fe³⁺</div><div class="qa-opt"><b>D.</b> Không có ký hiệu bị cắt</div></div>
+   <label class="qa-check"><input type="checkbox" data-qa="${current}-${i}"> Hiển thị đạt</label>
+ </article>`).join('');
+ document.getElementById('v9031Count').textContent='5/5';
+ restoreChecks(); updatePass();
+}
+function restoreChecks(){
+ document.querySelectorAll('#v9031Body input[data-qa]').forEach(c=>{
+   try{c.checked=localStorage.getItem('v9031:'+c.dataset.qa)==='1'}catch(_){}
+ });
+}
+function updatePass(){
+ const a=[...document.querySelectorAll('#v9031Body input[data-qa]')];
+ document.getElementById('v9031Pass').textContent=a.filter(x=>x.checked).length+'/5';
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('#v9031Tabs [data-sub]');
+ if(!b)return; current=b.dataset.sub; render();
+});
+document.addEventListener('change',e=>{
+ const c=e.target.closest('#v9031Body input[data-qa]'); if(!c)return;
+ try{localStorage.setItem('v9031:'+c.dataset.qa,c.checked?'1':'0')}catch(_){}
+ updatePass();
+});
+window.v9031Open=function(){
+ const n=document.getElementById('v9031Lab');n.classList.add('open');n.setAttribute('aria-hidden','false');render();document.body.style.overflow='hidden';
+};
+window.v9031Close=function(){
+ const n=document.getElementById('v9031Lab');n.classList.remove('open');n.setAttribute('aria-hidden','true');document.body.style.overflow='';
+};
+
+/* Ctrl+Alt+T mở nhanh phòng test, không thêm menu vào app chính. */
+document.addEventListener('keydown',e=>{
+ if(e.ctrlKey&&e.altKey&&(e.key==='t'||e.key==='T')){e.preventDefault();window.v9031Open()}
+});
+})();
+</script>
+
 </body>
 </html>
 <style>
