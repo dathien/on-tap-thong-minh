@@ -6428,6 +6428,209 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
 }
 </style>
 
+
+<style id="v909-achievement-redesign">
+/* ===== V9.0.9 — GÓC THÀNH TÍCH ===== */
+#sv2Achievements.v909-ach-page{
+  background:#f4f7fc !important;
+  min-height:100vh;
+}
+#sv2Achievements .v909-shell{
+  display:grid;
+  grid-template-columns:228px minmax(0,1fr);
+  min-height:100vh;
+}
+#sv2Achievements .v909-side{
+  position:sticky;top:0;height:100vh;box-sizing:border-box;
+  padding:22px 12px 18px;background:#2f5597;color:#fff;z-index:10;
+}
+#sv2Achievements .v909-brand{display:flex;gap:10px;align-items:center;padding:0 6px 14px}
+#sv2Achievements .v909-logo{
+  width:42px;height:42px;border-radius:11px;background:#fff;color:#24478f;
+  display:grid;place-items:center;font-weight:1000
+}
+#sv2Achievements .v909-brand b{font-size:14px;line-height:1.12}
+#sv2Achievements .v909-brand b em{display:block;color:#ffd21f;font-style:normal}
+#sv2Achievements .v909-teacher{
+  padding:0 5px 15px;margin-bottom:15px;border-bottom:1px solid rgba(255,255,255,.3);
+  text-align:center;font-size:11px;font-weight:800
+}
+#sv2Achievements .v909-nav{display:flex;flex-direction:column;gap:6px}
+#sv2Achievements .v909-nav button{
+  border:0;background:transparent;color:#fff;border-radius:10px;height:46px;
+  padding:0 12px;display:flex;align-items:center;gap:12px;
+  font:800 14px/1.2 inherit;cursor:pointer;text-align:left
+}
+#sv2Achievements .v909-nav button span{width:22px;text-align:center;font-size:17px}
+#sv2Achievements .v909-nav button:hover{background:rgba(255,255,255,.1)}
+#sv2Achievements .v909-nav button.active{background:#ffbf1f;color:#172554}
+#sv2Achievements .v909-nav .v909-sep{height:1px;background:rgba(255,255,255,.3);margin:12px 4px}
+
+#sv2Achievements .v909-main{padding:22px;min-width:0}
+#sv2Achievements .v909-hero{
+  position:relative;overflow:hidden;min-height:142px;
+  border:1px solid #d8e3f3;border-radius:20px;
+  background:linear-gradient(110deg,#eef8f8,#eef1ff);
+  display:grid;grid-template-columns:minmax(0,1fr) 220px;align-items:center;
+  padding:20px 24px;margin-bottom:18px
+}
+#sv2Achievements .v909-kicker{font-size:11px;font-weight:1000;color:#4057ef;letter-spacing:1.2px}
+#sv2Achievements .v909-hero h2{margin:6px 0 5px;font-size:25px;color:#10265d}
+#sv2Achievements .v909-hero p{margin:0;color:#60708c;font-size:13px;max-width:650px}
+#sv2Achievements .v909-owlzone{display:flex;align-items:center;justify-content:center;min-height:110px}
+#sv2Achievements .v909-bubble{
+  position:absolute;right:150px;top:22px;background:#fff;border:1px solid #dde5f2;
+  border-radius:14px;padding:10px 13px;color:#18376f;font-size:12px;font-weight:800;
+  box-shadow:0 8px 22px rgba(28,56,110,.08)
+}
+
+/* Tái sử dụng Cú ÔT SVG/HTML có sẵn, thu nhỏ vừa trang */
+#sv2Achievements .v909-owl-clone{
+  transform:scale(.72);transform-origin:center;
+  width:150px;max-height:125px;display:flex;align-items:center;justify-content:center
+}
+#sv2Achievements .v909-owl-clone .ot-eye-group{
+  transform-box:fill-box;transform-origin:center;
+  animation:v909Blink 4.7s infinite ease-in-out !important
+}
+@keyframes v909Blink{0%,43%,47%,100%{transform:scaleY(1)}44%,46%{transform:scaleY(.08)}}
+
+#sv2Achievements .v909-content{
+  background:#fff;border:1px solid #dfe7f2;border-radius:18px;padding:20px;
+  box-shadow:0 8px 24px rgba(29,55,105,.04)
+}
+#sv2Achievements .v909-content > :first-child{margin-top:0}
+#sv2Achievements .v909-content [style*="grid"]{gap:12px!important}
+#sv2Achievements .v909-content > div,
+#sv2Achievements .v909-content section{max-width:none!important}
+#sv2Achievements .v909-content h2,
+#sv2Achievements .v909-content h3{color:#10265d!important}
+#sv2Achievements .v909-content button{border-radius:10px}
+
+@media(max-width:900px){
+  #sv2Achievements .v909-shell{grid-template-columns:76px minmax(0,1fr)}
+  #sv2Achievements .v909-side{padding:16px 8px}
+  #sv2Achievements .v909-brand{justify-content:center;padding-left:0;padding-right:0}
+  #sv2Achievements .v909-brand b,#sv2Achievements .v909-teacher{display:none}
+  #sv2Achievements .v909-nav button{justify-content:center;padding:0;font-size:0}
+  #sv2Achievements .v909-nav button span{font-size:18px}
+  #sv2Achievements .v909-hero{grid-template-columns:1fr 150px}
+  #sv2Achievements .v909-bubble{display:none}
+}
+@media(max-width:600px){
+  #sv2Achievements .v909-shell{display:block;padding-bottom:68px}
+  #sv2Achievements .v909-side{
+    position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:66px;
+    padding:7px 8px;z-index:100005
+  }
+  #sv2Achievements .v909-brand,#sv2Achievements .v909-teacher,#sv2Achievements .v909-sep{display:none}
+  #sv2Achievements .v909-nav{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+  #sv2Achievements .v909-nav button{height:52px;display:flex;flex-direction:column;gap:2px;font-size:9px;padding:0}
+  #sv2Achievements .v909-nav button span{font-size:16px}
+  #sv2Achievements .v909-main{padding:12px}
+  #sv2Achievements .v909-hero{grid-template-columns:1fr;padding:17px;min-height:auto}
+  #sv2Achievements .v909-owlzone{display:none}
+  #sv2Achievements .v909-content{padding:14px}
+}
+</style>
+
+<script id="v909-achievement-redesign-js">
+(function(){
+  'use strict';
+
+  function goHome(){
+    const a=document.getElementById('sv2Achievements'); if(a)a.hidden=true;
+    if(typeof studentV2RenderHome==='function') studentV2RenderHome();
+  }
+  function goPractice(){
+    const a=document.getElementById('sv2Achievements'); if(a)a.hidden=true;
+    if(typeof studentV2OpenPractice==='function') studentV2OpenPractice();
+  }
+  function goTest(){
+    const a=document.getElementById('sv2Achievements'); if(a)a.hidden=true;
+    if(typeof studentV2OpenTestCenter==='function') studentV2OpenTestCenter();
+    else if(typeof svtShowSubjects==='function') svtShowSubjects();
+  }
+  function goBattle(){
+    const a=document.getElementById('sv2Achievements'); if(a)a.hidden=true;
+    if(typeof studentV2Quick==='function') studentV2Quick('battle');
+  }
+  window.v909GoHome=goHome; window.v909GoPractice=goPractice;
+  window.v909GoTest=goTest; window.v909GoBattle=goBattle;
+
+  function getOwl(){
+    const selectors=[
+      '#sv2Home .v8138-student-owl',
+      '#sv2Home .student-owl',
+      '#sv2Home .ot-owl',
+      '.v8138-student-owl','.student-owl','.ot-owl'
+    ];
+    for(const s of selectors){
+      const n=document.querySelector(s);
+      if(n){
+        const c=n.cloneNode(true);
+        c.removeAttribute('id');
+        c.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
+        return c;
+      }
+    }
+    return null;
+  }
+
+  function install(){
+    const page=document.getElementById('sv2Achievements');
+    if(!page || page.dataset.v909==='1') return;
+    page.dataset.v909='1';
+    page.classList.add('v909-ach-page');
+
+    const oldChildren=Array.from(page.childNodes);
+    const shell=document.createElement('div'); shell.className='v909-shell';
+
+    const side=document.createElement('aside'); side.className='v909-side';
+    side.innerHTML=`
+      <div class="v909-brand"><div class="v909-logo">ÔT</div><b>ÔN TẬP<em>THÔNG MINH</em></b></div>
+      <div class="v909-teacher">GV.Hồ Nguyễn Đa Thiện</div>
+      <nav class="v909-nav">
+        <button type="button" onclick="v909GoHome()"><span>⌂</span>Trang chủ</button>
+        <button type="button" onclick="v909GoPractice()"><span>▦</span>Tự luyện</button>
+        <button type="button" onclick="v909GoTest()"><span>✓</span>Kiểm tra</button>
+        <button type="button" onclick="v909GoBattle()"><span>♟</span>Đấu trí</button>
+        <div class="v909-sep"></div>
+        <button type="button" class="active"><span>🏆</span>Góc thành tích</button>
+        <button type="button" onclick="v909GoHome()"><span>▥</span>Tiến độ học tập</button>
+        <button type="button" onclick="v909GoHome()"><span>★</span>Kết quả của tôi</button>
+      </nav>`;
+
+    const main=document.createElement('main'); main.className='v909-main';
+    const hero=document.createElement('section'); hero.className='v909-hero';
+    hero.innerHTML=`
+      <div>
+        <div class="v909-kicker">THÀNH TÍCH HỌC TẬP</div>
+        <h2>Góc thành tích của em</h2>
+        <p>Mỗi bài hoàn thành là một bước tiến. Cùng Cú ÔT chinh phục thêm huy hiệu và chứng nhận mới nhé!</p>
+      </div>
+      <div class="v909-bubble">Cố lên! Mốc tiếp theo đang rất gần.</div>
+      <div class="v909-owlzone"></div>`;
+    const content=document.createElement('section'); content.className='v909-content';
+
+    oldChildren.forEach(n=>content.appendChild(n));
+    main.append(hero,content); shell.append(side,main); page.appendChild(shell);
+
+    const owl=getOwl();
+    if(owl){ owl.classList.add('v909-owl-clone'); hero.querySelector('.v909-owlzone').appendChild(owl); }
+  }
+
+  function ensure(){
+    const p=document.getElementById('sv2Achievements');
+    if(p && !p.hidden) install();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',ensure,{once:true});
+  else ensure();
+
+  new MutationObserver(ensure).observe(document.documentElement,{attributes:true,childList:true,subtree:true,attributeFilter:['hidden','style','class']});
+})();
+</script>
+
 </body>
 </html>
 <style>
