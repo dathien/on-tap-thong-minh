@@ -8288,52 +8288,54 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #adaptiveSampleBank .field::before,
 #adaptiveSampleBank .field::after{pointer-events:none!important}
 </style>
-<script id="v9034-bank-select-fix">
+
+
+
+<script id="v9035-native-dropdown-final-fix">
 (function(){
 'use strict';
 
-/* Đồng bộ giá trị bằng change event native; không đặt lớp click giả lên select. */
-function bind(){
- const bank=document.getElementById('adaptiveSampleBank');
- if(!bank)return;
- ['sampleBankGrade','sampleBankSubject','sampleBankScheme'].forEach(function(id){
-   const sel=document.getElementById(id);
-   if(!sel||sel.dataset.v9034Bound)return;
-   sel.dataset.v9034Bound='1';
-   sel.style.pointerEvents='auto';
-   sel.addEventListener('change',function(e){
-     e.stopPropagation();
-     if(typeof window.renderAdaptiveSampleBank==='function')window.renderAdaptiveSampleBank();
-   });
- });
+function initNativeBankSelects(){
+  const ids=['sampleBankGrade','sampleBankSubject','sampleBankScheme'];
+  ids.forEach(function(id){
+    const s=document.getElementById(id);
+    if(!s)return;
+    s.style.pointerEvents='auto';
+    s.style.position='relative';
+    s.style.zIndex='30';
+  });
+
+  /* Khối lớp được tạo động nên gắn change trực tiếp nếu chưa có. */
+  const grade=document.getElementById('sampleBankGrade');
+  if(grade && !grade.dataset.v9035Bound){
+    grade.dataset.v9035Bound='1';
+    grade.addEventListener('change',function(){
+      if(typeof window.renderAdaptiveSampleBank==='function'){
+        window.renderAdaptiveSampleBank();
+        setTimeout(initNativeBankSelects,0);
+      }
+    });
+  }
 }
 
-/* Bản render 9.0.33 thay innerHTML của Môn học; sau mỗi render chỉ bind lại select mới. */
-const oldRender=window.renderAdaptiveSampleBank;
-if(typeof oldRender==='function'){
- window.renderAdaptiveSampleBank=function(){
-   const r=oldRender.apply(this,arguments);
-   bind();
-   return r;
- };
+/* renderAdaptiveSampleBank có thể thay options của Môn học.
+   Sau render chỉ khôi phục khả năng nhận pointer, tuyệt đối không bắt capture click. */
+const originalRender=window.renderAdaptiveSampleBank;
+if(typeof originalRender==='function'){
+  window.renderAdaptiveSampleBank=function(){
+    const result=originalRender.apply(this,arguments);
+    setTimeout(initNativeBankSelects,0);
+    return result;
+  };
 }
 
-/* Ngăn các click-handler tổng của app chiếm sự kiện từ select. */
-document.addEventListener('click',function(e){
- const sel=e.target.closest('#adaptiveSampleBank select');
- if(!sel)return;
- e.stopPropagation();
-},true);
-
-document.addEventListener('mousedown',function(e){
- const sel=e.target.closest('#adaptiveSampleBank select');
- if(!sel)return;
- /* Không preventDefault: để trình duyệt mở danh sách native. */
- e.stopPropagation();
-},true);
-
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,0),{once:true});
-else setTimeout(bind,0);
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',function(){
+    setTimeout(initNativeBankSelects,0);
+  },{once:true});
+}else{
+  setTimeout(initNativeBankSelects,0);
+}
 })();
 </script>
 
