@@ -1974,6 +1974,52 @@ function exportWord(){const s=currentStudent();if(!s){toast('Chưa có hồ sơ 
  new MutationObserver(addOptions).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
+
+<script id="v901-student-login-hotfix">
+/* 9.0.1 — FIX dứt điểm nút Đăng nhập học sinh.
+   Không phụ thuộc chuỗi wrapper studentV2Login cũ; hỗ trợ click + Enter. */
+(function(){
+  const $=id=>document.getElementById(id);
+  const norm=v=>String(v||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('vi-VN');
+  window.studentV2LoginFixed=function(ev){
+    if(ev){ev.preventDefault();ev.stopPropagation();}
+    const c=$('sv2Class'), n=$('sv2Student'), p=$('sv2Code'), err=$('sv2LoginError');
+    if(!c||!n||!p){ if(err)err.textContent='Không tải được biểu mẫu đăng nhập. Vui lòng đóng và mở lại khu vực học sinh.'; return false; }
+    const className=c.value.trim(), studentName=n.value.trim(), code=p.value.trim();
+    if(!className||!studentName||!code){ if(err)err.textContent='Vui lòng nhập đầy đủ lớp, họ tên học sinh và mật khẩu.'; return false; }
+    let rows=[]; try{ rows=(typeof state!=='undefined'&&Array.isArray(state.students))?state.students:[]; }catch(_){rows=[];}
+    let st=rows.find(x=>norm(x.className)===norm(className)&&norm(x.name)===norm(studentName));
+    if(!st && norm(className)==='10a1' && norm(studentName)===norm('Nguyễn Minh An') && code==='1234'){
+      st={id:'demo10a',name:'Nguyễn Minh An',className:'10A1',subject:'Toán',accessCode:'1234',assignments:[],journals:[]};
+      try{ if(!Array.isArray(state.students))state.students=[]; state.students.push(st); if(typeof saveState==='function')saveState(); }catch(_){}
+    }
+    if(!st){ if(err)err.textContent='Không tìm thấy học sinh với lớp và họ tên đã nhập.'; return false; }
+    if(code!==String(st.accessCode||'1234')){ if(err)err.textContent='Mật khẩu chưa đúng.'; return false; }
+    try{ if(typeof ensureMinhAnDemo==='function')ensureMinhAnDemo(st); }catch(_){}
+    try{
+      currentId=st.id; state.currentStudentId=st.id;
+      if($('sv2Remember')?.checked)localStorage.setItem('htpro_student_login_remember',JSON.stringify({className,studentName}));
+      else localStorage.removeItem('htpro_student_login_remember');
+      if(typeof saveState==='function')saveState();
+    }catch(_){}
+    const root=$('studentV2'); if(!root)return false;
+    /* Chuyển view theo cách an toàn: tạo Home mới, không giữ form đăng nhập chồng lớp. */
+    root.innerHTML='<div id="sv2Home"></div>';
+    try{ if(typeof window.studentV2RenderHome==='function')window.studentV2RenderHome(); }
+    catch(ex){ root.innerHTML='<div id="sv2Home" style="padding:24px"><div class="warning-box">Đã đăng nhập nhưng giao diện học sinh gặp lỗi khi tải. Hãy mở lại trang.</div></div>'; }
+    root.scrollTop=0; window.scrollTo(0,0); return false;
+  };
+  function bind(){
+    const b=$('sv2MainLoginBtn');
+    if(b){ b.style.pointerEvents='auto'; b.style.position='relative'; b.style.zIndex='5'; }
+    ['sv2Class','sv2Student','sv2Code'].forEach(id=>{ const el=$(id); if(el&&!el.dataset.loginEnter){el.dataset.loginEnter='1';el.addEventListener('keydown',e=>{if(e.key==='Enter')window.studentV2LoginFixed(e);});} });
+  }
+  document.addEventListener('DOMContentLoaded',bind);
+  document.addEventListener('click',function(e){ if(e.target&&e.target.closest&&e.target.closest('#sv2MainLoginBtn')){ /* inline handler is primary; this keeps dynamically rebuilt forms clickable */ setTimeout(bind,0); } },true);
+  const mo=new MutationObserver(bind); document.addEventListener('DOMContentLoaded',()=>{const r=$('studentV2');if(r)mo.observe(r,{childList:true,subtree:true});});
+})();
+</script>
+
 </body></html>`;downloadBlob(new Blob(['\ufeff',html],{type:'application/msword'}),`Bao_cao_${safeName(s.name)}_${today()}.doc`);toast('Đã xuất báo cáo Word')}
 function backupData(){downloadBlob(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),`Sao_luu_Hoc_Tap_Thong_Minh_${today()}.httt`);toast('Đã tải tệp sao lưu')}
 function restoreData(){const f=document.getElementById('restoreFile').files[0];if(!f){toast('Hãy chọn tệp sao lưu');return}const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);if(!Array.isArray(data.students))throw new Error('invalid');state=Object.assign(defaultState(),data);saveState();loadProfileForm();loadSurveyForm();renderAll();toast('Đã khôi phục dữ liệu')}catch(e){toast('Tệp sao lưu không hợp lệ')}};r.readAsText(f)}
@@ -2182,6 +2228,52 @@ function printAssignmentContent(){const {a}=docSelection();if(!a)return toast('C
  new MutationObserver(addOptions).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
+
+<script id="v901-student-login-hotfix">
+/* 9.0.1 — FIX dứt điểm nút Đăng nhập học sinh.
+   Không phụ thuộc chuỗi wrapper studentV2Login cũ; hỗ trợ click + Enter. */
+(function(){
+  const $=id=>document.getElementById(id);
+  const norm=v=>String(v||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('vi-VN');
+  window.studentV2LoginFixed=function(ev){
+    if(ev){ev.preventDefault();ev.stopPropagation();}
+    const c=$('sv2Class'), n=$('sv2Student'), p=$('sv2Code'), err=$('sv2LoginError');
+    if(!c||!n||!p){ if(err)err.textContent='Không tải được biểu mẫu đăng nhập. Vui lòng đóng và mở lại khu vực học sinh.'; return false; }
+    const className=c.value.trim(), studentName=n.value.trim(), code=p.value.trim();
+    if(!className||!studentName||!code){ if(err)err.textContent='Vui lòng nhập đầy đủ lớp, họ tên học sinh và mật khẩu.'; return false; }
+    let rows=[]; try{ rows=(typeof state!=='undefined'&&Array.isArray(state.students))?state.students:[]; }catch(_){rows=[];}
+    let st=rows.find(x=>norm(x.className)===norm(className)&&norm(x.name)===norm(studentName));
+    if(!st && norm(className)==='10a1' && norm(studentName)===norm('Nguyễn Minh An') && code==='1234'){
+      st={id:'demo10a',name:'Nguyễn Minh An',className:'10A1',subject:'Toán',accessCode:'1234',assignments:[],journals:[]};
+      try{ if(!Array.isArray(state.students))state.students=[]; state.students.push(st); if(typeof saveState==='function')saveState(); }catch(_){}
+    }
+    if(!st){ if(err)err.textContent='Không tìm thấy học sinh với lớp và họ tên đã nhập.'; return false; }
+    if(code!==String(st.accessCode||'1234')){ if(err)err.textContent='Mật khẩu chưa đúng.'; return false; }
+    try{ if(typeof ensureMinhAnDemo==='function')ensureMinhAnDemo(st); }catch(_){}
+    try{
+      currentId=st.id; state.currentStudentId=st.id;
+      if($('sv2Remember')?.checked)localStorage.setItem('htpro_student_login_remember',JSON.stringify({className,studentName}));
+      else localStorage.removeItem('htpro_student_login_remember');
+      if(typeof saveState==='function')saveState();
+    }catch(_){}
+    const root=$('studentV2'); if(!root)return false;
+    /* Chuyển view theo cách an toàn: tạo Home mới, không giữ form đăng nhập chồng lớp. */
+    root.innerHTML='<div id="sv2Home"></div>';
+    try{ if(typeof window.studentV2RenderHome==='function')window.studentV2RenderHome(); }
+    catch(ex){ root.innerHTML='<div id="sv2Home" style="padding:24px"><div class="warning-box">Đã đăng nhập nhưng giao diện học sinh gặp lỗi khi tải. Hãy mở lại trang.</div></div>'; }
+    root.scrollTop=0; window.scrollTo(0,0); return false;
+  };
+  function bind(){
+    const b=$('sv2MainLoginBtn');
+    if(b){ b.style.pointerEvents='auto'; b.style.position='relative'; b.style.zIndex='5'; }
+    ['sv2Class','sv2Student','sv2Code'].forEach(id=>{ const el=$(id); if(el&&!el.dataset.loginEnter){el.dataset.loginEnter='1';el.addEventListener('keydown',e=>{if(e.key==='Enter')window.studentV2LoginFixed(e);});} });
+  }
+  document.addEventListener('DOMContentLoaded',bind);
+  document.addEventListener('click',function(e){ if(e.target&&e.target.closest&&e.target.closest('#sv2MainLoginBtn')){ /* inline handler is primary; this keeps dynamically rebuilt forms clickable */ setTimeout(bind,0); } },true);
+  const mo=new MutationObserver(bind); document.addEventListener('DOMContentLoaded',()=>{const r=$('studentV2');if(r)mo.observe(r,{childList:true,subtree:true});});
+})();
+</script>
+
 </body></html>';w.document.write(html);w.document.close();w.focus();w.print()}
 document.getElementById('docStudent')?.addEventListener('change',refreshDocAssignments);document.getElementById('docAssignment')?.addEventListener('change',loadDocContent);
 const oldRenderAssignments=renderAssignments;renderAssignments=function(){oldRenderAssignments();refreshDocSelectors()};
@@ -2959,6 +3051,52 @@ const __journalOldGoPanel=goPanel;goPanel=function(name){__journalOldGoPanel(nam
  new MutationObserver(addOptions).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
+
+<script id="v901-student-login-hotfix">
+/* 9.0.1 — FIX dứt điểm nút Đăng nhập học sinh.
+   Không phụ thuộc chuỗi wrapper studentV2Login cũ; hỗ trợ click + Enter. */
+(function(){
+  const $=id=>document.getElementById(id);
+  const norm=v=>String(v||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('vi-VN');
+  window.studentV2LoginFixed=function(ev){
+    if(ev){ev.preventDefault();ev.stopPropagation();}
+    const c=$('sv2Class'), n=$('sv2Student'), p=$('sv2Code'), err=$('sv2LoginError');
+    if(!c||!n||!p){ if(err)err.textContent='Không tải được biểu mẫu đăng nhập. Vui lòng đóng và mở lại khu vực học sinh.'; return false; }
+    const className=c.value.trim(), studentName=n.value.trim(), code=p.value.trim();
+    if(!className||!studentName||!code){ if(err)err.textContent='Vui lòng nhập đầy đủ lớp, họ tên học sinh và mật khẩu.'; return false; }
+    let rows=[]; try{ rows=(typeof state!=='undefined'&&Array.isArray(state.students))?state.students:[]; }catch(_){rows=[];}
+    let st=rows.find(x=>norm(x.className)===norm(className)&&norm(x.name)===norm(studentName));
+    if(!st && norm(className)==='10a1' && norm(studentName)===norm('Nguyễn Minh An') && code==='1234'){
+      st={id:'demo10a',name:'Nguyễn Minh An',className:'10A1',subject:'Toán',accessCode:'1234',assignments:[],journals:[]};
+      try{ if(!Array.isArray(state.students))state.students=[]; state.students.push(st); if(typeof saveState==='function')saveState(); }catch(_){}
+    }
+    if(!st){ if(err)err.textContent='Không tìm thấy học sinh với lớp và họ tên đã nhập.'; return false; }
+    if(code!==String(st.accessCode||'1234')){ if(err)err.textContent='Mật khẩu chưa đúng.'; return false; }
+    try{ if(typeof ensureMinhAnDemo==='function')ensureMinhAnDemo(st); }catch(_){}
+    try{
+      currentId=st.id; state.currentStudentId=st.id;
+      if($('sv2Remember')?.checked)localStorage.setItem('htpro_student_login_remember',JSON.stringify({className,studentName}));
+      else localStorage.removeItem('htpro_student_login_remember');
+      if(typeof saveState==='function')saveState();
+    }catch(_){}
+    const root=$('studentV2'); if(!root)return false;
+    /* Chuyển view theo cách an toàn: tạo Home mới, không giữ form đăng nhập chồng lớp. */
+    root.innerHTML='<div id="sv2Home"></div>';
+    try{ if(typeof window.studentV2RenderHome==='function')window.studentV2RenderHome(); }
+    catch(ex){ root.innerHTML='<div id="sv2Home" style="padding:24px"><div class="warning-box">Đã đăng nhập nhưng giao diện học sinh gặp lỗi khi tải. Hãy mở lại trang.</div></div>'; }
+    root.scrollTop=0; window.scrollTo(0,0); return false;
+  };
+  function bind(){
+    const b=$('sv2MainLoginBtn');
+    if(b){ b.style.pointerEvents='auto'; b.style.position='relative'; b.style.zIndex='5'; }
+    ['sv2Class','sv2Student','sv2Code'].forEach(id=>{ const el=$(id); if(el&&!el.dataset.loginEnter){el.dataset.loginEnter='1';el.addEventListener('keydown',e=>{if(e.key==='Enter')window.studentV2LoginFixed(e);});} });
+  }
+  document.addEventListener('DOMContentLoaded',bind);
+  document.addEventListener('click',function(e){ if(e.target&&e.target.closest&&e.target.closest('#sv2MainLoginBtn')){ /* inline handler is primary; this keeps dynamically rebuilt forms clickable */ setTimeout(bind,0); } },true);
+  const mo=new MutationObserver(bind); document.addEventListener('DOMContentLoaded',()=>{const r=$('studentV2');if(r)mo.observe(r,{childList:true,subtree:true});});
+})();
+</script>
+
 </body></html>`);w.document.close()}
  function seed(){A(state.students).forEach(s=>{if(DEMO[s.name]&&!s.achievementDemo)s.achievementDemo={...DEMO[s.name]}});try{saveState()}catch(_){}}
  const base=window.renderTodayLearning;window.renderTodayLearning=function(){if(typeof base==='function')base();const s=current(),box=document.getElementById('todayUnifiedContent');if(s&&box&&!box.querySelector('.ach-card'))box.insertAdjacentHTML('afterbegin',summary(s))}
@@ -3176,7 +3314,7 @@ window.enterStudentArea=function(){document.getElementById('roleGateway').hidden
 <div class="sv2-field"><label>Mật khẩu</label><div class="sv2-password-wrap"><input autocomplete="current-password" id="sv2Code" maxlength="32" placeholder="Nhập mật khẩu" type="password"/><button aria-label="Hiện hoặc ẩn mật khẩu" class="sv2-eye" onclick="studentV2TogglePassword()" type="button">◉</button></div></div>
 <div class="sv2-login-row"><label class="sv2-remember"><input id="sv2Remember" type="checkbox"/> <span>Ghi nhớ đăng nhập</span></label><button class="sv2-text-link" onclick="studentV2ForgotPassword()" type="button">Quên mật khẩu?</button></div>
 <div class="sv2-login-error" id="sv2LoginError"></div>
-<button class="sv2-main-login" onclick="studentV2Login()" type="button">Đăng nhập</button>
+<button class="sv2-main-login" id="sv2MainLoginBtn" onclick="studentV2LoginFixed(event)" type="button">Đăng nhập</button>
 <div class="sv2-or"><span>hoặc</span></div>
 <button class="sv2-google-login" onclick="studentV2GoogleLogin()" type="button"><span class="sv2-google-g">G</span><span>Đăng nhập với Google</span></button>
 <div class="sv2-register-line">Chưa có tài khoản? <button onclick="studentV2Register()" type="button">Đăng ký</button></div>
@@ -6308,6 +6446,52 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
  new MutationObserver(addOptions).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
+
+<script id="v901-student-login-hotfix">
+/* 9.0.1 — FIX dứt điểm nút Đăng nhập học sinh.
+   Không phụ thuộc chuỗi wrapper studentV2Login cũ; hỗ trợ click + Enter. */
+(function(){
+  const $=id=>document.getElementById(id);
+  const norm=v=>String(v||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('vi-VN');
+  window.studentV2LoginFixed=function(ev){
+    if(ev){ev.preventDefault();ev.stopPropagation();}
+    const c=$('sv2Class'), n=$('sv2Student'), p=$('sv2Code'), err=$('sv2LoginError');
+    if(!c||!n||!p){ if(err)err.textContent='Không tải được biểu mẫu đăng nhập. Vui lòng đóng và mở lại khu vực học sinh.'; return false; }
+    const className=c.value.trim(), studentName=n.value.trim(), code=p.value.trim();
+    if(!className||!studentName||!code){ if(err)err.textContent='Vui lòng nhập đầy đủ lớp, họ tên học sinh và mật khẩu.'; return false; }
+    let rows=[]; try{ rows=(typeof state!=='undefined'&&Array.isArray(state.students))?state.students:[]; }catch(_){rows=[];}
+    let st=rows.find(x=>norm(x.className)===norm(className)&&norm(x.name)===norm(studentName));
+    if(!st && norm(className)==='10a1' && norm(studentName)===norm('Nguyễn Minh An') && code==='1234'){
+      st={id:'demo10a',name:'Nguyễn Minh An',className:'10A1',subject:'Toán',accessCode:'1234',assignments:[],journals:[]};
+      try{ if(!Array.isArray(state.students))state.students=[]; state.students.push(st); if(typeof saveState==='function')saveState(); }catch(_){}
+    }
+    if(!st){ if(err)err.textContent='Không tìm thấy học sinh với lớp và họ tên đã nhập.'; return false; }
+    if(code!==String(st.accessCode||'1234')){ if(err)err.textContent='Mật khẩu chưa đúng.'; return false; }
+    try{ if(typeof ensureMinhAnDemo==='function')ensureMinhAnDemo(st); }catch(_){}
+    try{
+      currentId=st.id; state.currentStudentId=st.id;
+      if($('sv2Remember')?.checked)localStorage.setItem('htpro_student_login_remember',JSON.stringify({className,studentName}));
+      else localStorage.removeItem('htpro_student_login_remember');
+      if(typeof saveState==='function')saveState();
+    }catch(_){}
+    const root=$('studentV2'); if(!root)return false;
+    /* Chuyển view theo cách an toàn: tạo Home mới, không giữ form đăng nhập chồng lớp. */
+    root.innerHTML='<div id="sv2Home"></div>';
+    try{ if(typeof window.studentV2RenderHome==='function')window.studentV2RenderHome(); }
+    catch(ex){ root.innerHTML='<div id="sv2Home" style="padding:24px"><div class="warning-box">Đã đăng nhập nhưng giao diện học sinh gặp lỗi khi tải. Hãy mở lại trang.</div></div>'; }
+    root.scrollTop=0; window.scrollTo(0,0); return false;
+  };
+  function bind(){
+    const b=$('sv2MainLoginBtn');
+    if(b){ b.style.pointerEvents='auto'; b.style.position='relative'; b.style.zIndex='5'; }
+    ['sv2Class','sv2Student','sv2Code'].forEach(id=>{ const el=$(id); if(el&&!el.dataset.loginEnter){el.dataset.loginEnter='1';el.addEventListener('keydown',e=>{if(e.key==='Enter')window.studentV2LoginFixed(e);});} });
+  }
+  document.addEventListener('DOMContentLoaded',bind);
+  document.addEventListener('click',function(e){ if(e.target&&e.target.closest&&e.target.closest('#sv2MainLoginBtn')){ /* inline handler is primary; this keeps dynamically rebuilt forms clickable */ setTimeout(bind,0); } },true);
+  const mo=new MutationObserver(bind); document.addEventListener('DOMContentLoaded',()=>{const r=$('studentV2');if(r)mo.observe(r,{childList:true,subtree:true});});
+})();
+</script>
+
 </body>
 </html>
 <style>
