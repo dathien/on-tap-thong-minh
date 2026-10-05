@@ -6777,6 +6777,105 @@ schedule();
 })();
 </script>
 
+
+<style id="v9013-ach-owl-reposition">
+/* Hero trở về 1 cột, thoáng và cân đối */
+#v8143AchievementPage .v9012-hero{
+  grid-template-columns:1fr!important;
+  min-height:118px!important;
+  padding:20px 24px!important;
+  position:relative!important;
+}
+#v8143AchievementPage .v9012-hero .v9012-owl{
+  display:none!important;
+}
+
+/* Cú ÔT mới: mascot nhỏ ở góc phải dưới, không che nội dung */
+#v8143AchievementPage .v9013-owl-dock{
+  position:fixed;
+  right:24px;
+  bottom:22px;
+  width:116px;
+  height:116px;
+  border-radius:28px;
+  background:rgba(255,255,255,.94);
+  border:1px solid #dce6f4;
+  box-shadow:0 12px 32px rgba(31,66,135,.14);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:30;
+  overflow:hidden;
+}
+#v8143AchievementPage .v9013-owl-dock > *{
+  transform:scale(.54)!important;
+  transform-origin:center!important;
+  flex:0 0 auto;
+}
+#v8143AchievementPage .v9013-owl-tip{
+  position:fixed;
+  right:116px;
+  bottom:100px;
+  max-width:210px;
+  padding:9px 12px;
+  border-radius:12px 12px 2px 12px;
+  background:#fff;
+  border:1px solid #dce6f4;
+  box-shadow:0 8px 22px rgba(31,66,135,.10);
+  color:#284777;
+  font-size:11px;
+  font-weight:800;
+  line-height:1.35;
+  z-index:29;
+}
+@media(max-width:900px){
+  #v8143AchievementPage .v9013-owl-dock{right:14px;bottom:16px;width:92px;height:92px}
+  #v8143AchievementPage .v9013-owl-dock > *{transform:scale(.43)!important}
+  #v8143AchievementPage .v9013-owl-tip{display:none}
+}
+@media(max-width:600px){
+  #v8143AchievementPage .v9013-owl-dock{display:none!important}
+}
+</style>
+<script id="v9013-ach-owl-reposition-js">
+(function(){
+'use strict';
+function cloneOwl(){
+  const qs=['#sv2Home .v8138-student-owl','#sv2Home .student-owl','#sv2Home .ot-owl'];
+  for(const q of qs){
+    const n=document.querySelector(q);
+    if(n){
+      const c=n.cloneNode(true);
+      c.removeAttribute('id');
+      c.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
+      return c;
+    }
+  }
+  return null;
+}
+function place(){
+  const p=document.getElementById('v8143AchievementPage');
+  if(!p || !p.classList.contains('active') || p.querySelector('.v9013-owl-dock')) return;
+  const old=p.querySelector('.v9012-owl');
+  if(old) old.innerHTML='';
+  const owl=cloneOwl();
+  if(!owl)return;
+  const dock=document.createElement('div');dock.className='v9013-owl-dock';dock.appendChild(owl);
+  const tip=document.createElement('div');tip.className='v9013-owl-tip';tip.textContent='Cố lên! Mỗi bài hoàn thành là thêm một bước tiến.';
+  p.append(tip,dock);
+}
+function cleanWhenClosed(){
+ const p=document.getElementById('v8143AchievementPage'); if(!p)return;
+ if(!p.classList.contains('active')){
+   p.querySelectorAll('.v9013-owl-dock,.v9013-owl-tip').forEach(x=>x.remove());
+ }
+}
+function run(){requestAnimationFrame(()=>{cleanWhenClosed();place()})}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
+new MutationObserver(run).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+})();
+</script>
+
 </body>
 </html>
 <style>
