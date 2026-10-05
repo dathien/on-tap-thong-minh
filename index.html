@@ -1396,6 +1396,12 @@ aside::-webkit-scrollbar{
  #studentV2 .sv2-student-sidebar nav button[data-v8143-ach]{justify-content:center!important;padding:0!important}
  #studentV2 .sv2-student-sidebar nav button[data-v8143-ach] .v8144-ach-label{display:none!important}
 }
+</style><style id="v8147-homeroom-class-name-css">
+/* 8.14.7 — chỉnh tên lớp chủ nhiệm */
+.v8147-class-edit{display:inline-flex;align-items:center;gap:7px;margin-left:8px}
+.v8147-class-edit-btn{border:1px solid #dbe4ef;background:#fff;color:#1d4ed8;border-radius:9px;
+ padding:5px 9px;font-size:11px;font-weight:750;cursor:pointer}
+.v8147-class-edit-btn:hover{background:#eff6ff}
 </style></head>
 <body>
 <div class="app">
@@ -1769,7 +1775,7 @@ const HOMEROOM_ROSTER=[
 ];
 
 function ensureHomeroomRosterCore(){
- const CLASS='TU2424HC12';
+ const CLASS='12A4';
  state.students=Array.isArray(state.students)?state.students:[];
  const byName=new Map(state.students.map(x=>[String(x.name||'').trim().toLocaleLowerCase('vi'),x]));
  HOMEROOM_ROSTER.forEach((name,i)=>{
@@ -1999,7 +2005,7 @@ function clearAllData(){if(confirm('Xóa toàn bộ hồ sơ, kế hoạch và n
 function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}function safeName(s){return String(s||'Hoc_sinh').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'_')}
 let dashboardHasAnimated=false;
 function animateDashboardNumber(id,target,suffix='',mode='data'){const el=document.getElementById(id);if(!el)return;target=Number(target)||0;if(el._countFrame)cancelAnimationFrame(el._countFrame);const previous=Number.isFinite(el._dashboardValue)?el._dashboardValue:target;let start=0,duration=900;if(mode==='nav'){start=0;duration=1150}else if(mode==='revisit'){start=Math.max(0,Math.round(target*.72));duration=650}else if(mode==='data'&&Number.isFinite(el._dashboardValue)){start=previous;duration=560}else if(mode==='initial'){start=0;duration=900}if(start===target&&mode==='data'){el.textContent=target+suffix;el._dashboardValue=target;return}const card=el.closest('.stat');if(card){card.classList.remove('value-changed');void card.offsetWidth;if(mode==='data'&&previous!==target)card.classList.add('value-changed');card.classList.add('is-number-animating')}const t0=performance.now();el.textContent=start+suffix;function frame(now){const p=Math.min(1,(now-t0)/duration),e=1-Math.pow(1-p,3),v=Math.round(start+(target-start)*e);el.textContent=v+suffix;if(p<1)el._countFrame=requestAnimationFrame(frame);else{el.textContent=target+suffix;el._dashboardValue=target;el._countFrame=null;setTimeout(()=>{if(card){card.classList.remove('is-number-animating');card.classList.remove('value-changed')}},650)}}el._countFrame=requestAnimationFrame(frame)}
-function updateDashboard(mode='data'){const all=(Array.isArray(state.students)?state.students:[]).filter(s=>s.className==='TU2424HC12');const hs=all.length?all:(Array.isArray(state.students)?state.students:[]);const sessions=hs.reduce((n,s)=>n+(Array.isArray(s.journals)?s.journals.length:0),0);const logs=hs.flatMap(s=>Array.isArray(s.journals)?s.journals:[]);const avg=logs.length?Math.round(logs.reduce((n,j)=>n+(Number(j.understand)||0)+(Number(j.focus)||0),0)/(logs.length*20)*100):0;const tasks=hs.flatMap(s=>(Array.isArray(s.assignments)?s.assignments:[]).filter(a=>a.portalPublished!==false));const finished=tasks.filter(a=>['done','submitted','graded'].includes(a.status)||!!a.submittedAt).length;const done=tasks.length?Math.round(finished/tasks.length*100):0;if(mode==='nav'){animateDashboardNumber('statStudents',hs.length,'','nav');setTimeout(()=>animateDashboardNumber('statSessions',sessions,'','nav'),90);setTimeout(()=>animateDashboardNumber('statTasks',done,'%','nav'),180);setTimeout(()=>animateDashboardNumber('statProgress',avg,'%','nav'),270)}else{animateDashboardNumber('statStudents',hs.length,'',mode);animateDashboardNumber('statSessions',sessions,'',mode);animateDashboardNumber('statTasks',done,'%',mode);animateDashboardNumber('statProgress',avg,'%',mode)}}
+function updateDashboard(mode='data'){const all=(Array.isArray(state.students)?state.students:[]).filter(s=>s.className==='12A4');const hs=all.length?all:(Array.isArray(state.students)?state.students:[]);const sessions=hs.reduce((n,s)=>n+(Array.isArray(s.journals)?s.journals.length:0),0);const logs=hs.flatMap(s=>Array.isArray(s.journals)?s.journals:[]);const avg=logs.length?Math.round(logs.reduce((n,j)=>n+(Number(j.understand)||0)+(Number(j.focus)||0),0)/(logs.length*20)*100):0;const tasks=hs.flatMap(s=>(Array.isArray(s.assignments)?s.assignments:[]).filter(a=>a.portalPublished!==false));const finished=tasks.filter(a=>['done','submitted','graded'].includes(a.status)||!!a.submittedAt).length;const done=tasks.length?Math.round(finished/tasks.length*100):0;if(mode==='nav'){animateDashboardNumber('statStudents',hs.length,'','nav');setTimeout(()=>animateDashboardNumber('statSessions',sessions,'','nav'),90);setTimeout(()=>animateDashboardNumber('statTasks',done,'%','nav'),180);setTimeout(()=>animateDashboardNumber('statProgress',avg,'%','nav'),270)}else{animateDashboardNumber('statStudents',hs.length,'',mode);animateDashboardNumber('statSessions',sessions,'',mode);animateDashboardNumber('statTasks',done,'%',mode);animateDashboardNumber('statProgress',avg,'%',mode)}}
 function completionStep(s){if(!s)return 0;let n=1;if(s.survey)n=3;if((s.goals||[]).length)n=4;if(s.weekPlan)n=5;if(s.lastSession)n=6;if((s.journals||[]).length)n=7;return n}
 function updatePath(){const s=currentStudent(),n=completionStep(s);document.getElementById('pathProgress').style.width=`${Math.round(n/7*100)}%`;document.getElementById('pathText').textContent=s?`${s.name}: đã hoàn thành ${n}/7 bước`:'Bắt đầu từ hồ sơ học sinh';document.getElementById('stepNav').innerHTML=PANEL_ORDER.map((p,i)=>`<div class="step ${i+1<n?'done':''} ${i+1===n?'active':''}" onclick="goPanel('${p}')"><b>${i+1<n?'✓':i+1}</b>${PANEL_LABELS[i]}</div>`).join('')}
 function formatDate(v){if(!v)return'';const [y,m,d]=v.slice(0,10).split('-');return`${d}/${m}/${y}`}
@@ -2763,7 +2769,7 @@ const __journalOldGoPanel=goPanel;goPanel=function(name){__journalOldGoPanel(nam
 <script>
 (function(){
  const ROSTER40=['Nguyễn Thị Ngọc Ánh','Nguyễn Đỗ Thanh Binh','Nguyễn Thị Thanh Hương','Nguyễn Hoàng Khang','Ngô Ngọc Lam','Nguyễn Tấn Lộc','Huỳnh Nhật Quang','Huỳnh Thị Như Hoàng','Nguyễn Phạm Xuân Nghi','Nguyễn Ngọc Phương Nghi','Nguyễn Hoàng Triều','Nguyễn Ngô Hoàn Tuấn','Hoàng Công Thành','Lê Việt Quốc Vương','Trần Xuân Lưu Bảo','Lê Nguyễn Ngọc Hương','Trần Ngọc Khánh Linh','Nguyễn Thành Nhơn','Nguyễn Phước Vĩnh','Ngô Duy Khoa','Đỗ Đăng Khoa','Tăng Hoàng Long','Đặng Nguyễn Kim Ngân','Nguyễn Trung Bảo','Phạm Gia Bảo','Nguyễn Tấn Đạt','Nguyễn Hồng Diễm','Trần Hữu Thành','Tô Quốc Thịnh','Nguyễn Xuân Trúc','Nguyễn Huyền Diệu','Trần Quang Nhân','Lê Nguyễn Quốc Duy','Đỗ Minh Kha','Thân Nguyễn Quốc Bảo','Phùng Trần Thanh Trúc','Nguyễn Huỳnh Hải Vy','Lê Huỳnh Hương Y','Trần Tấn Tài','Mai Phương Uyên'];
- const CLASS_NAME='TU2424HC12';
+ const CLASS_NAME='12A4';
  const SUBJECTS=['Tin học','Toán','Tiếng Anh','Vật lí'];
  const TOPICS={'Tin học':'Ôn tập dữ liệu và thông tin','Toán':'Ôn tập hàm số và đồ thị','Tiếng Anh':'Ôn tập từ vựng và đọc hiểu','Vật lí':'Ôn tập chuyển động và vận tốc'};
  const esc2=v=>typeof esc==='function'?esc(String(v??'')):String(v??'');
@@ -2881,7 +2887,7 @@ const __journalOldGoPanel=goPanel;goPanel=function(name){__journalOldGoPanel(nam
 <script>
 /* v8.6.32 - sửa dứt điểm KPI 0: đồng bộ lớp chủ nhiệm -> nhật ký/bài giao -> tổng quan */
 (function(){
- const CLASS='TU2424HC12';
+ const CLASS='12A4';
  const A=v=>Array.isArray(v)?v:[];
  function homeroom(){return A(state.students).filter(s=>s.className===CLASS)}
  function seedDashboardDemoOnlyWhenEmpty(){
@@ -6127,6 +6133,65 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
     });
   }
 })();
+</script><script id="v8147-homeroom-class-name-controller">
+(function(){
+ const KEY='ottm_homeroom_class_name';
+ function getName(){try{return localStorage.getItem(KEY)||'12A4'}catch(_){return '12A4'}}
+ function setName(v){try{localStorage.setItem(KEY,v)}catch(_){}}
+ function apply(){
+   const name=getName();
+   const root=document.getElementById('homeroomPanel');
+   if(!root)return;
+   /* Replace all visible class labels in the homeroom page, including legacy 12A4 demo labels. */
+   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+   const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+   nodes.forEach(n=>{
+     if(n.parentElement?.closest('script,style,input,textarea'))return;
+     n.nodeValue=n.nodeValue.replace(/\b(?:TU2424HC12|12A4)\b/g,name);
+   });
+   root.querySelectorAll('input,select,textarea').forEach(el=>{
+     if(el.value==='TU2424HC12'||el.value==='12A4')el.value=name;
+     if(el.placeholder==='TU2424HC12'||el.placeholder==='12A4')el.placeholder=name;
+   });
+   root.querySelectorAll('[data-class-name]').forEach(el=>el.textContent=name);
+
+   /* Put one edit button in the page heading area, not on every student card. */
+   if(!root.querySelector('.v8147-class-edit-btn')){
+     const heading=[...root.querySelectorAll('h1,h2,h3,.panel-title,.section-title')]
+       .find(el=>/lớp chủ nhiệm/i.test(el.textContent||'')) || root.firstElementChild;
+     if(heading){
+       const btn=document.createElement('button');
+       btn.type='button';btn.className='v8147-class-edit-btn';btn.textContent='✎ Sửa tên lớp';
+       btn.onclick=function(ev){
+         ev.preventDefault();ev.stopPropagation();
+         const v=prompt('Nhập tên lớp chủ nhiệm:',getName());
+         if(v===null)return;
+         const clean=v.trim().replace(/\s+/g,' ');
+         if(!clean){alert('Tên lớp không được để trống.');return}
+         if(clean.length>30){alert('Tên lớp tối đa 30 ký tự.');return}
+         setName(clean);
+         apply();
+       };
+       heading.appendChild(btn);
+     }
+   }
+ }
+ window.v8147ApplyHomeroomClassName=apply;
+ const old=window.goPanel;
+ if(typeof old==='function'){
+   window.goPanel=function(name){
+     const r=old.apply(this,arguments);
+     if(name==='homeroom')setTimeout(apply,0);
+     return r;
+   };
+ }
+ const mo=new MutationObserver(()=>{
+   const p=document.getElementById('homeroomPanel');
+   if(p&&p.classList.contains('active'))apply();
+ });
+ mo.observe(document.body,{childList:true,subtree:true});
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);else apply();
+})();
 </script></body>
 </html>
 <style>
@@ -6136,7 +6201,7 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
 <script>
 /* v8.6.30 - Hồ sơ khảo sát demo và phân tích hợp nhất từ dữ liệu học tập */
 (function(){
- const CLASS='TU2424HC12';
+ const CLASS='12A4';
  const E=v=>typeof esc==='function'?esc(String(v??'')):String(v??'');
  const A=v=>Array.isArray(v)?v:[];
  const profiles=[
