@@ -6894,6 +6894,103 @@ new MutationObserver(run).observe(document.body,{childList:true,subtree:true,att
 })();
 </script>
 
+
+<style id="v9015-ach-70-30">
+/* Bố cục 70% Thành tích + 30% Cú ÔT */
+#v8143AchievementPage .v9012-main{
+  display:grid!important;
+  grid-template-columns:minmax(0,7fr) minmax(260px,3fr)!important;
+  grid-template-rows:auto 1fr!important;
+  gap:18px!important;
+  align-items:start!important;
+}
+#v8143AchievementPage .v9012-hero{
+  grid-column:1 / -1!important;
+  grid-template-columns:1fr!important;
+  min-height:112px!important;
+  margin-bottom:0!important;
+}
+#v8143AchievementPage .v9012-hero .v9012-owl{display:none!important}
+
+/* Khối dữ liệu thành tích nằm cột 70% */
+#v8143AchievementPage .v8143-ach-card{
+  grid-column:1!important;
+  grid-row:2!important;
+  min-width:0!important;
+}
+
+/* Cột Cú ÔT 30% */
+#v8143AchievementPage .v9015-owl-panel{
+  grid-column:2!important;
+  grid-row:2!important;
+  position:sticky!important;
+  top:22px!important;
+  min-height:430px!important;
+  border:1px solid #dce6f4!important;
+  border-radius:20px!important;
+  background:linear-gradient(180deg,#eef8f8 0%,#f5f3ff 100%)!important;
+  padding:20px 16px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:hidden!important;
+}
+#v8143AchievementPage .v9015-owl-title{
+  color:#10265d;font-size:17px;font-weight:900;text-align:center;margin-bottom:4px
+}
+#v8143AchievementPage .v9015-owl-text{
+  color:#60708c;font-size:12px;line-height:1.5;text-align:center;max-width:240px;margin-bottom:10px
+}
+#v8143AchievementPage .v9015-owl-stage{
+  width:100%;height:270px;display:flex;align-items:center;justify-content:center;overflow:hidden
+}
+#v8143AchievementPage .v9015-owl-stage>*{
+  width:320px!important;min-width:320px!important;height:320px!important;
+  flex:0 0 320px!important;transform:scale(.72)!important;
+  transform-origin:center!important;margin:0!important
+}
+#v8143AchievementPage .v9015-message{
+  width:100%;box-sizing:border-box;background:#fff;border:1px solid #dce6f4;
+  border-radius:14px;padding:11px 12px;color:#284777;font-size:12px;
+  line-height:1.45;font-weight:800;text-align:center
+}
+@media(max-width:1050px){
+  #v8143AchievementPage .v9012-main{grid-template-columns:minmax(0,65fr) minmax(230px,35fr)!important}
+}
+@media(max-width:780px){
+  #v8143AchievementPage .v9012-main{display:block!important}
+  #v8143AchievementPage .v9015-owl-panel{position:static!important;min-height:auto!important;margin-top:14px!important}
+  #v8143AchievementPage .v9015-owl-stage{height:190px}
+  #v8143AchievementPage .v9015-owl-stage>*{transform:scale(.52)!important}
+}
+</style>
+<script id="v9015-ach-70-30-js">
+(function(){'use strict';
+function cloneOwl(){
+ for(const q of ['#sv2Home .v8138-student-owl','#sv2Home .student-owl','#sv2Home .ot-owl']){
+  const n=document.querySelector(q);
+  if(n){const c=n.cloneNode(true);c.removeAttribute('id');c.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));return c}
+ }
+ return null;
+}
+function install(){
+ const p=document.getElementById('v8143AchievementPage');
+ if(!p||!p.classList.contains('active'))return;
+ p.querySelectorAll('.v9013-owl-dock,.v9013-owl-tip').forEach(x=>x.remove());
+ const main=p.querySelector('.v9012-main');
+ if(!main||main.querySelector('.v9015-owl-panel'))return;
+ const panel=document.createElement('aside');panel.className='v9015-owl-panel';
+ panel.innerHTML='<div class="v9015-owl-title">Cú ÔT đồng hành</div><div class="v9015-owl-text">Theo dõi từng cột mốc và tiếp tục chinh phục huy hiệu mới nhé!</div><div class="v9015-owl-stage"></div><div class="v9015-message">Mỗi bài hoàn thành là một bước tiến. Cố lên!</div>';
+ main.appendChild(panel);
+ const owl=cloneOwl();if(owl)panel.querySelector('.v9015-owl-stage').appendChild(owl);
+}
+function run(){requestAnimationFrame(install);setTimeout(install,80)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
+new MutationObserver(run).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+})();
+</script>
+
 </body>
 </html>
 <style>
