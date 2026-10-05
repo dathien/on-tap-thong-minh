@@ -6264,6 +6264,135 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
 })();
 </script>
 
+
+<style id="v907-testcenter-sidebar">
+/* Sidebar cho trang “Em muốn học môn nào?” — dùng cùng ngôn ngữ giao diện học sinh */
+#sv2TestCenter .v907-test-shell{
+  display:grid;
+  grid-template-columns:240px minmax(0,1fr);
+  min-height:100vh;
+  background:#f5f8fc;
+}
+#sv2TestCenter .v907-side{
+  position:sticky; top:0; height:100vh;
+  padding:24px 14px 18px;
+  background:linear-gradient(180deg,#111c34 0%,#172554 100%);
+  color:#fff; overflow:auto; z-index:8;
+  scrollbar-width:none;
+}
+#sv2TestCenter .v907-side::-webkit-scrollbar{display:none}
+#sv2TestCenter .v907-brand{display:flex;align-items:center;gap:10px;padding:2px 8px 14px}
+#sv2TestCenter .v907-mark{
+  width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  background:#fbbf24;color:#172554;font-weight:1000;font-size:17px;
+  box-shadow:0 8px 20px rgba(0,0,0,.16)
+}
+#sv2TestCenter .v907-brand b{font-size:14px;line-height:1.15;letter-spacing:.3px}
+#sv2TestCenter .v907-brand b span{color:#fbbf24}
+#sv2TestCenter .v907-teacher{
+  margin:0 8px 16px;padding:10px 8px 14px;
+  border-bottom:1px solid rgba(255,255,255,.22);
+  color:#cbd5e1;font-size:11px;font-weight:800;text-align:center
+}
+#sv2TestCenter .v907-side nav{display:flex;flex-direction:column;gap:6px}
+#sv2TestCenter .v907-side button{
+  width:100%;height:46px;border:0;border-radius:10px;padding:0 12px;
+  display:flex;align-items:center;gap:12px;background:transparent;color:#fff;
+  font:800 14px/1.2 inherit;text-align:left;cursor:pointer;transition:.18s
+}
+#sv2TestCenter .v907-side button span{width:24px;text-align:center;font-size:18px}
+#sv2TestCenter .v907-side button:hover,
+#sv2TestCenter .v907-side button.active{
+  background:#fbbf24;color:#172554;transform:translateX(2px)
+}
+#sv2TestCenter .v907-sep{height:1px;background:rgba(255,255,255,.28);margin:12px 4px}
+#sv2TestCenter .v907-main{min-width:0}
+#sv2TestCenter .v907-main .svt-shell{max-width:none}
+
+@media(max-width:900px){
+  #sv2TestCenter .v907-test-shell{grid-template-columns:76px minmax(0,1fr)}
+  #sv2TestCenter .v907-side{padding:16px 8px}
+  #sv2TestCenter .v907-brand{justify-content:center;padding-left:0;padding-right:0}
+  #sv2TestCenter .v907-brand b,#sv2TestCenter .v907-teacher{display:none}
+  #sv2TestCenter .v907-side button{justify-content:center;padding:0;font-size:0}
+  #sv2TestCenter .v907-side button span{font-size:19px}
+}
+@media(max-width:600px){
+  #sv2TestCenter .v907-test-shell{display:block;padding-bottom:70px}
+  #sv2TestCenter .v907-side{
+    position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:66px;
+    padding:7px 8px;z-index:100004;overflow:hidden
+  }
+  #sv2TestCenter .v907-brand,#sv2TestCenter .v907-teacher,#sv2TestCenter .v907-sep,
+  #sv2TestCenter .v907-side button:nth-of-type(n+5){display:none}
+  #sv2TestCenter .v907-side nav{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+  #sv2TestCenter .v907-side button{
+    height:52px;display:flex!important;flex-direction:column;gap:2px;
+    justify-content:center;font-size:10px;padding:0;transform:none!important
+  }
+  #sv2TestCenter .v907-side button span{font-size:17px}
+}
+</style>
+<script id="v907-testcenter-sidebar-js">
+(function(){
+  'use strict';
+  function install(){
+    const center=document.getElementById('sv2TestCenter');
+    if(!center || center.querySelector('.v907-test-shell')) return;
+
+    const content=center.firstElementChild;
+    if(!content) return;
+
+    const shell=document.createElement('div');
+    shell.className='v907-test-shell';
+
+    const side=document.createElement('aside');
+    side.className='v907-side';
+    side.innerHTML=`
+      <div class="v907-brand"><div class="v907-mark">ÔT</div><b>ÔN TẬP<br><span>THÔNG MINH</span></b></div>
+      <div class="v907-teacher">GV.Hồ Nguyễn Đa Thiện</div>
+      <nav>
+        <button type="button" onclick="svtCloseToHome()"><span>⌂</span>Trang chủ</button>
+        <button type="button" onclick="svtCloseToPractice()"><span>▦</span>Tự luyện</button>
+        <button type="button" class="active" onclick="svtShowSubjects()"><span>✓</span>Kiểm tra</button>
+        <button type="button" onclick="svtCloseToBattle()"><span>♟</span>Đấu trí</button>
+        <div class="v907-sep"></div>
+        <button type="button" onclick="svtCloseToHome()"><span>▥</span>Tiến độ học tập</button>
+        <button type="button" onclick="svtCloseToHome()"><span>★</span>Kết quả của tôi</button>
+      </nav>`;
+
+    const main=document.createElement('main');
+    main.className='v907-main';
+    center.insertBefore(shell,content);
+    shell.appendChild(side);
+    shell.appendChild(main);
+    main.appendChild(content);
+  }
+
+  window.svtCloseToHome=function(){
+    const c=document.getElementById('sv2TestCenter'); if(c)c.hidden=true;
+    if(typeof studentV2RenderHome==='function') studentV2RenderHome();
+  };
+  window.svtCloseToPractice=function(){
+    const c=document.getElementById('sv2TestCenter'); if(c)c.hidden=true;
+    if(typeof studentV2OpenPractice==='function') studentV2OpenPractice();
+  };
+  window.svtCloseToBattle=function(){
+    const c=document.getElementById('sv2TestCenter'); if(c)c.hidden=true;
+    if(typeof studentV2Quick==='function') studentV2Quick('battle');
+  };
+  window.svtShowSubjects=function(){
+    const s=document.getElementById('svtSubjectView');
+    const m=document.getElementById('svtModeView');
+    if(s)s.hidden=false;if(m)m.hidden=true;
+    window.scrollTo(0,0);
+  };
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true});
+  else install();
+})();
+</script>
+
 </body>
 </html>
 <style>
