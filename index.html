@@ -7237,6 +7237,108 @@ document.addEventListener('click',run,true);new MutationObserver(run).observe(do
 #v9018ProgressPage .v9018-owlbox{margin-top:10px!important}
 </style>
 
+
+<style id="v9021-results-page-style">
+#v9021ResultsPage{position:fixed;inset:0;z-index:100004;background:#f4f7fc;overflow:auto;display:none}
+#v9021ResultsPage.active{display:block}
+#v9021ResultsPage .v9021-shell{display:grid;grid-template-columns:228px minmax(0,1fr);min-height:100vh}
+#v9021ResultsPage .v9021-side{position:sticky;top:0;height:100vh;box-sizing:border-box;padding:22px 12px 18px;background:#2f5597;color:#fff}
+#v9021ResultsPage .v9021-brand{display:flex;align-items:center;gap:10px;padding:0 6px 14px}
+#v9021ResultsPage .v9021-logo{width:42px;height:42px;border-radius:11px;background:#fff;color:#24478f;display:grid;place-items:center;font-weight:1000}
+#v9021ResultsPage .v9021-brand b{font-size:14px;line-height:1.12}
+#v9021ResultsPage .v9021-brand em{display:block;color:#ffd21f;font-style:normal}
+#v9021ResultsPage .v9021-teacher{padding:0 5px 15px;margin-bottom:15px;border-bottom:1px solid rgba(255,255,255,.3);text-align:center;font-size:11px;font-weight:800}
+#v9021ResultsPage .v9021-nav{display:flex;flex-direction:column;gap:6px}
+#v9021ResultsPage .v9021-nav button{height:46px;border:0;border-radius:10px;padding:0 12px;background:transparent;color:#fff;display:flex;align-items:center;gap:12px;font:800 14px/1.2 inherit;cursor:pointer;text-align:left}
+#v9021ResultsPage .v9021-nav button span{width:22px;text-align:center;font-size:17px}
+#v9021ResultsPage .v9021-nav button:hover{background:rgba(255,255,255,.1)}
+#v9021ResultsPage .v9021-nav button.active{background:#ffbf1f;color:#172554}
+#v9021ResultsPage .v9021-sep{height:1px;background:rgba(255,255,255,.3);margin:12px 4px}
+#v9021ResultsPage .v9021-main{padding:18px 22px 30px;min-width:0}
+#v9021ResultsPage .v9021-hero{border:1px solid #d8e3f3;border-radius:20px;background:linear-gradient(110deg,#eef8f8,#eef1ff);padding:20px 24px;margin-bottom:16px}
+#v9021ResultsPage .v9021-kicker{font-size:11px;font-weight:1000;color:#4057ef;letter-spacing:1.1px}
+#v9021ResultsPage .v9021-hero h2{margin:5px 0;color:#10265d;font-size:25px}
+#v9021ResultsPage .v9021-hero p{margin:0;color:#60708c;font-size:13px}
+#v9021ResultsPage .v9021-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+#v9021ResultsPage .v9021-stat{background:#fff;border:1px solid #dfe7f2;border-radius:16px;padding:15px}
+#v9021ResultsPage .v9021-stat b{display:block;color:#153a8a;font-size:22px;margin-bottom:4px}
+#v9021ResultsPage .v9021-stat span{font-size:11px;color:#71809a}
+#v9021ResultsPage .v9021-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(270px,.75fr);gap:16px}
+#v9021ResultsPage .v9021-card{background:#fff;border:1px solid #dfe7f2;border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(29,55,105,.04)}
+#v9021ResultsPage .v9021-card h3{margin:0 0 4px;color:#10265d;font-size:17px}
+#v9021ResultsPage .v9021-sub{font-size:11px;color:#71809a;margin-bottom:14px}
+#v9021ResultsPage .v9021-table{width:100%;border-collapse:separate;border-spacing:0 7px;font-size:11px}
+#v9021ResultsPage .v9021-table th{text-align:left;color:#71809a;padding:0 9px 5px;font-size:10px}
+#v9021ResultsPage .v9021-table td{background:#f7f9fd;padding:10px 9px;color:#263b63}
+#v9021ResultsPage .v9021-table td:first-child{border-radius:10px 0 0 10px;font-weight:800}
+#v9021ResultsPage .v9021-table td:last-child{border-radius:0 10px 10px 0}
+#v9021ResultsPage .v9021-score{font-weight:1000;color:#214c9d}
+#v9021ResultsPage .v9021-good{color:#17804b;font-weight:900}.v9021-mid{color:#a56a00;font-weight:900}
+#v9021ResultsPage .v9021-subject{margin-bottom:13px}
+#v9021ResultsPage .v9021-row{display:flex;justify-content:space-between;gap:10px;font-size:11px;font-weight:800;color:#20375f;margin-bottom:5px}
+#v9021ResultsPage .v9021-track{height:8px;border-radius:99px;background:#edf2f8;overflow:hidden}
+#v9021ResultsPage .v9021-fill{height:100%;border-radius:99px;background:#3159a7}
+#v9021ResultsPage .v9021-feedback{margin-top:14px;padding:12px;border-radius:13px;background:#f5f8ff;color:#31517e;font-size:11px;line-height:1.45}
+#v9021ResultsPage .v9021-owlbox{margin-top:14px;border:1px solid #dce6f4;border-radius:18px;background:linear-gradient(180deg,#eef8f8,#f4f2ff);padding:12px;text-align:center;overflow:hidden}
+#v9021ResultsPage .v9021-owlbox b{display:block;color:#10265d;font-size:14px}
+#v9021ResultsPage .v9021-owlstage{height:175px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#v9021ResultsPage .v9021-owlstage>*{width:300px!important;min-width:300px!important;height:300px!important;flex:0 0 300px!important;transform:scale(.48)!important;transform-origin:center!important;margin:0!important}
+#v9021ResultsPage .v9021-owlstage .ot-eye-group{transform-box:fill-box;transform-origin:center;animation:v9021Blink 4.7s ease-in-out infinite!important}
+@keyframes v9021Blink{0%,43%,47%,100%{transform:scaleY(1)}44%,46%{transform:scaleY(.08)}}
+@media(max-width:900px){#v9021ResultsPage .v9021-shell{grid-template-columns:76px minmax(0,1fr)}#v9021ResultsPage .v9021-brand{justify-content:center}#v9021ResultsPage .v9021-brand b,#v9021ResultsPage .v9021-teacher{display:none}#v9021ResultsPage .v9021-nav button{justify-content:center;padding:0;font-size:0}#v9021ResultsPage .v9021-nav button span{font-size:18px}#v9021ResultsPage .v9021-stats{grid-template-columns:repeat(2,1fr)}#v9021ResultsPage .v9021-grid{grid-template-columns:1fr}}
+@media(max-width:600px){#v9021ResultsPage .v9021-shell{display:block;padding-bottom:68px}#v9021ResultsPage .v9021-side{position:fixed;left:0;right:0;bottom:0;top:auto;height:66px;padding:7px 8px;z-index:20}#v9021ResultsPage .v9021-brand,#v9021ResultsPage .v9021-teacher,#v9021ResultsPage .v9021-sep{display:none}#v9021ResultsPage .v9021-nav{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}#v9021ResultsPage .v9021-nav button{height:52px;display:flex;flex-direction:column;gap:2px;font-size:9px;padding:0}#v9021ResultsPage .v9021-main{padding:12px}#v9021ResultsPage .v9021-stats{grid-template-columns:1fr 1fr}}
+</style>
+<script id="v9021-results-page-js">
+(function(){'use strict';
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function currentStudent(){try{const id=state&&state.currentStudentId;return (state.students||[]).find(s=>String(s.id)===String(id))||null}catch(_){return null}}
+function owl(){for(const q of ['#sv2Home .v8138-student-owl','#sv2Home .student-owl','#sv2Home .ot-owl']){const n=document.querySelector(q);if(n){const c=n.cloneNode(true);c.removeAttribute('id');c.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));return c}}return null}
+function build(){
+ let p=document.getElementById('v9021ResultsPage');if(p)return p;
+ p=document.createElement('div');p.id='v9021ResultsPage';
+ p.innerHTML=`<div class="v9021-shell"><aside class="v9021-side">
+ <div class="v9021-brand"><div class="v9021-logo">ÔT</div><b>ÔN TẬP<em>THÔNG MINH</em></b></div><div class="v9021-teacher">GV.Hồ Nguyễn Đa Thiện</div>
+ <nav class="v9021-nav"><button onclick="v9021Go('home')"><span>⌂</span>Trang chủ</button><button onclick="v9021Go('practice')"><span>▦</span>Tự luyện</button><button onclick="v9021Go('test')"><span>✓</span>Kiểm tra</button><button onclick="v9021Go('battle')"><span>♟</span>Đấu trí</button><div class="v9021-sep"></div><button onclick="v9021Go('ach')"><span>🏆</span>Góc thành tích</button><button onclick="v9021Go('progress')"><span>▥</span>Tiến độ học tập</button><button class="active"><span>★</span>Kết quả của tôi</button></nav>
+ </aside><main class="v9021-main" id="v9021Main"></main></div>`;
+ document.body.appendChild(p);return p;
+}
+function render(){
+ const s=currentStudent()||{name:'Nguyễn Minh An',className:'10A1'};
+ const rows=[
+ ['Toán','Ôn tập Toán 10 – Mệnh đề và tập hợp',8.5,'Hoàn thành'],
+ ['Ngữ văn','Đọc hiểu văn bản',7.5,'Hoàn thành'],
+ ['Tiếng Anh','Vocabulary & Grammar',8.0,'Hoàn thành'],
+ ['Tin học','Dữ liệu và thông tin',9.0,'Hoàn thành'],
+ ['Vật lí','Chuyển động cơ học',7.0,'Hoàn thành']
+ ];
+ const avg=(rows.reduce((a,r)=>a+r[2],0)/rows.length).toFixed(1);
+ const best=Math.max(...rows.map(r=>r[2])).toFixed(1);
+ const subjects=[['Toán',85],['Ngữ văn',75],['Tiếng Anh',80],['Vật lí',70],['Tin học',90]];
+ const main=document.getElementById('v9021Main');
+ main.innerHTML=`<section class="v9021-hero"><div class="v9021-kicker">KẾT QUẢ HỌC TẬP</div><h2>Kết quả của ${esc(s.name||'em')}</h2><p>Tổng hợp các bài đã làm, điểm số và mức độ hoàn thành để em biết mình đang tiến bộ ở đâu.</p></section>
+ <section class="v9021-stats"><div class="v9021-stat"><b>${rows.length}</b><span>Bài đã có kết quả</span></div><div class="v9021-stat"><b>${avg}</b><span>Điểm trung bình</span></div><div class="v9021-stat"><b>${best}</b><span>Điểm cao nhất</span></div><div class="v9021-stat"><b>${esc(s.className||'')}</b><span>Lớp hiện tại</span></div></section>
+ <section class="v9021-grid"><div class="v9021-card"><h3>Lịch sử kết quả</h3><div class="v9021-sub">Các bài luyện tập và kiểm tra đã hoàn thành gần đây.</div>
+ <table class="v9021-table"><thead><tr><th>Môn</th><th>Bài học / bài kiểm tra</th><th>Điểm</th><th>Trạng thái</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="v9021-score">${r[2].toFixed(1)}</td><td class="${r[2]>=8?'v9021-good':'v9021-mid'}">${r[3]}</td></tr>`).join('')}</tbody></table>
+ </div><aside class="v9021-card"><h3>Kết quả theo môn</h3><div class="v9021-sub">Mức điểm quy đổi từ các bài đã hoàn thành.</div>
+ ${subjects.map(([n,v])=>`<div class="v9021-subject"><div class="v9021-row"><span>${n}</span><span>${(v/10).toFixed(1)}</span></div><div class="v9021-track"><div class="v9021-fill" style="width:${v}%"></div></div></div>`).join('')}
+ <div class="v9021-feedback"><b>Nhận xét:</b> Em đang có kết quả tốt ở Tin học và Toán. Hãy ưu tiên củng cố những môn có điểm thấp hơn để kết quả cân bằng hơn.</div>
+ <div class="v9021-owlbox"><b>Cú ÔT đồng hành</b><div class="v9021-owlstage"></div></div></aside></section>`;
+ const o=owl();if(o)main.querySelector('.v9021-owlstage').appendChild(o);
+}
+window.v9021Open=function(){const p=build();render();p.classList.add('active');window.scrollTo(0,0)}
+window.v9021Go=function(w){
+ const p=document.getElementById('v9021ResultsPage');if(p)p.classList.remove('active');
+ if(w==='home'){const h=document.getElementById('sv2Home');if(h)h.style.display='';return}
+ if(w==='practice'&&typeof studentV2OpenPractice==='function')return studentV2OpenPractice();
+ if(w==='test'&&typeof studentV2OpenTestCenter==='function')return studentV2OpenTestCenter();
+ if(w==='battle'&&typeof studentV2Quick==='function')return studentV2Quick('battle');
+ if(w==='progress'&&typeof v9018Open==='function')return v9018Open();
+ if(w==='ach'){const a=document.getElementById('v8143AchievementPage');if(a){a.classList.add('active');const h=document.getElementById('sv2Home');if(h)h.style.display='none'}return}
+}
+document.addEventListener('click',function(e){const b=e.target.closest('button,a');if(!b)return;const t=(b.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();if(t.includes('kết quả của tôi')){e.preventDefault();e.stopPropagation();v9021Open()}},true);
+})();
+</script>
+
 </body>
 </html>
 <style>
