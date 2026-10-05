@@ -7214,6 +7214,23 @@ document.addEventListener('click',function(e){
 })();
 </script>
 
+<style id="v9019-progress-owl">
+#v9018ProgressPage .v9018-owlbox{margin-top:14px;border:1px solid #dce6f4;border-radius:18px;background:linear-gradient(180deg,#eef8f8,#f4f2ff);padding:12px 12px 14px;text-align:center;overflow:hidden}
+#v9018ProgressPage .v9018-owlbox b{display:block;color:#10265d;font-size:14px;margin-bottom:2px}
+#v9018ProgressPage .v9018-owlbox p{margin:0;color:#6c7b94;font-size:10px}
+#v9018ProgressPage .v9018-owlstage{height:205px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#v9018ProgressPage .v9018-owlstage>*{width:300px!important;min-width:300px!important;height:300px!important;flex:0 0 300px!important;transform:scale(.56)!important;transform-origin:center!important;margin:0!important}
+#v9018ProgressPage .v9018-owlstage .ot-eye-group{transform-box:fill-box;transform-origin:center;animation:v9019Blink 4.7s ease-in-out infinite!important}
+@keyframes v9019Blink{0%,43%,47%,100%{transform:scaleY(1)}44%,46%{transform:scaleY(.08)}}
+</style>
+<script id="v9019-progress-owl-js">
+(function(){'use strict';
+function cloneOwl(){for(const q of ['#sv2Home .v8138-student-owl','#sv2Home .student-owl','#sv2Home .ot-owl']){const n=document.querySelector(q);if(n){const c=n.cloneNode(true);c.removeAttribute('id');c.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));return c}}return null}
+function add(){const p=document.getElementById('v9018ProgressPage');if(!p||!p.classList.contains('active'))return;const cards=p.querySelectorAll('.v9018-grid .v9018-card');const right=cards[cards.length-1];if(!right||right.querySelector('.v9018-owlbox'))return;const box=document.createElement('div');box.className='v9018-owlbox';box.innerHTML='<b>Cú ÔT đồng hành</b><p>Cùng em giữ nhịp học và chinh phục cột mốc tiếp theo.</p><div class="v9018-owlstage"></div>';right.appendChild(box);const owl=cloneOwl();if(owl)box.querySelector('.v9018-owlstage').appendChild(owl)}
+function run(){requestAnimationFrame(add);setTimeout(add,60)}
+document.addEventListener('click',run,true);new MutationObserver(run).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+})();
+</script>
 </body>
 </html>
 <style>
