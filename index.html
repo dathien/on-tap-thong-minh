@@ -7754,6 +7754,94 @@ document.addEventListener('click',function(e){const page=e.target.closest('#v814
 function init(){document.querySelectorAll('#sv2Home .v8143-home-link').forEach(n=>n.remove())}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+
+<style id="v9030-teacher-login-isolation-style">
+/* Màn hình đăng nhập GV luôn cao hơn mọi lớp học sinh */
+#teacherLoginPanel{z-index:30050!important}
+#roleGateway{z-index:30000!important}
+</style>
+<script id="v9030-teacher-login-isolation">
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+
+function closeStudentAreaCompletely(){
+  ['v8143AchievementPage','v9018ProgressPage','v9021ResultsPage','sv2TestCenter'].forEach(function(id){
+    const n=$(id); if(!n)return;
+    n.classList.remove('active','open');
+    n.hidden=true;
+    n.style.display='none';
+  });
+  const sv=$('studentV2');
+  if(sv){
+    sv.classList.remove('open');
+    sv.setAttribute('aria-hidden','true');
+    sv.style.display='none';
+  }
+  document.body.style.overflow='';
+}
+function closeRolePanelsExcept(id){
+  ['teacherLoginPanel','parentLoginPanel'].forEach(function(x){
+    const n=$(x); if(n && x!==id)n.hidden=true;
+  });
+}
+
+/* Giữ logic gốc nhưng cô lập tuyệt đối khỏi khu học sinh. */
+const oldOpenTeacher=window.openTeacherLogin;
+window.openTeacherLogin=function(){
+  closeStudentAreaCompletely();
+  closeRolePanelsExcept('teacherLoginPanel');
+  const gate=$('roleGateway'); if(gate)gate.hidden=true;
+  const panel=$('teacherLoginPanel');
+  if(panel){
+    panel.hidden=false;
+    panel.style.display='grid';
+    const u=$('teacherLoginUser'),r=$('teacherRemember');
+    try{
+      if(localStorage.getItem('htpro_teacher_remember')==='admin'){
+        if(u)u.value='admin';
+        if(r)r.checked=true;
+      }
+    }catch(_){}
+    setTimeout(()=>u&&u.focus(),0);
+  }else if(typeof oldOpenTeacher==='function'){
+    oldOpenTeacher.apply(this,arguments);
+  }
+};
+
+const oldTeacherSubmit=window.teacherLoginSubmit;
+window.teacherLoginSubmit=function(){
+  closeStudentAreaCompletely();
+  const u=$('teacherLoginUser')?.value.trim();
+  const p=$('teacherLoginPass')?.value;
+  const e=$('teacherLoginError');
+  if(!u||!p){if(e)e.textContent='Vui lòng nhập tên đăng nhập và mật khẩu.';return false}
+  if(u!=='admin'||p!=='admin@123'){if(e)e.textContent='Tên đăng nhập hoặc mật khẩu không đúng.';return false}
+  if(e)e.textContent='';
+  try{
+    if($('teacherRemember')?.checked)localStorage.setItem('htpro_teacher_remember','admin');
+    else localStorage.removeItem('htpro_teacher_remember');
+  }catch(_){}
+  const panel=$('teacherLoginPanel');
+  if(panel){panel.hidden=true;panel.style.display='none'}
+  const gate=$('roleGateway');if(gate)gate.hidden=true;
+  closeStudentAreaCompletely();
+  if(typeof window.enterTeacherArea==='function')window.enterTeacherArea();
+  return false;
+};
+
+/* Khi quay về cổng vai trò cũng phải đóng sạch khu học sinh. */
+const oldBack=window.backToRoleGateway;
+window.backToRoleGateway=function(){
+  closeStudentAreaCompletely();
+  ['teacherLoginPanel','parentLoginPanel'].forEach(id=>{const n=$(id);if(n){n.hidden=true;n.style.display='none'}});
+  const g=$('roleGateway');if(g){g.hidden=false;g.style.display='grid'}
+  document.body.style.overflow='';
+  return false;
+};
+})();
+</script>
+
 </body>
 </html>
 <style>
