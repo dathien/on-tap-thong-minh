@@ -8080,6 +8080,200 @@ else setTimeout(()=>window.renderAssignedHistory(),0);
 })();
 </script>
 
+
+<style id="v9033-grade-bank-style">
+#sampleBankGrade{min-width:150px}
+.bank-grade-badge{display:inline-flex;padding:4px 9px;border-radius:999px;background:#eaf5fa;color:#0b665f;font-weight:850;font-size:12px;margin-right:5px}
+</style>
+<script id="v9033-grade11-students-and-bank">
+(function(){
+'use strict';
+const CLASS11='11A1';
+const STUDENTS11=["Thào Thị Sua", "Đỗ Minh Tân", "Nguyễn Minh Thắng", "Nguyễn Tân Thành", "Huỳnh Nguyễn Anh Thiên", "Nguyễn Ngọc Trường Thịnh", "Đặng Quang Thịnh", "Phan Huỳnh Minh Thư", "Nguyễn Hoàng Bảo Thy", "Nguyễn Hữu Long Trang", "Nguyễn Ngọc Thành Trí", "Nguyễn Thành Trung", "Vũ Tam Tú", "Phạm Ngọc Tường Vy", "Phạm Ngọc Tường Vy", "Nguyễn Đặng Hoàng Yến", "Nguyễn Gia Kỳ", "Phạm Nguyễn Khánh Linh", "Đinh Ngọc Trúc Linh", "Nguyễn Hoàng Thiên Long", "Nguyễn Đức Minh", "Đinh Ngọc Thảo My", "Lê Bảo Nam", "Trần Thị Bảo Ngọc", "Dương Hoài Ngọc", "Trần Thạch Phúc Nguyên", "Phan Nguyễn Uyên Nhi", "Lê Đỗ Quỳnh Như", "Nguyễn Tiến Phát", "Nguyễn Mạnh Phi", "Trần Huỳnh Thiên Phú", "Nguyễn Trọng Phúc", "Trần Lê Hữu Phước", "Nguyễn Huỳnh Thanh Phước", "Tạ Long Quân", "Hồ Nhật Anh Quân", "Phạm Hoàng Quân", "Huỳnh Minh Sơn", "Trần Thành Tài"];
+
+/* 1. Bổ sung danh sách lớp 11, không ghi đè hồ sơ đã có. */
+function seedGrade11(){
+ if(typeof state==='undefined'||!Array.isArray(state.students))return;
+ const norm=x=>String(x||'').replace(/\s+/g,' ').trim().toLowerCase();
+ const existing=new Set(state.students.filter(x=>x.className===CLASS11).map(x=>norm(x.name)));
+ let changed=false;
+ STUDENTS11.forEach((name,i)=>{
+   /* Giữ cả 2 dòng Phạm Ngọc Tường Vy đúng danh sách thầy cung cấp bằng ID khác nhau. */
+   const duplicateOrdinal=STUDENTS11.slice(0,i+1).filter(x=>norm(x)===norm(name)).length;
+   const key=norm(name)+(duplicateOrdinal>1?'#'+duplicateOrdinal:'');
+   const already=state.students.some(x=>x.className===CLASS11 && (norm(x.name)+(x.__v9033Dup?('#'+x.__v9033Dup):''))===key);
+   if(already)return;
+   const id='g11_'+String(i+1).padStart(3,'0')+'_'+Date.now().toString(36);
+   const p=(typeof emptyProfile==='function'?emptyProfile():{});
+   Object.assign(p,{id,name,className:CLASS11,grade:'11',subject:'Tin học',goal:'Củng cố kiến thức và hoàn thành bài được giao',dailyTime:45,daysPerWeek:5,difficulty:'',strength:'',teacherNote:'',assignments:[],journals:[],goals:[],__v9033Grade11:true,__v9033Dup:duplicateOrdinal>1?duplicateOrdinal:undefined});
+   state.students.push(p);changed=true;
+ });
+ if(changed && typeof saveState==='function')saveState();
+}
+
+/* 2. Bộ ngân hàng chuẩn theo khối. Mỗi môn có dữ liệu riêng cho 10, 11, 12. */
+const BANK3={
+'10':{
+ 'Toán':['Mệnh đề và tập hợp','Hàm số và đồ thị','Vectơ và tọa độ'],
+ 'Hình học':['Vectơ','Hệ thức lượng trong tam giác','Tọa độ mặt phẳng'],
+ 'Vật lí':['Chuyển động','Các định luật Newton','Công – năng lượng'],
+ 'Hóa học':['Cấu tạo nguyên tử','Bảng tuần hoàn','Liên kết hóa học'],
+ 'Sinh học':['Tế bào','Trao đổi chất','Sinh học tế bào'],
+ 'Tin học':['Thông tin và dữ liệu','Hệ nhị phân','Python cơ bản']
+},
+'11':{
+ 'Toán':['Hàm số lượng giác','Dãy số – cấp số','Giới hạn – đạo hàm'],
+ 'Hình học':['Quan hệ song song trong không gian','Quan hệ vuông góc','Phép chiếu song song'],
+ 'Vật lí':['Điện trường','Dòng điện không đổi','Từ trường'],
+ 'Hóa học':['Cân bằng hóa học','Nitrogen – sulfur','Hóa học hữu cơ cơ bản'],
+ 'Sinh học':['Trao đổi chất ở thực vật','Cảm ứng ở sinh vật','Sinh trưởng và phát triển'],
+ 'Tin học':['Cơ sở dữ liệu','Hệ quản trị CSDL','CSDL quan hệ']
+},
+'12':{
+ 'Toán':['Khảo sát hàm số','Mũ – logarit','Nguyên hàm – tích phân'],
+ 'Hình học':['Oxyz','Vectơ trong không gian','Mặt phẳng và đường thẳng'],
+ 'Vật lí':['Dao động điều hòa','Sóng','Vật lí hạt nhân'],
+ 'Hóa học':['Ester – lipid','Carbohydrate','Polymer'],
+ 'Sinh học':['Di truyền học','Tiến hóa','Sinh thái học'],
+ 'Tin học':['HTML','CSS','Trí tuệ nhân tạo và mạng']
+}};
+function qset(grade,subject,topic,idx){
+ const samples={
+ 'Toán':[
+  ['Giá trị của biểu thức 2³ bằng:',['6','8','9','12'],1],
+  ['Nếu f(x)=x² thì f(3) bằng:',['6','9','12','18'],1],
+  ['Đạo hàm của x³ là:',['x²','2x','3x²','3x'],2],
+  ['∫₀¹ 2x dx bằng:',['0','1','2','3'],1]
+ ],
+ 'Hình học':[
+  ['Hai vectơ cùng hướng và cùng độ dài thì:',['Bằng nhau','Vuông góc','Đối nhau','Chéo nhau'],0],
+  ['Trong tam giác vuông, định lí Pythagore là:',['a²=b²+c²','a=b+c','a²=b+c','a=b²+c²'],0],
+  ['Hai đường thẳng phân biệt cùng song song với đường thẳng thứ ba thì:',['Song song nhau','Vuông góc','Luôn cắt nhau','Trùng nhau'],0],
+  ['Trong Oxyz, khoảng cách từ A(1;2;2) đến O là:',['2','3','4','5'],1]
+ ],
+ 'Vật lí':[
+  ['Đơn vị SI của vận tốc là:',['m','s','m/s','m/s²'],2],
+  ['Theo định luật Ohm, I bằng:',['UR','U/R','R/U','U+R'],1],
+  ['Công thức động năng là:',['½mv²','mgh','ma','UI'],0],
+  ['Tần số góc con lắc lò xo là:',['√(k/m)','√(m/k)','k/m','2πk'],0]
+ ],
+ 'Hóa học':[
+  ['Hạt mang điện tích âm là:',['Proton','Neutron','Electron','Hạt nhân'],2],
+  ['Công thức của nước là:',['H₂O','HO₂','H₂O₂','OH⁻'],0],
+  ['Ở cân bằng hóa học, tốc độ thuận và nghịch:',['Bằng nhau','Bằng 0','Luôn tăng','Luôn giảm'],0],
+  ['Polymer được tạo từ các đơn vị nhỏ gọi là:',['Monomer','Ion','Đồng vị','Electron'],0]
+ ],
+ 'Sinh học':[
+  ['Đơn vị cấu trúc cơ bản của cơ thể sống là:',['Mô','Tế bào','Cơ quan','Hệ cơ quan'],1],
+  ['Trong ADN, A liên kết bổ sung với:',['G','C','T','U'],2],
+  ['Ở phép lai Aa × Aa, tỉ lệ kiểu gen là:',['1:2:1','3:1','1:1','9:3:3:1'],0],
+  ['Quần thể là tập hợp các cá thể:',['Cùng loài','Khác loài','Cùng giới','Khác môi trường'],0]
+ ],
+ 'Tin học':[
+  ['Hệ nhị phân sử dụng:',['0 và 1','0 đến 9','A đến F','1 đến 8'],0],
+  ['Khóa chính trong bảng dùng để:',['Định danh duy nhất bản ghi','Đổi màu bảng','Xóa dữ liệu','Tăng số cột'],0],
+  ['Thẻ HTML tạo liên kết là:',['<p>','<a>','<h1>','<br>'],1],
+  ['Trong Python, print(2+3*4) cho kết quả:',['20','14','24','9'],1]
+ ]};
+ const base=samples[subject]||samples['Tin học'];
+ const levels=['Nhận biết','Thông hiểu','Vận dụng','Vận dụng cao'];
+ const questions=[];
+ for(let i=0;i<10;i++){const b=base[i%base.length];questions.push({text:b[0],options:[...b[1]],correct:b[2],level:levels[Math.min(3,Math.floor(i/3))],explanation:'Đáp án được dùng làm dữ liệu mẫu kiểm thử cho '+subject+' '+grade+'.'});}
+ return {id:'v9033-g'+grade+'-'+subject.replace(/\s+/g,'').toLowerCase()+'-'+idx,grade,subject,topic,title:'Lớp '+grade+' · '+topic,questions};
+}
+const SETS3=[];
+Object.entries(BANK3).forEach(([g,subs])=>Object.entries(subs).forEach(([sub,topics])=>topics.forEach((t,i)=>SETS3.push(qset(g,sub,t,i)))));
+
+/* 3. Bổ sung bộ lọc Khối lớp cho Ngân hàng bài/đề. */
+function ensureGradeFilter(){
+ const bar=document.querySelector('#adaptiveSampleBank .filter-bar');
+ if(!bar||document.getElementById('sampleBankGrade'))return;
+ const field=document.createElement('div');field.className='field';
+ field.innerHTML='<label>Khối lớp</label><select id="sampleBankGrade"><option value="10">Lớp 10</option><option value="11">Lớp 11</option><option value="12">Lớp 12</option></select>';
+ bar.insertBefore(field,bar.firstChild);
+ document.getElementById('sampleBankGrade').addEventListener('change',()=>window.renderAdaptiveSampleBank());
+}
+function esc2(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+window.renderAdaptiveSampleBank=function(){
+ ensureGradeFilter();
+ const grade=document.getElementById('sampleBankGrade')?.value||'10';
+ const sel=document.getElementById('sampleBankSubject'),box=document.getElementById('sampleBankList');if(!sel||!box)return;
+ const subjects=Object.keys(BANK3[grade]||{});
+ const old=sel.value;
+ sel.innerHTML=subjects.map(x=>'<option>'+esc2(x)+'</option>').join('');
+ if(subjects.includes(old))sel.value=old;
+ const sub=sel.value||subjects[0],scheme=document.getElementById('sampleBankScheme')?.value||'4',term=(document.getElementById('sampleBankSearch')?.value||'').toLowerCase().trim();
+ const rows=SETS3.filter(x=>x.grade===grade&&x.subject===sub&&(!term||(x.title+' '+x.topic).toLowerCase().includes(term)));
+ const badges=scheme==='3'?'<span>2 Nhận biết</span><span>3 Thông hiểu</span><span>5 Vận dụng</span>':'<span>2 Nhận biết</span><span>3 Thông hiểu</span><span>3 Vận dụng</span><span>2 Vận dụng cao</span>';
+ box.innerHTML='<div class="sample-bank-grid">'+rows.map(x=>'<article class="sample-bank-card"><h4>'+esc2(x.title)+'</h4><p><span class="bank-grade-badge">Lớp '+grade+'</span>'+esc2(x.subject)+' · 10 câu A–D</p><div class="sample-levels">'+badges+'</div><div class="action-row"><button type="button" class="btn secondary small" data-v9033-preview="'+x.id+'">Xem nhanh</button><button type="button" class="btn primary small" data-v9033-load="'+x.id+'">Chọn & chỉnh sửa</button></div></article>').join('')+'</div>';
+};
+
+/* Dùng trình soạn hiện có để nạp đề từ ngân hàng mới. */
+function loadSet(id){
+ const x=SETS3.find(v=>v.id===id);if(!x)return;
+ if(typeof switchAssignmentTab==='function')switchAssignmentTab('compose');
+ if(typeof quizOpen==='function')quizOpen();
+ const scheme=document.getElementById('sampleBankScheme')?.value||'4';
+ const qs=document.getElementById('qQuestions');if(!qs)return;
+ const sub=document.getElementById('qSubject'),title=document.getElementById('qTitle'),lev=document.getElementById('qLevel');
+ if(sub)sub.value=x.subject;if(title)title.value=x.title+' · '+scheme+' mức';if(lev)lev.value=scheme==='3'?'Phân hóa 3 mức':'Phân hóa 4 mức';
+ qs.innerHTML='';
+ x.questions.forEach(q=>typeof quizAddQuestion==='function'&&quizAddQuestion({...q,level:scheme==='3'&&q.level==='Vận dụng cao'?'Vận dụng':q.level}));
+ if(typeof syncQuestionCountField==='function')syncQuestionCountField();
+ if(typeof syncQuizScheme==='function')syncQuizScheme();
+ if(typeof quizPreview==='function')quizPreview();
+}
+function previewSet(id){
+ const x=SETS3.find(v=>v.id===id);if(!x)return;
+ const old=window.ADAPTIVE_SAMPLE_SETS;
+ window.ADAPTIVE_SAMPLE_SETS=SETS3;
+ /* Preview cũ đóng trên SETS nên không dùng được an toàn; hiển thị preview gọn riêng. */
+ let m=document.getElementById('v9033Preview');
+ if(!m){m=document.createElement('div');m.id='v9033Preview';m.className='quick-preview-backdrop';m.hidden=true;document.body.appendChild(m);}
+ m.innerHTML='<section class="quick-preview-modal" role="dialog"><header class="quick-preview-head"><div><span class="quick-preview-kicker">XEM NHANH NGÂN HÀNG</span><h3>'+esc2(x.title)+'</h3><div class="quick-preview-meta"><span>'+esc2(x.subject)+'</span><span>10 câu A–D</span></div></div><button type="button" class="quick-preview-close" data-close>×</button></header><div class="quick-preview-body">'+x.questions.map((q,i)=>'<article class="quick-question"><div class="quick-question-top"><span class="q-number">Câu '+(i+1)+'</span><span class="q-level">'+esc2(q.level)+'</span></div><div class="q-text">'+esc2(q.text)+'</div><div class="q-options">'+q.options.map((o,j)=>'<div class="q-option '+(j===q.correct?'correct':'')+'"><span class="option-letter">'+String.fromCharCode(65+j)+'</span><span>'+esc2(o)+'</span></div>').join('')+'</div></article>').join('')+'</div><footer class="quick-preview-foot"><span>Lớp '+x.grade+'</span><div class="action-row"><button class="btn secondary" data-close>Đóng</button><button class="btn primary" data-use="'+x.id+'">Chọn & chỉnh sửa</button></div></footer></section>';
+ m.hidden=false;document.body.style.overflow='hidden';
+ m.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{m.hidden=true;document.body.style.overflow=''});
+ m.querySelector('[data-use]').onclick=()=>{m.hidden=true;document.body.style.overflow='';loadSet(x.id)};
+}
+document.addEventListener('click',e=>{
+ const p=e.target.closest('[data-v9033-preview]');if(p){e.preventDefault();previewSet(p.dataset.v9033Preview);return}
+ const l=e.target.closest('[data-v9033-load]');if(l){e.preventDefault();loadSet(l.dataset.v9033Load)}
+});
+
+/* 4. Bài đã giao: luôn cho chọn đủ lớp 10/11/12, kể cả lớp chưa có bài. */
+const oldRenderAssigned=window.renderAssignedHistory;
+window.renderAssignedHistory=function(){
+ if(typeof oldRenderAssigned==='function')oldRenderAssigned();
+ const cf=document.getElementById('assignedClassFilter');if(!cf)return;
+ const current=cf.value||'all';
+ const known=[...new Set((state.students||[]).map(x=>x.className).filter(Boolean))];
+ [CLASS11].forEach(x=>{if(!known.includes(x))known.push(x)});
+ const order=x=>{const m=String(x).match(/^(\d+)/);return m?+m[1]:99};
+ known.sort((a,b)=>order(a)-order(b)||a.localeCompare(b,'vi'));
+ cf.innerHTML='<option value="all">Tất cả lớp</option>'+known.map(x=>'<option value="'+esc2(x)+'">'+esc2(x)+'</option>').join('');
+ if(current==='all'||known.includes(current))cf.value=current;
+};
+
+/* 5. Soạn & giao bài: refresh các select lớp từ danh sách thật sau khi thêm lớp 11. */
+function refreshClassSelects(){
+ const classes=[...new Set((state.students||[]).map(x=>x.className).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi'));
+ document.querySelectorAll('select').forEach(sel=>{
+   if(!/class|lớp/i.test((sel.id||'')+' '+(sel.previousElementSibling?.textContent||'')))return;
+   if(sel.id==='assignedClassFilter')return;
+   const vals=[...sel.options].map(o=>o.value);
+   classes.forEach(c=>{if(!vals.includes(c)){const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)}});
+ });
+}
+function init(){
+ seedGrade11();refreshClassSelects();ensureGradeFilter();
+ if(typeof renderAssignedHistory==='function')renderAssignedHistory();
+ if(typeof renderAdaptiveSampleBank==='function')renderAdaptiveSampleBank();
+ if(typeof renderProfiles==='function')renderProfiles();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,0),{once:true});else setTimeout(init,0);
+})();
+</script>
+
 </body>
 </html>
 <style>
