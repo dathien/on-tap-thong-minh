@@ -8274,6 +8274,69 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<style id="v9034-bank-select-fix-style">
+/* Các select Ngân hàng phải nhận click trên toàn bộ vùng, kể cả mũi tên bên phải */
+#adaptiveSampleBank .filter-bar,
+#adaptiveSampleBank .field{position:relative!important;overflow:visible!important}
+#adaptiveSampleBank select{
+  position:relative!important;
+  z-index:20!important;
+  pointer-events:auto!important;
+  cursor:pointer!important;
+}
+#adaptiveSampleBank .field::before,
+#adaptiveSampleBank .field::after{pointer-events:none!important}
+</style>
+<script id="v9034-bank-select-fix">
+(function(){
+'use strict';
+
+/* Đồng bộ giá trị bằng change event native; không đặt lớp click giả lên select. */
+function bind(){
+ const bank=document.getElementById('adaptiveSampleBank');
+ if(!bank)return;
+ ['sampleBankGrade','sampleBankSubject','sampleBankScheme'].forEach(function(id){
+   const sel=document.getElementById(id);
+   if(!sel||sel.dataset.v9034Bound)return;
+   sel.dataset.v9034Bound='1';
+   sel.style.pointerEvents='auto';
+   sel.addEventListener('change',function(e){
+     e.stopPropagation();
+     if(typeof window.renderAdaptiveSampleBank==='function')window.renderAdaptiveSampleBank();
+   });
+ });
+}
+
+/* Bản render 9.0.33 thay innerHTML của Môn học; sau mỗi render chỉ bind lại select mới. */
+const oldRender=window.renderAdaptiveSampleBank;
+if(typeof oldRender==='function'){
+ window.renderAdaptiveSampleBank=function(){
+   const r=oldRender.apply(this,arguments);
+   bind();
+   return r;
+ };
+}
+
+/* Ngăn các click-handler tổng của app chiếm sự kiện từ select. */
+document.addEventListener('click',function(e){
+ const sel=e.target.closest('#adaptiveSampleBank select');
+ if(!sel)return;
+ e.stopPropagation();
+},true);
+
+document.addEventListener('mousedown',function(e){
+ const sel=e.target.closest('#adaptiveSampleBank select');
+ if(!sel)return;
+ /* Không preventDefault: để trình duyệt mở danh sách native. */
+ e.stopPropagation();
+},true);
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,0),{once:true});
+else setTimeout(bind,0);
+})();
+</script>
+
 </body>
 </html>
 <style>
