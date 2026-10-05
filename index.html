@@ -7093,6 +7093,127 @@ new MutationObserver(run).observe(document.body,{childList:true,subtree:true,att
 }
 </style>
 
+
+<style id="v9018-progress-page-style">
+#v9018ProgressPage{position:fixed;inset:0;z-index:100003;background:#f4f7fc;overflow:auto;display:none}
+#v9018ProgressPage.active{display:block}
+#v9018ProgressPage .v9018-shell{display:grid;grid-template-columns:228px minmax(0,1fr);min-height:100vh}
+#v9018ProgressPage .v9018-side{position:sticky;top:0;height:100vh;box-sizing:border-box;padding:22px 12px 18px;background:#2f5597;color:#fff}
+#v9018ProgressPage .v9018-brand{display:flex;align-items:center;gap:10px;padding:0 6px 14px}
+#v9018ProgressPage .v9018-logo{width:42px;height:42px;border-radius:11px;background:#fff;color:#24478f;display:grid;place-items:center;font-weight:1000}
+#v9018ProgressPage .v9018-brand b{font-size:14px;line-height:1.12}
+#v9018ProgressPage .v9018-brand em{display:block;color:#ffd21f;font-style:normal}
+#v9018ProgressPage .v9018-teacher{padding:0 5px 15px;margin-bottom:15px;border-bottom:1px solid rgba(255,255,255,.3);text-align:center;font-size:11px;font-weight:800}
+#v9018ProgressPage .v9018-nav{display:flex;flex-direction:column;gap:6px}
+#v9018ProgressPage .v9018-nav button{height:46px;border:0;border-radius:10px;padding:0 12px;background:transparent;color:#fff;display:flex;align-items:center;gap:12px;font:800 14px/1.2 inherit;cursor:pointer;text-align:left}
+#v9018ProgressPage .v9018-nav button span{width:22px;text-align:center;font-size:17px}
+#v9018ProgressPage .v9018-nav button:hover{background:rgba(255,255,255,.1)}
+#v9018ProgressPage .v9018-nav button.active{background:#ffbf1f;color:#172554}
+#v9018ProgressPage .v9018-sep{height:1px;background:rgba(255,255,255,.3);margin:12px 4px}
+#v9018ProgressPage .v9018-main{padding:18px 22px 30px;min-width:0}
+#v9018ProgressPage .v9018-hero{border:1px solid #d8e3f3;border-radius:20px;background:linear-gradient(110deg,#eef8f8,#eef1ff);padding:20px 24px;margin-bottom:16px}
+#v9018ProgressPage .v9018-kicker{font-size:11px;font-weight:1000;color:#4057ef;letter-spacing:1.1px}
+#v9018ProgressPage .v9018-hero h2{margin:5px 0;color:#10265d;font-size:25px}
+#v9018ProgressPage .v9018-hero p{margin:0;color:#60708c;font-size:13px}
+#v9018ProgressPage .v9018-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+#v9018ProgressPage .v9018-stat{background:#fff;border:1px solid #dfe7f2;border-radius:16px;padding:15px}
+#v9018ProgressPage .v9018-stat b{display:block;color:#153a8a;font-size:22px;margin-bottom:4px}
+#v9018ProgressPage .v9018-stat span{font-size:11px;color:#71809a}
+#v9018ProgressPage .v9018-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(270px,.75fr);gap:16px}
+#v9018ProgressPage .v9018-card{background:#fff;border:1px solid #dfe7f2;border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(29,55,105,.04)}
+#v9018ProgressPage .v9018-card h3{margin:0 0 4px;color:#10265d;font-size:17px}
+#v9018ProgressPage .v9018-sub{font-size:11px;color:#71809a;margin-bottom:15px}
+#v9018ProgressPage .v9018-subject{margin:0 0 14px}
+#v9018ProgressPage .v9018-row{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:12px;font-weight:800;color:#20375f;margin-bottom:6px}
+#v9018ProgressPage .v9018-track{height:10px;border-radius:99px;background:#edf2f8;overflow:hidden}
+#v9018ProgressPage .v9018-fill{height:100%;border-radius:99px;background:#3159a7}
+#v9018ProgressPage .v9018-timeline{display:flex;flex-direction:column;gap:10px}
+#v9018ProgressPage .v9018-step{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}
+#v9018ProgressPage .v9018-dot{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#eaf0ff;color:#214c9d;font-size:11px;font-weight:1000}
+#v9018ProgressPage .v9018-step.done .v9018-dot{background:#ffbf1f;color:#172554}
+#v9018ProgressPage .v9018-step b{display:block;color:#20375f;font-size:12px}
+#v9018ProgressPage .v9018-step small{color:#7b879d;font-size:10px}
+#v9018ProgressPage .v9018-note{margin-top:14px;padding:12px;border-radius:13px;background:#f5f8ff;color:#31517e;font-size:11px;line-height:1.45}
+@media(max-width:900px){#v9018ProgressPage .v9018-shell{grid-template-columns:76px minmax(0,1fr)}#v9018ProgressPage .v9018-brand{justify-content:center}#v9018ProgressPage .v9018-brand b,#v9018ProgressPage .v9018-teacher{display:none}#v9018ProgressPage .v9018-nav button{justify-content:center;padding:0;font-size:0}#v9018ProgressPage .v9018-nav button span{font-size:18px}#v9018ProgressPage .v9018-stats{grid-template-columns:repeat(2,1fr)}#v9018ProgressPage .v9018-grid{grid-template-columns:1fr}}
+@media(max-width:600px){#v9018ProgressPage .v9018-shell{display:block;padding-bottom:68px}#v9018ProgressPage .v9018-side{position:fixed;left:0;right:0;bottom:0;top:auto;height:66px;padding:7px 8px;z-index:20}#v9018ProgressPage .v9018-brand,#v9018ProgressPage .v9018-teacher,#v9018ProgressPage .v9018-sep{display:none}#v9018ProgressPage .v9018-nav{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}#v9018ProgressPage .v9018-nav button{height:52px;display:flex;flex-direction:column;gap:2px;font-size:9px;padding:0}#v9018ProgressPage .v9018-main{padding:12px}#v9018ProgressPage .v9018-stats{grid-template-columns:1fr 1fr}}
+</style>
+<script id="v9018-progress-page-js">
+(function(){'use strict';
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function student(){
+ try{
+  const id=state&&state.currentStudentId;
+  return (state.students||[]).find(s=>String(s.id)===String(id)) || null;
+ }catch(_){return null}
+}
+function completed(s){
+ const a=Array.isArray(s?.assignments)?s.assignments:[];
+ return a.filter(x=>['done','completed','hoàn thành'].includes(String(x.status||'').toLowerCase())||x.completed===true).length || 5;
+}
+function build(){
+ let p=document.getElementById('v9018ProgressPage');
+ if(p)return p;
+ p=document.createElement('div');p.id='v9018ProgressPage';
+ p.innerHTML=`<div class="v9018-shell">
+ <aside class="v9018-side"><div class="v9018-brand"><div class="v9018-logo">ÔT</div><b>ÔN TẬP<em>THÔNG MINH</em></b></div>
+ <div class="v9018-teacher">GV.Hồ Nguyễn Đa Thiện</div>
+ <nav class="v9018-nav">
+ <button onclick="v9018Go('home')"><span>⌂</span>Trang chủ</button>
+ <button onclick="v9018Go('practice')"><span>▦</span>Tự luyện</button>
+ <button onclick="v9018Go('test')"><span>✓</span>Kiểm tra</button>
+ <button onclick="v9018Go('battle')"><span>♟</span>Đấu trí</button>
+ <div class="v9018-sep"></div>
+ <button onclick="v9018Go('ach')"><span>🏆</span>Góc thành tích</button>
+ <button class="active"><span>▥</span>Tiến độ học tập</button>
+ <button onclick="v9018Go('result')"><span>★</span>Kết quả của tôi</button>
+ </nav></aside><main class="v9018-main" id="v9018Main"></main></div>`;
+ document.body.appendChild(p);return p;
+}
+function render(){
+ const s=student()||{name:'Nguyễn Minh An',className:'10A1'};
+ const done=completed(s);
+ const pending=Math.max(0,(Array.isArray(s.assignments)?s.assignments.length:11)-done)||11;
+ const percent=Math.min(100,Math.round(done/20*100));
+ const subjects=[
+  ['Toán',Math.min(100,percent+10)],['Ngữ văn',Math.max(10,percent-5)],
+  ['Tiếng Anh',Math.min(100,percent+3)],['Vật lí',Math.max(8,percent-10)],
+  ['Hóa học',Math.max(5,percent-12)],['Sinh học',Math.max(5,percent-8)],
+  ['Lịch sử',Math.max(5,percent-14)],['Địa lí',Math.max(5,percent-12)],['Tin học',Math.min(100,percent+8)]
+ ];
+ const main=document.getElementById('v9018Main');
+ main.innerHTML=`<section class="v9018-hero"><div class="v9018-kicker">THEO DÕI HÀNH TRÌNH</div><h2>Tiến độ học tập của ${esc(s.name||'em')}</h2><p>Xem mức độ hoàn thành, tiến độ theo môn và những cột mốc cần chinh phục tiếp theo.</p></section>
+ <section class="v9018-stats">
+ <div class="v9018-stat"><b>${done}</b><span>Bài đã hoàn thành</span></div>
+ <div class="v9018-stat"><b>${pending}</b><span>Nhiệm vụ đang chờ</span></div>
+ <div class="v9018-stat"><b>${percent}%</b><span>Tiến độ tổng thể</span></div>
+ <div class="v9018-stat"><b>${esc(s.className||'')}</b><span>Lớp hiện tại</span></div></section>
+ <section class="v9018-grid"><div class="v9018-card"><h3>Tiến độ theo môn</h3><div class="v9018-sub">Theo dõi tỷ lệ hoàn thành của từng môn học.</div>
+ ${subjects.map(([n,v])=>`<div class="v9018-subject"><div class="v9018-row"><span>${n}</span><span>${v}%</span></div><div class="v9018-track"><div class="v9018-fill" style="width:${v}%"></div></div></div>`).join('')}
+ </div><div class="v9018-card"><h3>Cột mốc tiếp theo</h3><div class="v9018-sub">Hoàn thành từng mốc để duy trì nhịp học.</div>
+ <div class="v9018-timeline">
+ ${[[5,'Khởi động tích cực'],[10,'Tiến bộ nổi bật'],[15,'Bền bỉ học tập'],[20,'Chinh phục mục tiêu']].map(([m,t])=>`<div class="v9018-step ${done>=m?'done':''}"><div class="v9018-dot">${done>=m?'✓':m}</div><div><b>${t}</b><small>${done>=m?'Đã đạt':'Hoàn thành '+m+' bài'}</small></div></div>`).join('')}
+ </div><div class="v9018-note">Cú ÔT gợi ý: ưu tiên hoàn thành các nhiệm vụ đang chờ, sau đó quay lại những môn có tiến độ thấp để cân bằng việc học.</div></div></section>`;
+}
+window.v9018Open=function(){const p=build();render();p.classList.add('active');window.scrollTo(0,0)}
+window.v9018Go=function(where){
+ const p=document.getElementById('v9018ProgressPage');if(p)p.classList.remove('active');
+ if(where==='home'){const h=document.getElementById('sv2Home');if(h)h.style.display='';return}
+ if(where==='practice'&&typeof studentV2OpenPractice==='function')return studentV2OpenPractice();
+ if(where==='test'&&typeof studentV2OpenTestCenter==='function')return studentV2OpenTestCenter();
+ if(where==='battle'&&typeof studentV2Quick==='function')return studentV2Quick('battle');
+ if(where==='ach'){const a=document.getElementById('v8143AchievementPage');if(a){a.classList.add('active');const h=document.getElementById('sv2Home');if(h)h.style.display='none'}return}
+ if(where==='result'&&typeof studentV2Quick==='function')return studentV2Quick('results');
+}
+/* Bắt đúng mục sidebar "Tiến độ học tập" ở các trang HS hiện có */
+document.addEventListener('click',function(e){
+ const b=e.target.closest('button,a');
+ if(!b)return;
+ const t=(b.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+ if(t.includes('tiến độ học tập')){e.preventDefault();e.stopPropagation();v9018Open()}
+},true);
+})();
+</script>
+
 </body>
 </html>
 <style>
