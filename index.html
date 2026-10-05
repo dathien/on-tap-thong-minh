@@ -6991,6 +6991,60 @@ new MutationObserver(run).observe(document.body,{childList:true,subtree:true,att
 })();
 </script>
 
+
+<style id="v9016-owl-motion">
+/* Chuyển động nhẹ, vui, không gây rối mắt */
+#v8143AchievementPage .v9015-owl-stage{
+  position:relative;
+}
+#v8143AchievementPage .v9015-owl-stage > *{
+  animation:v9016OwlFloat 3.2s ease-in-out infinite!important;
+  transform-origin:center bottom!important;
+}
+#v8143AchievementPage .v9015-owl-stage .ot-eye-group{
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:v9016Blink 4.6s ease-in-out infinite!important;
+}
+#v8143AchievementPage .v9015-owl-stage .ot-wing-right,
+#v8143AchievementPage .v9015-owl-stage [class*="wing-right"]{
+  transform-box:fill-box;
+  transform-origin:left center;
+  animation:v9016Wave 2.8s ease-in-out infinite!important;
+}
+#v8143AchievementPage .v9015-owl-stage .ot-hat,
+#v8143AchievementPage .v9015-owl-stage [class*="hat"]{
+  transform-box:fill-box;
+  transform-origin:center bottom;
+  animation:v9016Hat 3.2s ease-in-out infinite!important;
+}
+@keyframes v9016OwlFloat{
+  0%,100%{transform:translateY(4px) rotate(0deg) scale(.72)}
+  50%{transform:translateY(-7px) rotate(.7deg) scale(.72)}
+}
+@keyframes v9016Blink{
+  0%,42%,46%,100%{transform:scaleY(1)}
+  43%,45%{transform:scaleY(.08)}
+}
+@keyframes v9016Wave{
+  0%,100%{transform:rotate(0deg)}
+  45%{transform:rotate(-8deg)}
+  65%{transform:rotate(5deg)}
+}
+@keyframes v9016Hat{
+  0%,100%{transform:rotate(0deg)}
+  50%{transform:rotate(2deg)}
+}
+@media (prefers-reduced-motion:reduce){
+  #v8143AchievementPage .v9015-owl-stage > *,
+  #v8143AchievementPage .v9015-owl-stage .ot-eye-group,
+  #v8143AchievementPage .v9015-owl-stage .ot-wing-right,
+  #v8143AchievementPage .v9015-owl-stage [class*="wing-right"],
+  #v8143AchievementPage .v9015-owl-stage .ot-hat,
+  #v8143AchievementPage .v9015-owl-stage [class*="hat"]{animation:none!important}
+}
+</style>
+
 </body>
 </html>
 <style>
