@@ -7989,6 +7989,97 @@ document.addEventListener('keydown',e=>{
 })();
 </script>
 
+
+<script id="v9032-assigned-actions-fix">
+(function(){
+'use strict';
+/*
+ Lỗi gốc: key được JSON.stringify chèn vào onclick nằm trong attribute dấu ".
+ Với key chuỗi, HTML sinh ra dạng onclick="fn("key")" => attribute bị vỡ.
+ Bản này bỏ inline onclick cho 4 nút và dùng data-action/data-key + event delegation.
+*/
+function encodeKey(x){return encodeURIComponent(String(x??''));}
+function wireAssignedButtons(){
+ const box=document.getElementById('assignedHistoryList');
+ if(!box)return;
+ box.querySelectorAll('button[onclick]').forEach(function(b){
+   const oc=b.getAttribute('onclick')||'';
+   let action='';
+   if(oc.startsWith('showAssignedDetail('))action='detail';
+   else if(oc.startsWith('extendAssignedDue('))action='due';
+   else if(oc.startsWith('cloneAssigned('))action='clone';
+   else if(oc.startsWith('revokeAssigned('))action='revoke';
+   if(!action)return;
+
+   /* Lấy key từ hàng hiện tại bằng cách đối chiếu nội dung với groups qua hàm render mới bên dưới. */
+   b.dataset.assignedAction=action;
+   b.removeAttribute('onclick');
+ });
+}
+
+/* Thay renderAssignedHistory bằng renderer an toàn, giữ nguyên giao diện và thống kê. */
+const E=id=>document.getElementById(id);
+const h=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function allRows(){const out=[];(window.state?.students||[]).forEach(s=>(s.assignments||[]).forEach(a=>{if(a.portalPublished||a.quiz||a.assignedAt)out.push({s,a})}));return out}
+function keyOf(a,s){return a.batchId||['legacy',a.title,a.subject,a.createdAt||a.date,s.className].join('|')}
+function groups(){
+ const m=new Map();
+ allRows().forEach(({s,a})=>{
+   const k=keyOf(a,s);
+   if(!m.has(k))m.set(k,{key:k,title:a.title||'Bài tập',subject:a.subject||s.subject||'',cls:a.assignedClass||s.className||'',assignedAt:a.assignedAt||a.createdAt||'',dueAt:a.quiz?.dueAt||(a.date?String(a.date)+'T23:59':''),quiz:a.quiz||null,rows:[]});
+   m.get(k).rows.push({s,a});
+ });
+ return [...m.values()].sort((x,y)=>String(y.assignedAt).localeCompare(String(x.assignedAt)));
+}
+function dt(x){if(!x)return'—';const d=new Date(x);return Number.isNaN(d.getTime())?h(x):d.toLocaleString('vi-VN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit',year:'numeric'})}
+function fillFilters(gs){
+ const cf=E('assignedClassFilter'),sf=E('assignedSubjectFilter');if(!cf||!sf)return;
+ const cv=cf.value||'all',sv=sf.value||'all';
+ const classes=[...new Set(gs.map(g=>g.cls).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi'));
+ const subjects=[...new Set(gs.map(g=>g.subject).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi'));
+ cf.innerHTML='<option value="all">Tất cả lớp</option>'+classes.map(x=>'<option>'+h(x)+'</option>').join('');
+ sf.innerHTML='<option value="all">Tất cả môn</option>'+subjects.map(x=>'<option>'+h(x)+'</option>').join('');
+ if(classes.includes(cv))cf.value=cv;if(subjects.includes(sv))sf.value=sv;
+}
+window.renderAssignedHistory=function(){
+ const box=E('assignedHistoryList'),sum=E('assignedHistorySummary');if(!box||!sum)return;
+ let gs=groups();fillFilters(gs);
+ const cls=E('assignedClassFilter')?.value||'all',sub=E('assignedSubjectFilter')?.value||'all',st=E('assignedStatusFilter')?.value||'all',q=(E('assignedSearch')?.value||'').trim().toLowerCase();
+ gs=gs.filter(g=>{
+   const done=g.rows.filter(r=>r.a.status==='done'||r.a.status==='graded').length,complete=done===g.rows.length;
+   const text=(g.title+' '+g.subject+' '+g.cls+' '+g.rows.map(r=>r.s.name).join(' ')).toLowerCase();
+   return(cls==='all'||g.cls===cls)&&(sub==='all'||g.subject===sub)&&(st==='all'||(st==='complete'&&complete)||(st==='pending'&&!complete))&&(!q||text.includes(q));
+ });
+ const total=gs.reduce((n,g)=>n+g.rows.length,0),submitted=gs.reduce((n,g)=>n+g.rows.filter(r=>r.a.status==='done'||r.a.status==='graded').length,0);
+ sum.innerHTML='<div class="summary-box"><strong>'+gs.length+'</strong><span>Lượt giao bài</span></div><div class="summary-box"><strong>'+total+'</strong><span>Lượt học sinh nhận</span></div><div class="summary-box"><strong>'+submitted+'</strong><span>Đã nộp</span></div><div class="summary-box"><strong>'+(total-submitted)+'</strong><span>Chưa nộp</span></div>';
+ box.innerHTML=gs.length?'<div class="table-wrap"><table class="table"><thead><tr><th>Bài đã giao</th><th>Đối tượng</th><th>Thời điểm giao</th><th>Hạn nộp</th><th>Tiến độ</th><th>Thao tác</th></tr></thead><tbody>'+
+ gs.map(g=>{
+   const done=g.rows.filter(r=>r.a.status==='done'||r.a.status==='graded').length,pct=Math.round(done/g.rows.length*100),k=encodeKey(g.key);
+   return '<tr><td><b>'+h(g.title)+'</b><br><small>'+h(g.subject)+(g.quiz?' · '+g.quiz.questions.length+' câu · '+h(g.quiz.level):'')+'</small></td><td><b>'+h(g.cls||'—')+'</b><br><small>'+g.rows.length+' học sinh</small></td><td>'+dt(g.assignedAt)+'</td><td>'+dt(g.dueAt)+'</td><td><b>'+done+'/'+g.rows.length+' đã nộp</b><br><small>'+pct+'% hoàn thành</small></td><td><div class="mini-actions">'+
+   '<button type="button" class="btn secondary small" data-assigned-action="detail" data-key="'+k+'">Xem chi tiết</button>'+
+   '<button type="button" class="btn secondary small" data-assigned-action="due" data-key="'+k+'">Sửa hạn nộp</button>'+
+   '<button type="button" class="btn secondary small" data-assigned-action="clone" data-key="'+k+'">Nhân bản</button>'+
+   '<button type="button" class="btn danger small" data-assigned-action="revoke" data-key="'+k+'">Thu hồi</button>'+
+   '</div></td></tr>';
+ }).join('')+'</tbody></table></div>':'<div class="empty">Chưa có lượt giao bài phù hợp bộ lọc.</div>';
+};
+
+document.addEventListener('click',function(e){
+ const b=e.target.closest('#assignedHistoryList [data-assigned-action]');
+ if(!b)return;
+ e.preventDefault();e.stopPropagation();
+ const k=decodeURIComponent(b.dataset.key||''),a=b.dataset.assignedAction;
+ if(a==='detail'&&typeof window.showAssignedDetail==='function')return window.showAssignedDetail(k);
+ if(a==='due'&&typeof window.extendAssignedDue==='function')return window.extendAssignedDue(k);
+ if(a==='clone'&&typeof window.cloneAssigned==='function')return window.cloneAssigned(k);
+ if(a==='revoke'&&typeof window.revokeAssigned==='function')return window.revokeAssigned(k);
+},true);
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>window.renderAssignedHistory(),0),{once:true});
+else setTimeout(()=>window.renderAssignedHistory(),0);
+})();
+</script>
+
 </body>
 </html>
 <style>
