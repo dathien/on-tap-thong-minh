@@ -6876,6 +6876,24 @@ new MutationObserver(run).observe(document.body,{childList:true,subtree:true,att
 })();
 </script>
 
+
+<style id="v9014-owl-final-layout">
+#v8143AchievementPage .v9013-owl-dock,#v8143AchievementPage .v9013-owl-tip{display:none!important}
+#v8143AchievementPage .v9012-hero{grid-template-columns:minmax(0,1fr) 150px!important;min-height:132px!important;padding:18px 22px!important}
+#v8143AchievementPage .v9012-hero .v9012-owl{display:flex!important;width:132px!important;height:106px!important;justify-self:end!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;border-radius:18px!important;background:rgba(255,255,255,.72)!important;border:1px solid #dce6f4!important}
+#v8143AchievementPage .v9012-hero .v9012-owl>*{width:210px!important;min-width:210px!important;height:210px!important;transform:scale(.46)!important;transform-origin:center center!important;flex:0 0 210px!important;margin:0!important}
+@media(max-width:760px){#v8143AchievementPage .v9012-hero{grid-template-columns:1fr!important}#v8143AchievementPage .v9012-hero .v9012-owl{display:none!important}}
+</style>
+<script id="v9014-owl-final-layout-js">
+(function(){'use strict';
+function cloneOwl(){for(const q of ['#sv2Home .v8138-student-owl','#sv2Home .student-owl','#sv2Home .ot-owl']){const n=document.querySelector(q);if(n){const c=n.cloneNode(true);c.removeAttribute('id');c.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));return c}}return null}
+function fix(){const p=document.getElementById('v8143AchievementPage');if(!p||!p.classList.contains('active'))return;p.querySelectorAll('.v9013-owl-dock,.v9013-owl-tip').forEach(x=>x.remove());const box=p.querySelector('.v9012-owl');if(box&&!box.firstElementChild){const owl=cloneOwl();if(owl)box.appendChild(owl)}}
+function run(){requestAnimationFrame(fix);setTimeout(fix,60)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
+new MutationObserver(run).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+})();
+</script>
+
 </body>
 </html>
 <style>
