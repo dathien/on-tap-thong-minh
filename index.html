@@ -8339,6 +8339,85 @@ if(document.readyState==='loading'){
 })();
 </script>
 
+
+<style id="v9036-assignment-tabs-fix-style">
+/* Tabs must always be above content/overlays and clickable */
+.assignment-tabs,.assign-tabs,.tabbar,
+#assignmentTabs,#assignmentTabBar{
+  position:relative!important;z-index:100!important;pointer-events:auto!important
+}
+.assignment-tabs button,.assign-tabs button,.tabbar button,
+#assignmentTabs button,#assignmentTabBar button{
+  position:relative!important;z-index:101!important;pointer-events:auto!important;cursor:pointer!important
+}
+</style>
+<script id="v9036-assignment-tabs-final-router">
+(function(){
+'use strict';
+
+function txt(n){return (n?.textContent||'').replace(/\s+/g,' ').trim().toLowerCase()}
+
+/* Find the existing app function by tab name; switchAssignmentTab is the canonical controller. */
+function openTab(kind){
+  if(typeof window.switchAssignmentTab==='function'){
+    window.switchAssignmentTab(kind);
+  }else{
+    /* Fallback: show the matching existing panel without rebuilding it. */
+    const map={
+      compose:['assignmentCompose','assignmentComposer','composeAssignment'],
+      assigned:['assignedHistory','assignedTab','assignmentHistory'],
+      submitted:['studentSubmissions','submittedAssignments','submissionTab'],
+      bank:['adaptiveSampleBank','sampleBank','assignmentBank']
+    };
+    const all=[...new Set(Object.values(map).flat())];
+    all.forEach(id=>{const n=document.getElementById(id);if(n){n.hidden=true;n.style.display='none';n.classList.remove('active','open')}});
+    (map[kind]||[]).some(id=>{
+      const n=document.getElementById(id);if(!n)return false;
+      n.hidden=false;n.style.display='';n.classList.add('active','open');return true;
+    });
+  }
+
+  /* Render content only after the correct panel is open. */
+  if(kind==='assigned' && typeof window.renderAssignedHistory==='function') window.renderAssignedHistory();
+  if(kind==='bank' && typeof window.renderAdaptiveSampleBank==='function') window.renderAdaptiveSampleBank();
+  if(kind==='submitted'){
+    ['renderStudentSubmissions','renderSubmittedAssignments','renderSubmissionList'].some(fn=>{
+      if(typeof window[fn]==='function'){window[fn]();return true}return false;
+    });
+  }
+}
+
+function kindFromButton(b){
+  const t=txt(b);
+  if(t.includes('soạn')&&t.includes('giao bài'))return'compose';
+  if(t.includes('bài đã giao'))return'assigned';
+  if(t.includes('bài học sinh nộp'))return'submitted';
+  if(t.includes('ngân hàng bài')||t.includes('ngân hàng bài/đề'))return'bank';
+  return'';
+}
+
+/* Capture at window level: runs before old document listeners that were swallowing tab clicks. */
+window.addEventListener('click',function(e){
+  const b=e.target.closest('button,a');
+  if(!b)return;
+  const kind=kindFromButton(b);
+  if(!kind)return;
+
+  /* Only accept the 4 top assignment tabs, not similarly named buttons elsewhere. */
+  const parent=b.parentElement;
+  const siblings=parent?[...parent.querySelectorAll(':scope > button,:scope > a')]:[];
+  const names=siblings.map(txt).join('|');
+  if(!(names.includes('soạn')&&names.includes('bài đã giao')&&names.includes('bài học sinh nộp')&&names.includes('ngân hàng')))return;
+
+  e.preventDefault();
+  e.stopPropagation();
+  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  openTab(kind);
+},true);
+
+})();
+</script>
+
 </body>
 </html>
 <style>
