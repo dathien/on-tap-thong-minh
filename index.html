@@ -6082,10 +6082,7 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
  window.v8143ShowAchievements=show;
  window.v8143AchievementHome=home;
  const obs=new MutationObserver(()=>mount());obs.observe(document.body,{childList:true,subtree:true});
- document.addEventListener('click',e=>{
-   const t=e.target.closest('#studentV2 nav button,#studentV2 .sv2-nav button');
-   if(t&&!t.hasAttribute('data-v8143-ach'))home();
- },true);
+
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })();
 </script><style id="v8146-teacher-single-panel-authoritative">
@@ -7205,12 +7202,7 @@ window.v9018Go=function(where){
  if(where==='result'&&typeof studentV2Quick==='function')return studentV2Quick('results');
 }
 /* Bắt đúng mục sidebar "Tiến độ học tập" ở các trang HS hiện có */
-document.addEventListener('click',function(e){
- const b=e.target.closest('button,a');
- if(!b)return;
- const t=(b.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
- if(t.includes('tiến độ học tập')){e.preventDefault();e.stopPropagation();v9018Open()}
-},true);
+
 })();
 </script>
 
@@ -7335,7 +7327,7 @@ window.v9021Go=function(w){
  if(w==='progress'&&typeof v9018Open==='function')return v9018Open();
  if(w==='ach'){const a=document.getElementById('v8143AchievementPage');if(a){a.classList.add('active');const h=document.getElementById('sv2Home');if(h)h.style.display='none'}return}
 }
-document.addEventListener('click',function(e){const b=e.target.closest('button,a');if(!b)return;const t=(b.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();if(t.includes('kết quả của tôi')){e.preventDefault();e.stopPropagation();v9021Open()}},true);
+
 })();
 </script>
 
@@ -7731,6 +7723,64 @@ document.addEventListener('click',function(e){
  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
  nav(d);
 },true);
+})();
+</script>
+
+
+<style id="v9028-remove-extra-achievement-card">
+/* Thầy đã có Góc thành tích trong sidebar: bỏ card Góc thành tích dư ở cuối Trang chủ */
+#sv2Home .v8143-home-link{display:none!important}
+</style>
+<script id="v9028-final-navigation-cleanup">
+(function(){
+'use strict';
+
+/* Xóa card dư nếu controller cũ đã tạo; observer cũ có tạo lại thì CSS phía trên vẫn ẩn. */
+function cleanExtra(){
+  document.querySelectorAll('#sv2Home .v8143-home-link').forEach(function(x){x.remove()});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',cleanExtra,{once:true});
+else cleanExtra();
+
+/* Router 9.0.27 là nguồn điều hướng duy nhất.
+   Gắn onclick trực tiếp cho sidebar 3 trang dưới để mỗi click chỉ chạy đúng 1 route. */
+function route(t){
+ t=(t||'').replace(/\s+/g,' ').trim().toLowerCase();
+ if(t.includes('trang chủ'))return'home';
+ if(t.includes('tự luyện'))return'practice';
+ if(t.includes('kiểm tra'))return'test';
+ if(t.includes('đấu trí'))return'battle';
+ if(t.includes('góc thành tích'))return'ach';
+ if(t.includes('tiến độ học tập'))return'progress';
+ if(t.includes('kết quả của tôi'))return'result';
+ return'';
+}
+function wire(page){
+ if(!page)return;
+ page.querySelectorAll('nav button').forEach(function(b){
+   const d=route(b.textContent);
+   if(!d)return;
+   b.onclick=function(ev){
+     if(ev){ev.preventDefault();ev.stopPropagation();}
+     return window.v9027Nav ? window.v9027Nav(d) : false;
+   };
+ });
+}
+/* Các trang đã tồn tại sẵn trong DOM hoặc được tạo khi mở lần đầu */
+const oldNav=window.v9027Nav;
+if(typeof oldNav==='function'){
+ window.v9027Nav=function(d){
+   const r=oldNav(d);
+   wire(document.getElementById('v8143AchievementPage'));
+   wire(document.getElementById('v9018ProgressPage'));
+   wire(document.getElementById('v9021ResultsPage'));
+   cleanExtra();
+   return r;
+ };
+}
+wire(document.getElementById('v8143AchievementPage'));
+wire(document.getElementById('v9018ProgressPage'));
+wire(document.getElementById('v9021ResultsPage'));
 })();
 </script>
 
