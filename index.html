@@ -7831,6 +7831,165 @@ new MutationObserver(function(){requestAnimationFrame(run)}).observe(document.bo
 }
 </style>
 
+
+<script id="v9026-unified-student-router">
+(function(){
+'use strict';
+
+/* ROUTER DUY NHẤT:
+   Không gọi chồng các router v9018/v9021/v9022/v9023 nữa.
+   Mỗi lần chuyển trang: đóng tất cả page -> khôi phục root/home -> mở đúng page đích. */
+function el(id){ return document.getElementById(id); }
+
+function hide(node){
+  if(!node) return;
+  node.classList.remove('active','open');
+  node.hidden = true;
+  node.style.display = 'none';
+}
+function show(node, display){
+  if(!node) return;
+  node.hidden = false;
+  node.style.display = display || 'block';
+}
+function resetStudentLayers(){
+  hide(el('v9018ProgressPage'));
+  hide(el('v9021ResultsPage'));
+  hide(el('v8143AchievementPage'));
+  hide(el('sv2TestCenter'));
+
+  /* Các overlay/page phụ có thể tồn tại trong app gốc */
+  document.querySelectorAll(
+    '#studentV2 .sv2-page.open,#studentV2 .sv2-overlay.open,#studentV2 [data-student-page].open'
+  ).forEach(function(n){
+    if(n.id!=='sv2Home'){n.classList.remove('open','active');}
+  });
+
+  const root=el('studentV2');
+  if(root){root.hidden=false;root.style.display='block';root.classList.add('open');}
+  const home=el('sv2Home');
+  if(home){home.hidden=false;home.style.display='block';}
+  document.body.style.overflow='';
+}
+
+function openHome(){
+  resetStudentLayers();
+  if(typeof window.studentV2RenderHome==='function'){
+    try{window.studentV2RenderHome();}catch(_){}
+  }
+}
+function openPractice(){
+  resetStudentLayers();
+  if(typeof window.studentV2OpenPractice==='function'){
+    window.studentV2OpenPractice(); return;
+  }
+  if(typeof window.studentV2Quick==='function') window.studentV2Quick('practice');
+}
+function openTest(){
+  resetStudentLayers();
+  /* Đây là luồng trang "Em muốn học môn nào?" đang có trong file */
+  if(typeof window.svtOpen==='function'){ window.svtOpen(); return; }
+  if(typeof window.svtShowSubjects==='function'){
+    const tc=el('sv2TestCenter'); show(tc);
+    window.svtShowSubjects(); return;
+  }
+  if(typeof window.studentV2Quick==='function') window.studentV2Quick('test');
+}
+function openBattle(){
+  resetStudentLayers();
+  if(typeof window.studentV2Quick==='function') window.studentV2Quick('battle');
+}
+function openAchievement(){
+  resetStudentLayers();
+  const home=el('sv2Home'); if(home)home.style.display='none';
+  const p=el('v8143AchievementPage');
+  if(p){p.hidden=false;p.style.display='block';p.classList.add('active');}
+  /* nếu page gốc có hàm show riêng thì cho nó render dữ liệu trước */
+  if(typeof window.v8143ShowAchievement==='function'){
+    try{window.v8143ShowAchievement();}catch(_){}
+  }
+}
+function openProgress(){
+  resetStudentLayers();
+  const home=el('sv2Home'); if(home)home.style.display='none';
+  if(typeof window.v9018Open==='function'){
+    window.v9018Open();
+    const p=el('v9018ProgressPage');
+    if(p){p.hidden=false;p.style.display='block';p.classList.add('active');}
+  }
+}
+function openResults(){
+  resetStudentLayers();
+  const home=el('sv2Home'); if(home)home.style.display='none';
+  if(typeof window.v9021Open==='function'){
+    window.v9021Open();
+    const p=el('v9021ResultsPage');
+    if(p){p.hidden=false;p.style.display='block';p.classList.add('active');}
+  }
+}
+
+window.v9026Nav=function(dest){
+  const routes={
+    home:openHome, practice:openPractice, test:openTest, battle:openBattle,
+    ach:openAchievement, progress:openProgress, result:openResults
+  };
+  (routes[dest]||openHome)();
+  try{window.scrollTo(0,0)}catch(_){}
+  return false;
+};
+
+/* Ghi đè toàn bộ hàm chuyển trang do các bản trước tạo */
+window.v9018Go=function(w){return window.v9026Nav(({home:'home',practice:'practice',test:'test',battle:'battle',ach:'ach',result:'result'})[w]||'home')};
+window.v9021Go=function(w){return window.v9026Nav(({home:'home',practice:'practice',test:'test',battle:'battle',ach:'ach',progress:'progress'})[w]||'home')};
+window.v9012Home=function(){return window.v9026Nav('home')};
+window.v9012Practice=function(){return window.v9026Nav('practice')};
+window.v9012Test=function(){return window.v9026Nav('test')};
+window.v9012Battle=function(){return window.v9026Nav('battle')};
+
+/* Bắt sidebar bằng data-route, không dựa vào onclick cũ. */
+function routeFromText(t){
+  t=(t||'').replace(/\s+/g,' ').trim().toLowerCase();
+  if(t.includes('trang chủ')) return 'home';
+  if(t.includes('tự luyện')) return 'practice';
+  if(t.includes('kiểm tra')) return 'test';
+  if(t.includes('đấu trí')) return 'battle';
+  if(t.includes('góc thành tích')) return 'ach';
+  if(t.includes('tiến độ học tập')) return 'progress';
+  if(t.includes('kết quả của tôi')) return 'result';
+  return '';
+}
+function bind(){
+  document.querySelectorAll(
+    '#v8143AchievementPage nav button,#v9018ProgressPage nav button,#v9021ResultsPage nav button,#sv2TestCenter nav button'
+  ).forEach(function(btn){
+    const route=routeFromText(btn.textContent);
+    if(!route)return;
+    btn.dataset.v9026Route=route;
+    /* Xóa onclick cũ để tránh chạy 2 router cùng lúc */
+    btn.removeAttribute('onclick');
+    btn.onclick=null;
+  });
+}
+
+/* Capture phase: chặn triệt để handler cũ phía dưới DOM */
+document.addEventListener('click',function(e){
+  const btn=e.target.closest('[data-v9026-route]');
+  if(!btn)return;
+  e.preventDefault();
+  e.stopPropagation();
+  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  window.v9026Nav(btn.dataset.v9026Route);
+},true);
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',bind,{once:true});
+}else bind();
+
+new MutationObserver(function(){requestAnimationFrame(bind)})
+  .observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+
 </body>
 </html>
 <style>
