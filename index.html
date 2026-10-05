@@ -6631,6 +6631,69 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
 })();
 </script>
 
+
+<style id="v9010-test-sidebar-sync">
+#sv2TestCenter .v907-side{
+  width:auto!important;
+  padding:22px 12px 18px!important;
+  background:#2f5597!important;
+}
+#sv2TestCenter .v907-brand{padding:0 6px 14px!important}
+#sv2TestCenter .v907-teacher{
+  padding:0 5px 15px!important;margin-bottom:15px!important;
+  border-bottom:1px solid rgba(255,255,255,.30)!important;
+}
+#sv2TestCenter .v907-side nav{gap:6px!important}
+#sv2TestCenter .v907-side button{
+  height:46px!important;padding:0 12px!important;border-radius:10px!important;
+  font-size:14px!important;font-weight:800!important
+}
+#sv2TestCenter .v907-side button.active{
+  background:#ffbf1f!important;color:#172554!important
+}
+#sv2TestCenter .v907-sep{
+  margin:12px 4px!important;background:rgba(255,255,255,.30)!important
+}
+</style>
+<script id="v9010-test-sidebar-sync-js">
+(function(){
+  'use strict';
+
+  function openAchievements(){
+    const test=document.getElementById('sv2TestCenter'); if(test)test.hidden=true;
+    const ach=document.getElementById('sv2Achievements');
+    if(ach){
+      ach.hidden=false;
+      ach.style.display='block';
+      try{window.scrollTo(0,0)}catch(_){}
+      return;
+    }
+    if(typeof studentV2Quick==='function') studentV2Quick('achievements');
+  }
+  window.v9010OpenAchievements=openAchievements;
+
+  function sync(){
+    const nav=document.querySelector('#sv2TestCenter .v907-side nav');
+    if(!nav || nav.dataset.v9010==='1') return;
+    nav.dataset.v9010='1';
+
+    // Xóa nhóm dưới cũ để dựng lại đúng sidebar mẫu.
+    const sep=nav.querySelector('.v907-sep');
+    if(sep){
+      let n=sep.nextSibling;
+      while(n){ const next=n.nextSibling; n.remove(); n=next; }
+      sep.insertAdjacentHTML('afterend',`
+        <button type="button" onclick="v9010OpenAchievements()"><span>🏆</span>Góc thành tích</button>
+        <button type="button" onclick="svtCloseToHome()"><span>▥</span>Tiến độ học tập</button>
+        <button type="button" onclick="svtCloseToHome()"><span>★</span>Kết quả của tôi</button>
+      `);
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',sync,{once:true});
+  else sync();
+})();
+</script>
+
 </body>
 </html>
 <style>
