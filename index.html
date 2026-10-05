@@ -6694,6 +6694,92 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
 })();
 </script>
 
+
+<style id="v9011-ach-real">
+.v9011-ach-shell{display:grid;grid-template-columns:228px minmax(0,1fr);min-height:100vh;background:#f4f7fc}
+.v9011-ach-side{position:sticky;top:0;height:100vh;box-sizing:border-box;padding:22px 12px 18px;background:#2f5597;color:#fff;z-index:20}
+.v9011-ach-brand{display:flex;gap:10px;align-items:center;padding:0 6px 14px}
+.v9011-ach-logo{width:42px;height:42px;border-radius:11px;background:#fff;color:#24478f;display:grid;place-items:center;font-weight:1000}
+.v9011-ach-brand b{font-size:14px;line-height:1.12}.v9011-ach-brand em{display:block;color:#ffd21f;font-style:normal}
+.v9011-ach-teacher{padding:0 5px 15px;margin-bottom:15px;border-bottom:1px solid rgba(255,255,255,.3);text-align:center;font-size:11px;font-weight:800}
+.v9011-ach-nav{display:flex;flex-direction:column;gap:6px}
+.v9011-ach-nav button{border:0;background:transparent;color:#fff;border-radius:10px;height:46px;padding:0 12px;display:flex;align-items:center;gap:12px;font:800 14px/1.2 inherit;cursor:pointer;text-align:left}
+.v9011-ach-nav button span{width:22px;text-align:center;font-size:17px}
+.v9011-ach-nav button:hover{background:rgba(255,255,255,.1)}
+.v9011-ach-nav button.active{background:#ffbf1f;color:#172554}
+.v9011-ach-sep{height:1px;background:rgba(255,255,255,.3);margin:12px 4px}
+.v9011-ach-main{padding:22px;min-width:0}
+.v9011-ach-hero{min-height:138px;border:1px solid #d8e3f3;border-radius:20px;background:linear-gradient(110deg,#eef8f8,#eef1ff);display:grid;grid-template-columns:minmax(0,1fr) 210px;align-items:center;padding:18px 24px;margin-bottom:16px;overflow:hidden}
+.v9011-ach-kicker{font-size:11px;font-weight:1000;color:#4057ef;letter-spacing:1.2px}
+.v9011-ach-hero h2{margin:5px 0;color:#10265d;font-size:24px}.v9011-ach-hero p{margin:0;color:#60708c;font-size:13px}
+.v9011-ach-owl{display:flex;justify-content:center;align-items:center;height:115px;overflow:hidden}
+.v9011-ach-owl>*{transform:scale(.68);transform-origin:center}
+.v9011-ach-card{background:#fff;border:1px solid #dfe7f2;border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(29,55,105,.04)}
+@media(max-width:900px){.v9011-ach-shell{grid-template-columns:76px minmax(0,1fr)}.v9011-ach-side{padding:16px 8px}.v9011-ach-brand{justify-content:center}.v9011-ach-brand b,.v9011-ach-teacher{display:none}.v9011-ach-nav button{justify-content:center;padding:0;font-size:0}.v9011-ach-nav button span{font-size:18px}.v9011-ach-hero{grid-template-columns:1fr 130px}}
+@media(max-width:600px){.v9011-ach-shell{display:block;padding-bottom:68px}.v9011-ach-side{position:fixed;left:0;right:0;bottom:0;top:auto;height:66px;padding:7px 8px}.v9011-ach-brand,.v9011-ach-teacher,.v9011-ach-sep{display:none}.v9011-ach-nav{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}.v9011-ach-nav button{height:52px;display:flex;flex-direction:column;gap:2px;font-size:9px;padding:0}.v9011-ach-main{padding:12px}.v9011-ach-hero{grid-template-columns:1fr}.v9011-ach-owl{display:none}}
+</style>
+<script id="v9011-ach-real-js">
+(function(){
+'use strict';
+
+function norm(s){return (s||'').replace(/\s+/g,' ').trim().toLowerCase()}
+function findAchievementBlock(){
+  const candidates=[...document.querySelectorAll('h1,h2,h3,strong,b')];
+  const title=candidates.find(x=>norm(x.textContent).includes('góc thành tích'));
+  if(!title) return null;
+  let n=title;
+  while(n && n!==document.body){
+    const t=norm(n.textContent);
+    if(t.includes('huy hiệu học tập') && t.includes('chứng nhận đạt được') && t.includes('hành trình tiến bộ')) return n;
+    n=n.parentElement;
+  }
+  return null;
+}
+function cloneOwl(){
+  const q=['#sv2Home .v8138-student-owl','#sv2Home .student-owl','#sv2Home .ot-owl','.v8138-student-owl','.student-owl','.ot-owl'];
+  for(const s of q){const n=document.querySelector(s);if(n){const c=n.cloneNode(true);c.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));c.removeAttribute('id');return c}}
+  return null;
+}
+function closeCurrent(){
+  const sh=document.querySelector('.v9011-ach-shell'); if(sh) sh.style.display='none';
+}
+window.v9011Home=function(){closeCurrent(); if(typeof studentV2RenderHome==='function')studentV2RenderHome()}
+window.v9011Practice=function(){closeCurrent(); if(typeof studentV2OpenPractice==='function')studentV2OpenPractice()}
+window.v9011Test=function(){closeCurrent(); if(typeof studentV2OpenTestCenter==='function')studentV2OpenTestCenter(); else if(typeof svtShowSubjects==='function')svtShowSubjects()}
+window.v9011Battle=function(){closeCurrent(); if(typeof studentV2Quick==='function')studentV2Quick('battle')}
+
+function install(){
+  if(document.querySelector('.v9011-ach-shell')) return;
+  const block=findAchievementBlock(); if(!block) return;
+
+  const parent=block.parentElement;if(!parent)return;
+  const shell=document.createElement('div');shell.className='v9011-ach-shell';
+  const side=document.createElement('aside');side.className='v9011-ach-side';
+  side.innerHTML=`<div class="v9011-ach-brand"><div class="v9011-ach-logo">ÔT</div><b>ÔN TẬP<em>THÔNG MINH</em></b></div>
+  <div class="v9011-ach-teacher">GV.Hồ Nguyễn Đa Thiện</div>
+  <nav class="v9011-ach-nav">
+  <button onclick="v9011Home()"><span>⌂</span>Trang chủ</button>
+  <button onclick="v9011Practice()"><span>▦</span>Tự luyện</button>
+  <button onclick="v9011Test()"><span>✓</span>Kiểm tra</button>
+  <button onclick="v9011Battle()"><span>♟</span>Đấu trí</button>
+  <div class="v9011-ach-sep"></div>
+  <button class="active"><span>🏆</span>Góc thành tích</button>
+  <button onclick="v9011Home()"><span>▥</span>Tiến độ học tập</button>
+  <button onclick="v9011Home()"><span>★</span>Kết quả của tôi</button></nav>`;
+  const main=document.createElement('main');main.className='v9011-ach-main';
+  const hero=document.createElement('section');hero.className='v9011-ach-hero';
+  hero.innerHTML=`<div><div class="v9011-ach-kicker">THÀNH TÍCH HỌC TẬP</div><h2>Góc thành tích của em</h2><p>Theo dõi huy hiệu, chứng nhận và từng cột mốc tiến bộ trong hành trình học tập.</p></div><div class="v9011-ach-owl"></div>`;
+  const card=document.createElement('section');card.className='v9011-ach-card';
+
+  parent.insertBefore(shell,block); shell.append(side,main); main.append(hero,card); card.appendChild(block);
+  const owl=cloneOwl(); if(owl)hero.querySelector('.v9011-ach-owl').appendChild(owl);
+}
+function scan(){try{install()}catch(e){console.error('v9011',e)}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scan,{once:true});else scan();
+new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+
 </body>
 </html>
 <style>
