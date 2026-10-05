@@ -6492,6 +6492,71 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
 })();
 </script>
 
+
+<script id="v902-login-hotfix">
+/* v9.0.2 — FIX DỨT ĐIỂM ĐĂNG NHẬP HỌC SINH
+   Không dựng lại #studentV2. Dùng đúng luồng đăng nhập gốc để giữ #sv2Login + #sv2Home. */
+(function(){
+  'use strict';
+
+  function runOriginalStudentLogin(ev){
+    if(ev){
+      try{ ev.preventDefault(); }catch(_){}
+      try{ ev.stopPropagation(); }catch(_){}
+    }
+    const err = document.getElementById('sv2LoginError');
+    if(err) err.textContent = '';
+
+    if(typeof window.studentV2Login === 'function'){
+      try{
+        window.studentV2Login();
+      }catch(ex){
+        console.error('Student login error:', ex);
+        if(err) err.textContent = 'Không thể mở giao diện học sinh. Vui lòng tải lại trang và thử lại.';
+      }
+    }else{
+      if(err) err.textContent = 'Chức năng đăng nhập học sinh chưa sẵn sàng. Vui lòng tải lại trang.';
+    }
+    return false;
+  }
+
+  /* Ghi đè bản vá cũ gây xóa toàn bộ cấu trúc studentV2. */
+  window.studentV2LoginFixed = runOriginalStudentLogin;
+
+  function bindLogin(){
+    const btn = document.getElementById('sv2MainLoginBtn');
+    if(btn){
+      btn.setAttribute('onclick','return studentV2LoginFixed(event)');
+      btn.style.pointerEvents='auto';
+      btn.style.position='relative';
+      btn.style.zIndex='5';
+    }
+
+    ['sv2Class','sv2Student','sv2Code'].forEach(function(id){
+      const el=document.getElementById(id);
+      if(!el || el.dataset.v902Enter==='1') return;
+      el.dataset.v902Enter='1';
+      el.addEventListener('keydown',function(e){
+        if(e.key==='Enter') runOriginalStudentLogin(e);
+      });
+    });
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',bindLogin);
+  }else{
+    bindLogin();
+  }
+
+  /* Form có thể được dựng lại sau khi đăng xuất/chuyển giao diện. */
+  const observer=new MutationObserver(function(){ bindLogin(); });
+  document.addEventListener('DOMContentLoaded',function(){
+    const root=document.getElementById('studentV2');
+    if(root) observer.observe(root,{childList:true,subtree:true});
+  });
+})();
+</script>
+
 </body>
 </html>
 <style>
