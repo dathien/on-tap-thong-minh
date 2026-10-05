@@ -7339,6 +7339,133 @@ document.addEventListener('click',function(e){const b=e.target.closest('button,a
 })();
 </script>
 
+
+<style id="v9022-final-fix-style">
+/* Cú ÔT: chỉ dùng chính nhân vật .ot-chibi, không clone cả bong bóng/wrapper */
+#v9018ProgressPage .v9018-owlstage,
+#v9021ResultsPage .v9021-owlstage{
+  height:220px!important;
+  overflow:hidden!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+#v9018ProgressPage .v9018-owlstage>.ot-chibi,
+#v9021ResultsPage .v9021-owlstage>.ot-chibi{
+  position:relative!important;
+  inset:auto!important;
+  width:205px!important;
+  min-width:205px!important;
+  max-width:205px!important;
+  height:205px!important;
+  min-height:205px!important;
+  max-height:205px!important;
+  flex:0 0 205px!important;
+  margin:0!important;
+  transform:none!important;
+  overflow:visible!important;
+}
+#v9018ProgressPage .v9018-owlstage>.ot-chibi svg,
+#v9021ResultsPage .v9021-owlstage>.ot-chibi svg{
+  display:block!important;width:100%!important;height:100%!important;
+}
+</style>
+
+<script id="v9022-final-fix-js">
+(function(){
+'use strict';
+
+/* Clone CHỈ nhân vật, không lấy wrapper chứa lời chào nên không còn bị cắt nửa người. */
+function cleanOwl(stage){
+  if(!stage)return;
+  const existing=stage.querySelector(':scope > .ot-chibi');
+  if(existing){
+    [...stage.children].forEach(x=>{if(x!==existing)x.remove()});
+    return;
+  }
+  let source=document.querySelector('#otCssOwl .ot-chibi');
+  if(!source) source=document.querySelector('#sv2Home .ot-chibi');
+  if(!source)return;
+  stage.innerHTML='';
+  const c=source.cloneNode(true);
+  c.removeAttribute('id');
+  c.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
+  stage.appendChild(c);
+}
+function fixOwls(){
+  cleanOwl(document.querySelector('#v9018ProgressPage .v9018-owlstage'));
+  cleanOwl(document.querySelector('#v9021ResultsPage .v9021-owlstage'));
+}
+
+/* Một bộ điều hướng duy nhất cho toàn bộ các trang học sinh mới. */
+function hideCustomPages(){
+  const progress=document.getElementById('v9018ProgressPage');
+  const results=document.getElementById('v9021ResultsPage');
+  const ach=document.getElementById('v8143AchievementPage');
+  const test=document.getElementById('sv2TestCenter');
+  if(progress)progress.classList.remove('active');
+  if(results)results.classList.remove('active');
+  if(ach)ach.classList.remove('active');
+  if(test)test.hidden=true;
+}
+function showStudentHome(){
+  hideCustomPages();
+  const root=document.getElementById('studentV2');
+  const home=document.getElementById('sv2Home');
+  if(root){root.hidden=false;root.style.display='block'}
+  if(home){home.hidden=false;home.style.display='block'}
+}
+window.v9022Navigate=function(where){
+  showStudentHome();
+
+  if(where==='home'){
+    if(typeof window.studentV2RenderHome==='function') window.studentV2RenderHome();
+  }else if(where==='practice'){
+    if(typeof window.studentV2OpenPractice==='function') window.studentV2OpenPractice();
+  }else if(where==='test'){
+    if(typeof window.studentV2Quick==='function') window.studentV2Quick('test');
+    else if(typeof window.svtShowSubjects==='function'){
+      const c=document.getElementById('sv2TestCenter'); if(c)c.hidden=false;
+      window.svtShowSubjects();
+    }
+  }else if(where==='battle'){
+    if(typeof window.studentV2Quick==='function') window.studentV2Quick('battle');
+  }else if(where==='ach'){
+    const a=document.getElementById('v8143AchievementPage');
+    if(a){const h=document.getElementById('sv2Home');if(h)h.style.display='none';a.classList.add('active')}
+  }else if(where==='progress'){
+    if(typeof window.v9018Open==='function') window.v9018Open();
+  }else if(where==='result'){
+    if(typeof window.v9021Open==='function') window.v9021Open();
+  }
+  try{window.scrollTo(0,0)}catch(_){}
+  setTimeout(fixOwls,30);
+};
+
+/* Ghi đè các hàm sidebar của 2 trang mới để không còn tình trạng bấm mà không chuyển. */
+window.v9018Go=function(where){
+  const map={home:'home',practice:'practice',test:'test',battle:'battle',ach:'ach',result:'result'};
+  window.v9022Navigate(map[where]||'home');
+};
+window.v9021Go=function(where){
+  const map={home:'home',practice:'practice',test:'test',battle:'battle',ach:'ach',progress:'progress'};
+  window.v9022Navigate(map[where]||'home');
+};
+
+/* Đồng bộ cả sidebar Thành tích đã làm trước đó. */
+window.v9012Home=function(){window.v9022Navigate('home')};
+window.v9012Practice=function(){window.v9022Navigate('practice')};
+window.v9012Test=function(){window.v9022Navigate('test')};
+window.v9012Battle=function(){window.v9022Navigate('battle')};
+
+/* Khi render Tiến độ/Kết quả, thay clone cũ bằng nhân vật sạch. */
+function run(){requestAnimationFrame(fixOwls);setTimeout(fixOwls,80)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
+document.addEventListener('click',run,true);
+new MutationObserver(run).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+})();
+</script>
+
 </body>
 </html>
 <style>
