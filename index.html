@@ -6495,6 +6495,28 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
 @media(max-width:850px){.svt-subjects,.svt-paths{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.svt-shell{padding:12px}.svt-subjects,.svt-paths{grid-template-columns:1fr}.svt-head{padding-top:25px}.svt-head h1{font-size:26px}}
 </style>
+
+<style id="v900-student-test-owl-layout">
+/* 9.0.0 — Làm lại màn hình Kiểm tra học sinh, chừa vị trí Cú ÔT */
+#sv2TestCenter .svt-subject-stage{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+#sv2TestCenter .svt-subject-stage .svt-subjects{grid-template-columns:repeat(2,minmax(0,1fr))}
+#sv2TestCenter .svt-owl-zone{min-height:430px;position:relative;border-radius:26px;background:linear-gradient(145deg,#eafbf7,#f7f3ff);border:1px solid #d9ebe7;box-shadow:0 12px 30px rgba(23,48,91,.08);overflow:hidden}
+#sv2TestCenter .svt-owl-zone:before{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-45px;top:62px;background:#ffe5a3;opacity:.55}
+#sv2TestCenter .svt-owl-zone:after{content:"";position:absolute;width:155px;height:155px;border-radius:50%;left:-65px;bottom:-55px;background:#fff4ec;opacity:.65}
+#sv2TestCenter .svt-owl-chat{position:absolute;z-index:4;top:22px;left:22px;right:22px;background:#fff;border:1px solid #dfe8ef;border-radius:18px;padding:12px 15px;box-shadow:0 8px 20px rgba(20,44,80,.10);font-size:12px;line-height:1.45;color:#20384e;font-weight:700;text-align:center}
+#sv2TestCenter .svt-owl-chat:after{content:"";position:absolute;bottom:-9px;left:50%;width:17px;height:17px;background:#fff;border-right:1px solid #dfe8ef;border-bottom:1px solid #dfe8ef;transform:translateX(-50%) rotate(45deg)}
+#sv2TestCenter .svt-owl-figure{position:absolute;z-index:3;left:50%;bottom:28px;transform:translateX(-50%);width:276px;height:276px}
+#sv2TestCenter .svt-owl-figure svg{width:100%;height:100%;overflow:visible}
+#sv2TestCenter .svt-owl-figure .ot-eye-group{transform-origin:center;animation:otBlink 4.5s infinite ease-in-out}
+#sv2TestCenter .svt-owl-figure .ot-pupil{transition:transform .06s ease-out}
+#sv2TestCenter .svt-owl-figure .ot-owl-group{transform-origin:200px 350px;animation:otBreathe 3.2s infinite ease-in-out}
+#sv2TestCenter .svt-owl-figure .ot-hat{transform-origin:200px 125px;animation:otHat 3.2s infinite ease-in-out}
+#sv2TestCenter .svt-owl-zone:hover .ot-wing-l{transform-origin:105px 250px;animation:otWingL .35s infinite alternate ease-in-out}
+#sv2TestCenter .svt-owl-zone:hover .ot-wing-r{transform-origin:295px 250px;animation:otWingR .35s infinite alternate ease-in-out}
+#sv2TestCenter .svt-owl-label{position:absolute;z-index:4;bottom:12px;left:50%;transform:translateX(-50%);white-space:nowrap;padding:5px 12px;border-radius:999px;background:#fff;border:1px solid #dce6ef;color:#35516b;font-size:10px;font-weight:800}
+@media(max-width:900px){#sv2TestCenter .svt-subject-stage{grid-template-columns:1fr}#sv2TestCenter .svt-owl-zone{min-height:350px;max-width:420px;width:100%;margin:0 auto}#sv2TestCenter .svt-owl-figure{width:230px;height:230px}}
+@media(max-width:600px){#sv2TestCenter .svt-subject-stage .svt-subjects{grid-template-columns:1fr}#sv2TestCenter .svt-owl-zone{min-height:320px}#sv2TestCenter .svt-owl-figure{width:205px;height:205px}}
+</style>
 <div hidden="" id="sv2TestCenter">
 <div class="svt-shell">
 <div class="svt-top">
@@ -6504,7 +6526,14 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
 </div>
 <section id="svtSubjectView">
 <div class="svt-head"><h1>Em muốn học môn nào?</h1><p>Chọn môn để vào Luyện tập, Ôn thi hoặc đặt câu hỏi cho giáo viên.</p></div>
+<div class="svt-subject-stage">
 <div class="svt-subjects" id="svtSubjects"></div>
+<aside class="svt-owl-zone" aria-label="Cú ÔT đồng hành kiểm tra">
+<div class="svt-owl-chat">Chọn môn em muốn luyện tập nhé! Cú ÔT sẽ đồng hành cùng em.</div>
+<div class="svt-owl-figure" id="svtOwlFigure"></div>
+<div class="svt-owl-label">Cú ÔT · trợ lý ôn tập</div>
+</aside>
+</div>
 </section>
 <section hidden="" id="svtModeView">
 <div class="svt-head"><h1 id="svtSubjectTitle">Môn học</h1><p>Chọn hình thức phù hợp với mục tiêu học tập hôm nay.</p></div>
@@ -6559,8 +6588,19 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
     return fixed;
   }
   function ico(s){return {'Toán':'∑','Ngữ văn':'VĂN','Tiếng Anh':'EN','Vật lí':'F','Hóa học':'HÓA','Sinh học':'DNA','Tin học':'</>'}[s]||'◆'}
+  function svtMountOwl(){
+    const host=document.getElementById('svtOwlFigure');
+    if(!host||host.dataset.ready==='1')return;
+    const source=document.querySelector('#otCssOwl .ot-chibi');
+    if(source){host.innerHTML=source.innerHTML;host.dataset.ready='1';}
+    host.addEventListener('mousemove',function(e){
+      const r=host.getBoundingClientRect(),dx=Math.max(-7,Math.min(7,(e.clientX-(r.left+r.width/2))/18)),dy=Math.max(-5,Math.min(5,(e.clientY-(r.top+r.height/2))/22));
+      host.querySelectorAll('.ot-pupil').forEach(p=>p.style.transform='translate('+dx+'px,'+dy+'px)');
+    });
+    host.addEventListener('mouseleave',()=>host.querySelectorAll('.ot-pupil').forEach(p=>p.style.transform='translate(0,0)'));
+  }
   window.svtOpen=function(){
-    const p=profile(), el=center(); if(!el)return;
+    const p=profile(), el=center(); if(!el)return; svtMountOwl();
     document.getElementById('svtStudentName').textContent=p.name+(p.className?' · '+p.className:'');
     document.getElementById('svtSubjects').innerHTML=subjects().map(s=>'<button class="svt-subject" onclick="svtChooseSubject('+JSON.stringify(s).replace(/"/g,'&quot;')+')"><span class="svt-subject-ico">'+ico(s)+'</span><strong>'+s+'</strong><small>Luyện tập · Ôn thi · Hỏi giáo viên</small></button>').join('');
     document.getElementById('svtSubjectView').hidden=false; document.getElementById('svtModeView').hidden=true;
