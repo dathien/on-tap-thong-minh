@@ -7466,6 +7466,265 @@ new MutationObserver(run).observe(document.body,{childList:true,subtree:true,att
 })();
 </script>
 
+
+<style id="v9023-fix">
+/* Cú ÔT: dùng đúng SVG bên trong mascot gốc, giống cách trang Kiểm tra đang làm */
+#v9018ProgressPage .v9018-owlstage,
+#v9021ResultsPage .v9021-owlstage{
+  height:235px!important;display:flex!important;align-items:center!important;
+  justify-content:center!important;overflow:hidden!important
+}
+#v9018ProgressPage .v9018-owlstage>svg,
+#v9021ResultsPage .v9021-owlstage>svg{
+  width:220px!important;height:220px!important;display:block!important;
+  overflow:visible!important;transform:none!important
+}
+</style>
+<script id="v9023-fix-js">
+(function(){
+'use strict';
+
+function mountExactOwl(stage){
+  if(!stage)return;
+  const source=document.querySelector('#otCssOwl .ot-chibi');
+  if(!source)return;
+  /* Trang Kiểm tra ổn định đang dùng source.innerHTML; áp dụng y hệt */
+  stage.innerHTML=source.innerHTML;
+  stage.dataset.v9023='1';
+}
+function fixOwls(){
+  const a=document.querySelector('#v9018ProgressPage .v9018-owlstage');
+  const b=document.querySelector('#v9021ResultsPage .v9021-owlstage');
+  if(a)mountExactOwl(a);
+  if(b)mountExactOwl(b);
+}
+
+function hardClosePages(){
+  const ids=['v9018ProgressPage','v9021ResultsPage','v8143AchievementPage'];
+  ids.forEach(function(id){
+    const x=document.getElementById(id);
+    if(!x)return;
+    x.classList.remove('active');
+    x.style.display='none';
+  });
+  const tc=document.getElementById('sv2TestCenter');
+  if(tc){tc.hidden=true;tc.style.display='none'}
+  document.body.style.overflow='';
+}
+function revealStudentHome(){
+  const root=document.getElementById('studentV2');
+  const home=document.getElementById('sv2Home');
+  if(root){root.hidden=false;root.style.display='block'}
+  if(home){home.hidden=false;home.style.display='block'}
+}
+function nav(dest){
+  hardClosePages();
+  revealStudentHome();
+
+  if(dest==='home'){
+    if(typeof window.studentV2RenderHome==='function')window.studentV2RenderHome();
+  }else if(dest==='practice'){
+    if(typeof window.studentV2OpenPractice==='function')window.studentV2OpenPractice();
+  }else if(dest==='test'){
+    if(typeof window.svtOpen==='function')window.svtOpen();
+    else if(typeof window.studentV2Quick==='function')window.studentV2Quick('test');
+  }else if(dest==='battle'){
+    if(typeof window.studentV2Quick==='function')window.studentV2Quick('battle');
+  }else if(dest==='ach'){
+    const h=document.getElementById('sv2Home');if(h)h.style.display='none';
+    const a=document.getElementById('v8143AchievementPage');
+    if(a){a.style.display='block';a.classList.add('active')}
+  }else if(dest==='progress'){
+    if(typeof window.v9018Open==='function'){
+      window.v9018Open();
+      const p=document.getElementById('v9018ProgressPage');if(p)p.style.display='block';
+    }
+  }else if(dest==='result'){
+    if(typeof window.v9021Open==='function'){
+      window.v9021Open();
+      const p=document.getElementById('v9021ResultsPage');if(p)p.style.display='block';
+    }
+  }
+  try{window.scrollTo(0,0)}catch(_){}
+  setTimeout(fixOwls,40);
+}
+window.v9023Nav=nav;
+
+/* Ghi đè dứt điểm các handler sidebar đã tạo ở các phiên bản trước */
+window.v9018Go=function(w){
+  const m={home:'home',practice:'practice',test:'test',battle:'battle',ach:'ach',result:'result'};
+  nav(m[w]||'home');
+};
+window.v9021Go=function(w){
+  const m={home:'home',practice:'practice',test:'test',battle:'battle',ach:'ach',progress:'progress'};
+  nav(m[w]||'home');
+};
+window.v9012Home=function(){nav('home')};
+window.v9012Practice=function(){nav('practice')};
+window.v9012Test=function(){nav('test')};
+window.v9012Battle=function(){nav('battle')};
+
+/* Sửa trực tiếp nút sidebar của 2 trang mới sau mỗi lần render */
+function rebind(){
+  document.querySelectorAll('#v9018ProgressPage .v9018-nav button,#v9021ResultsPage .v9021-nav button').forEach(function(b){
+    const t=(b.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+    let d='';
+    if(t.includes('trang chủ'))d='home';
+    else if(t.includes('tự luyện'))d='practice';
+    else if(t.includes('kiểm tra'))d='test';
+    else if(t.includes('đấu trí'))d='battle';
+    else if(t.includes('góc thành tích'))d='ach';
+    else if(t.includes('tiến độ học tập'))d='progress';
+    else if(t.includes('kết quả của tôi'))d='result';
+    if(!d)return;
+    b.onclick=function(e){e.preventDefault();e.stopPropagation();nav(d);return false};
+  });
+}
+function run(){rebind();fixOwls()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
+new MutationObserver(function(){requestAnimationFrame(run)}).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+
+
+<style id="v9024-sidebar-unified">
+/* === MỘT CHUẨN SIDEBAR DUY NHẤT CHO TOÀN BỘ KHU HỌC SINH === */
+#v8143AchievementPage .v9012-side,
+#v9018ProgressPage .v9018-side,
+#v9021ResultsPage .v9021-side,
+#sv2TestCenter .v907-side{
+  width:auto!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  padding:18px 12px!important;
+  box-sizing:border-box!important;
+  background:#2f5597!important;
+  color:#fff!important;
+}
+#v8143AchievementPage .v9012-shell,
+#v9018ProgressPage .v9018-shell,
+#v9021ResultsPage .v9021-shell{
+  grid-template-columns:228px minmax(0,1fr)!important;
+}
+
+/* Brand */
+#v8143AchievementPage .v9012-brand,
+#v9018ProgressPage .v9018-brand,
+#v9021ResultsPage .v9021-brand,
+#sv2TestCenter .v907-brand{
+  height:48px!important;
+  padding:0 6px 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  box-sizing:content-box!important;
+}
+#v8143AchievementPage .v9012-logo,
+#v9018ProgressPage .v9018-logo,
+#v9021ResultsPage .v9021-logo{
+  width:42px!important;height:42px!important;min-width:42px!important;
+  border-radius:11px!important;
+}
+#v8143AchievementPage .v9012-brand b,
+#v9018ProgressPage .v9018-brand b,
+#v9021ResultsPage .v9021-brand b{
+  font-size:14px!important;line-height:1.12!important
+}
+
+/* Tên GV + đường phân cách đầu */
+#v8143AchievementPage .v9012-teacher,
+#v9018ProgressPage .v9018-teacher,
+#v9021ResultsPage .v9021-teacher,
+#sv2TestCenter .v907-teacher{
+  height:26px!important;
+  padding:0 5px 12px!important;
+  margin:0 0 12px!important;
+  border-bottom:1px solid rgba(255,255,255,.30)!important;
+  box-sizing:content-box!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:11px!important;
+  font-weight:800!important;
+}
+
+/* Menu: cùng chiều cao, cùng khoảng cách */
+#v8143AchievementPage .v9012-nav,
+#v9018ProgressPage .v9018-nav,
+#v9021ResultsPage .v9021-nav,
+#sv2TestCenter .v907-side nav{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:6px!important;
+}
+#v8143AchievementPage .v9012-nav button,
+#v9018ProgressPage .v9018-nav button,
+#v9021ResultsPage .v9021-nav button,
+#sv2TestCenter .v907-side nav button{
+  width:100%!important;
+  height:46px!important;
+  min-height:46px!important;
+  padding:0 12px!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:10px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  background:transparent!important;
+  color:#fff!important;
+  font-size:14px!important;
+  font-weight:800!important;
+  line-height:1!important;
+  text-align:left!important;
+  box-sizing:border-box!important;
+}
+#v8143AchievementPage .v9012-nav button span,
+#v9018ProgressPage .v9018-nav button span,
+#v9021ResultsPage .v9021-nav button span,
+#sv2TestCenter .v907-side nav button span{
+  width:22px!important;min-width:22px!important;
+  text-align:center!important;font-size:17px!important;
+}
+#v8143AchievementPage .v9012-nav button.active,
+#v9018ProgressPage .v9018-nav button.active,
+#v9021ResultsPage .v9021-nav button.active,
+#sv2TestCenter .v907-side nav button.active{
+  background:#ffbf1f!important;
+  color:#172554!important;
+}
+
+/* Khoảng chia nhóm phải giống hệt nhau */
+#v8143AchievementPage .v9012-sep,
+#v9018ProgressPage .v9018-sep,
+#v9021ResultsPage .v9021-sep,
+#sv2TestCenter .v907-sep{
+  height:1px!important;
+  min-height:1px!important;
+  background:rgba(255,255,255,.30)!important;
+  margin:12px 4px!important;
+  padding:0!important;
+}
+
+/* Xóa mọi khoảng trống/justify từng được gắn khác nhau */
+#v8143AchievementPage .v9012-nav,
+#v9018ProgressPage .v9018-nav,
+#v9021ResultsPage .v9021-nav,
+#sv2TestCenter .v907-side nav{
+  justify-content:flex-start!important;
+}
+
+/* Desktop: sidebar không đổi chiều rộng giữa các trang */
+@media(min-width:901px){
+  #v8143AchievementPage .v9012-side,
+  #v9018ProgressPage .v9018-side,
+  #v9021ResultsPage .v9021-side,
+  #sv2TestCenter .v907-side{
+    min-width:228px!important;max-width:228px!important;
+  }
+}
+</style>
+
 </body>
 </html>
 <style>
@@ -9421,7 +9680,7 @@ syncLegacy();
 <style id="v8811-visible-policy-style">
 #teacherAssessmentClassify .v111-setting{
   display:block!important; visibility:visible!important; opacity:1!important;
-  min-height:118px; padding:12px; border:1px solid #bcd8e4; border-radius:12px; 
+  min-height:118px; padding:12px; border:1px solid #bcd8e4; border-radius:12px;
   background:#fff; grid-column:auto;
 }
 #teacherAssessmentClassify .v111-setting>label{
