@@ -6192,7 +6192,79 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
  mo.observe(document.body,{childList:true,subtree:true});
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);else apply();
 })();
-</script></body>
+</script>
+<style id="v906-home-owl-blink">
+/* Chỉ áp dụng cho Cú ÔT ở trang chủ học sinh; không can thiệp đăng nhập/role khác. */
+#sv2Home .v8138-student-owl .ot-eye-group,
+#sv2Home .student-owl .ot-eye-group,
+#sv2Home .ot-owl .ot-eye-group {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: v906OwlBlink 4.8s infinite ease-in-out !important;
+}
+@keyframes v906OwlBlink {
+  0%, 43%, 47%, 100% { transform: scaleY(1); }
+  44%, 46% { transform: scaleY(0.08); }
+}
+</style>
+
+
+<script id="v906-teacher-history-geography">
+(function(){
+  'use strict';
+  const EXTRA_SUBJECTS = ['Lịch sử','Địa lí'];
+
+  function looksLikeTeacherArea(el){
+    const teacherRoot =
+      el.closest('#teacherApp, #teacherV2, #teacherView, [data-role="teacher"], .teacher-app, .teacher-view, .teacher-panel');
+    if (teacherRoot) return true;
+
+    const idPath = [el.id, el.name, el.className].join(' ').toLowerCase();
+    if (idPath.includes('teacher') || idPath.includes('gv')) return true;
+
+    const section = el.closest('section,main,div');
+    const txt = (section?.textContent || '').slice(0,500).toLowerCase();
+    return txt.includes('giáo viên') && (txt.includes('môn') || txt.includes('bài'));
+  }
+
+  function looksLikeSubjectSelect(sel){
+    const meta = [sel.id, sel.name, sel.className].join(' ').toLowerCase();
+    const label = (sel.closest('.field,.form-group,.control,div')?.querySelector('label')?.textContent || '').toLowerCase();
+    return meta.includes('subject') || meta.includes('mon') || label.includes('môn');
+  }
+
+  function addSubjects(){
+    document.querySelectorAll('select').forEach(function(sel){
+      if (!looksLikeTeacherArea(sel) || !looksLikeSubjectSelect(sel)) return;
+      EXTRA_SUBJECTS.forEach(function(subject){
+        const exists = Array.from(sel.options).some(function(o){
+          return (o.value||'').trim() === subject || (o.textContent||'').trim() === subject;
+        });
+        if (!exists) {
+          const op = document.createElement('option');
+          op.value = subject;
+          op.textContent = subject;
+          sel.appendChild(op);
+        }
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addSubjects, {once:true});
+  } else {
+    addSubjects();
+  }
+
+  // Chỉ quan sát khi giao diện GV dựng select mới; không sửa cấu trúc DOM.
+  const mo = new MutationObserver(function(mutations){
+    if (mutations.some(m => m.addedNodes && m.addedNodes.length)) addSubjects();
+  });
+  if (document.body) mo.observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+
+</body>
 </html>
 <style>
 /* v8.6.30 - Phân tích cá nhân hóa có dữ liệu demo lớp chủ nhiệm */
@@ -6577,7 +6649,7 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
     return {name:s.name||s.studentName||(n&&n.value)||'Học sinh',className:s.className||s.class||(c&&c.value)||''};
   }
   function subjects(){
-    const fixed=['Toán','Ngữ văn','Tiếng Anh','Vật lí','Hóa học','Sinh học','Tin học'];
+    const fixed=['Toán','Ngữ văn','Tiếng Anh','Vật lí','Hóa học','Sinh học','Lịch sử','Địa lí','Tin học'];
     try{
       if(typeof state!=='undefined'){
         const arr=[];
@@ -6587,7 +6659,7 @@ update();document.addEventListener('click',()=>setTimeout(update,50),true);new M
     }catch(e){}
     return fixed;
   }
-  function ico(s){return {'Toán':'∑','Ngữ văn':'VĂN','Tiếng Anh':'EN','Vật lí':'F','Hóa học':'HÓA','Sinh học':'DNA','Tin học':'</>'}[s]||'◆'}
+  function ico(s){return {'Toán':'∑','Ngữ văn':'VĂN','Tiếng Anh':'EN','Vật lí':'F','Hóa học':'HÓA','Sinh học':'DNA','Lịch sử':'SỬ','Địa lí':'ĐỊA','Tin học':'</>'}[s]||'◆'}
   function svtMountOwl(){
     const host=document.getElementById('svtOwlFigure');
     if(!host||host.dataset.ready==='1')return;
