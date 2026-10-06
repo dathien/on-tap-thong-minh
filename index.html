@@ -9566,6 +9566,51 @@ else setTimeout(moveIntoContent,250);
 })();
 </script>
 
+
+<style id="v9057-visible-owl">
+#v9050RecipientPage .v50-top{position:relative!important;min-height:112px!important;padding-right:150px!important}
+#v9057RecipientOwl{position:absolute;right:20px;bottom:2px;width:120px;height:108px;z-index:3;pointer-events:none}
+#v9057RecipientOwl svg{display:block!important;width:100%!important;height:100%!important;overflow:visible!important}
+#v9057RecipientOwl .ot-owl-group{transform-origin:200px 350px;animation:otBreathe 3.2s infinite ease-in-out}
+#v9057RecipientOwl .ot-eye-group{transform-origin:center;animation:otBlink 4.5s infinite ease-in-out}
+#v9057RecipientOwl .ot-hat{transform-origin:200px 125px;animation:otHat 3.2s infinite ease-in-out}
+#v9057RecipientOwl:after{content:"Cú ÔT";position:absolute;right:0;bottom:2px;padding:3px 8px;border-radius:999px;background:#fff;border:1px solid #dce6ef;color:#35516b;font-size:10px;font-weight:800}
+@media(max-width:760px){
+ #v9050RecipientPage .v50-top{padding-right:92px!important}
+ #v9057RecipientOwl{right:8px;width:82px;height:82px}
+}
+</style>
+<script id="v9057-visible-owl-controller">
+(function(){
+'use strict';
+function mountOwl(){
+ const page=document.getElementById('v9050RecipientPage');
+ if(!page || !page.classList.contains('open')) return;
+ const top=page.querySelector('.v50-top');
+ if(!top)return;
+ let box=document.getElementById('v9057RecipientOwl');
+ if(box && top.contains(box))return;
+ if(box)box.remove();
+ const src=document.querySelector('#otCssOwl .ot-chibi svg');
+ if(!src)return;
+ box=document.createElement('div');
+ box.id='v9057RecipientOwl';
+ const svg=src.cloneNode(true);
+ svg.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));
+ box.appendChild(svg);
+ top.appendChild(box);
+}
+document.addEventListener('click',function(e){
+ const b=e.target.closest('button,a'); if(!b)return;
+ const t=(b.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+ if(t.includes('chọn người nhận')){
+   setTimeout(mountOwl,20);setTimeout(mountOwl,150);setTimeout(mountOwl,400);
+ }
+},true);
+window.addEventListener('load',()=>setTimeout(mountOwl,300),{once:true});
+})();
+</script>
+
 </body>
 </html>
 <style>
