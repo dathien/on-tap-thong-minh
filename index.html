@@ -9579,6 +9579,61 @@ else setTimeout(moveIntoContent,250);
 
 
 <!-- 9.0.65: removed exactly two duplicate quiz CTA sources; no regex structural rewrite -->
+
+<style id="v9067-teacher-login-only">
+/* 9.0.67 — phạm vi duy nhất: màn hình Đăng nhập giáo viên */
+#teacherLoginPanel{
+  box-sizing:border-box!important;
+  padding:16px!important;
+  overflow:hidden!important;
+  min-height:100dvh!important;
+  height:100dvh!important;
+}
+#teacherLoginPanel .role-login-card{
+  width:min(900px,calc(100vw - 32px))!important;
+  height:min(590px,calc(100dvh - 32px))!important;
+  min-height:0!important;
+  max-height:calc(100dvh - 32px)!important;
+  overflow:hidden!important;
+}
+#teacherLoginPanel .role-login-brand{
+  min-height:0!important;
+  padding:32px 38px!important;
+}
+#teacherLoginPanel .role-login-form{
+  min-height:0!important;
+  padding:28px 54px!important;
+  overflow:hidden!important;
+}
+#teacherLoginPanel .role-login-form h2{
+  margin:8px 0 20px!important;
+}
+#teacherLoginPanel .sv2-field{margin-bottom:14px!important}
+#teacherLoginPanel .sv2-login-row{margin:0 0 14px!important}
+#teacherLoginPanel .sv2-or{margin:12px 0!important}
+#teacherLoginPanel .teacher-register-line{margin-top:12px!important}
+@media(max-height:620px) and (min-width:761px){
+  #teacherLoginPanel .role-login-card{height:calc(100dvh - 20px)!important;max-height:calc(100dvh - 20px)!important}
+  #teacherLoginPanel{padding:10px!important}
+  #teacherLoginPanel .role-login-form{padding:18px 46px!important}
+  #teacherLoginPanel .role-login-form h2{margin:4px 0 14px!important;font-size:27px!important}
+  #teacherLoginPanel .sv2-field{margin-bottom:10px!important}
+  #teacherLoginPanel .sv2-field>input,
+  #teacherLoginPanel .teacher-pass-wrap input{height:46px!important}
+  #teacherLoginPanel .sv2-login-btn,
+  #teacherLoginPanel .sv2-google-btn{height:46px!important}
+  #teacherLoginPanel .sv2-login-error{min-height:12px!important;margin:-4px 0 6px!important}
+  #teacherLoginPanel .sv2-login-row{margin:0 0 10px!important}
+  #teacherLoginPanel .sv2-or{margin:9px 0!important}
+  #teacherLoginPanel .teacher-register-line{margin-top:8px!important}
+}
+@media(max-width:760px){
+  #teacherLoginPanel{overflow:auto!important}
+  #teacherLoginPanel .role-login-card{height:auto!important;max-height:none!important}
+  #teacherLoginPanel .role-login-form{overflow:visible!important}
+}
+</style>
+
 </body>
 </html>
 <style>
