@@ -8880,7 +8880,83 @@ function ensurePage(){
  if(E('v9050RecipientPage'))return;
  const p=document.createElement('section');p.id='v9050RecipientPage';
  p.innerHTML=`<div class="v50-shell">
- <div class="v50-top"><div><h2>Chọn người nhận bài</h2><div style="color:#718096;margin-top:4px">Chọn lớp trước, sau đó chọn cả lớp, nhóm hoặc cá nhân.</div></div><button class="v50-back" type="button" data-v50-close>← Quay lại</button></div>
+ <div class="v50-top">
+ <div class="v50-titlecopy"><h2>Chọn người nhận bài</h2><div style="color:#718096;margin-top:4px">Chọn lớp trước, sau đó chọn cả lớp, nhóm hoặc cá nhân.</div></div>
+ <div class="v9062-static-owl" aria-label="Cú ÔT"><svg aria-label="Cú ÔT" role="img" viewbox="0 0 400 400">
+<ellipse cx="200" cy="362" fill="rgba(30,64,175,.13)" rx="98" ry="13"></ellipse>
+<g class="ot-owl-group">
+<!-- chân -->
+<ellipse cx="154" cy="347" fill="#ffb719" rx="22" ry="14"></ellipse>
+<ellipse cx="246" cy="347" fill="#ffb719" rx="22" ry="14"></ellipse>
+<!-- tai -->
+<path d="M135 137 L92 96 Q83 88 88 80 Q94 72 104 79 L151 120 Z" fill="#2563eb"></path>
+<path d="M265 137 L308 96 Q317 88 312 80 Q306 72 296 79 L249 120 Z" fill="#2563eb"></path>
+<!-- thân -->
+<path d="M91 205 C91 127 137 102 200 102 C263 102 309 127 309 205
+                 C309 305 276 350 200 350 C124 350 91 305 91 205Z" fill="#2563eb"></path>
+<path d="M104 204 C104 139 143 116 200 116 C257 116 296 139 296 204
+                 C296 286 268 334 200 334 C132 334 104 286 104 204Z" fill="#2f6cf0"></path>
+<!-- bụng -->
+<ellipse cx="200" cy="278" fill="#f8fafc" rx="73" ry="64"></ellipse>
+<path d="M154 274 Q166 260 178 274 Q166 290 154 274Z" fill="#93c5fd"></path>
+<path d="M188 292 Q200 278 212 292 Q200 308 188 292Z" fill="#93c5fd"></path>
+<path d="M222 274 Q234 260 246 274 Q234 290 222 274Z" fill="#93c5fd"></path>
+<!-- má -->
+<ellipse cx="112" cy="224" fill="#f38db5" opacity=".88" rx="20" ry="11"></ellipse>
+<ellipse cx="288" cy="224" fill="#f38db5" opacity=".88" rx="20" ry="11"></ellipse>
+<!-- mắt -->
+<g class="ot-eye-group">
+<circle cx="154" cy="188" fill="#fff" r="54" stroke="#1e3a8a" stroke-width="6"></circle>
+<circle cx="246" cy="188" fill="#fff" r="54" stroke="#1e3a8a" stroke-width="6"></circle>
+<g class="ot-pupil">
+<circle cx="154" cy="190" fill="#111827" r="39"></circle>
+<circle cx="139" cy="170" fill="#fff" r="13"></circle>
+<circle cx="170" cy="209" fill="#fff" r="6"></circle>
+</g>
+<g class="ot-pupil">
+<circle cx="246" cy="190" fill="#111827" r="39"></circle>
+<circle cx="231" cy="170" fill="#fff" r="13"></circle>
+<circle cx="262" cy="209" fill="#fff" r="6"></circle>
+</g>
+</g>
+<!-- mỏ -->
+<path d="M187 215 Q200 225 213 215 L200 237 Z" fill="#ffad18"></path>
+<!-- mũ tốt nghiệp -->
+<g class="ot-hat">
+<polygon fill="#172033" points="200,84 270,108 200,132 130,108"></polygon>
+<polygon fill="#26354d" points="200,88 260,108 200,127 140,108"></polygon>
+<path d="M157 119 Q200 137 243 119 L240 139 Q200 155 160 139Z" fill="#172033"></path>
+<path d="M248 112 Q271 121 269 150" fill="none" stroke="#ffbd18" stroke-width="4"></path>
+<circle cx="269" cy="153" fill="#ffbd18" r="6"></circle>
+</g>
+<!-- cánh trái + sách -->
+<g class="ot-wing-l">
+<path d="M101 237 C65 241 65 294 103 301 Q119 278 120 249Z" fill="#3b82f6"></path>
+<g transform="translate(58 234)">
+<rect fill="#ffffff" height="83" rx="3" width="61" x="0" y="0"></rect>
+<rect fill="#20a34a" height="83" rx="2" width="56" x="4" y="0"></rect>
+<rect fill="#e2e8f0" height="83" width="5" x="4" y="0"></rect>
+<text fill="#fff" font-family="Arial,sans-serif" font-size="9" font-weight="700" text-anchor="middle" x="34" y="31">ÔN TẬP</text>
+<text fill="#fff" font-family="Arial,sans-serif" font-size="7" font-weight="700" text-anchor="middle" x="34" y="44">THÔNG MINH</text>
+<rect fill="#fff" height="13" rx="1" width="17" x="26" y="57"></rect>
+<path d="M34.5 58 V69 M27 59 Q34 56 34.5 61 Q35 56 42 59" fill="none" stroke="#166534" stroke-width="1.4"></path>
+</g>
+</g>
+<!-- cánh phải + ngón cái -->
+<g class="ot-wing-r">
+<path d="M299 237 C333 241 333 288 299 298 Q282 277 281 249Z" fill="#3b82f6"></path>
+<g transform="translate(302 223)">
+<path d="M8 26 C5 26 3 24 3 21 V10 C3 7 5 5 8 5 H12
+                     C14 5 16 3 17 1 L20 -7 C21 -10 25 -9 26 -6
+                     C27 -2 25 3 24 6 H32 C37 6 39 10 37 14
+                     L33 24 C32 27 29 29 25 29 H13 C11 29 10 28 8 26Z" fill="#ffbf1f" stroke="#172554" stroke-width="2"></path>
+<rect fill="#ffbf1f" height="20" rx="2" stroke="#172554" stroke-width="2" width="9" x="-2" y="7"></rect>
+</g>
+</g>
+</g>
+</svg></div>
+ <button class="v50-back" type="button" data-v50-close>← Quay lại</button>
+ </div>
  <div class="v50-grid"><div>
   <div class="v50-card"><div class="v50-section-title">1. Chọn lớp</div><div id="v9050Classes"></div></div>
   <div class="v50-card" style="margin-top:12px"><div class="v50-section-title">2. Chọn hình thức nhận bài</div><div id="v9050Modes"><button data-mode="class">Cả lớp</button><button data-mode="group">Theo nhóm</button><button data-mode="individual">Cá nhân</button></div>
@@ -9567,345 +9643,51 @@ else setTimeout(moveIntoContent,250);
 </script>
 
 
-<style id="v9057-visible-owl">
-#v9050RecipientPage .v50-top{position:relative!important;min-height:112px!important;padding-right:150px!important}
-#v9057RecipientOwl{position:absolute;right:20px;bottom:2px;width:120px;height:108px;z-index:3;pointer-events:none}
-#v9057RecipientOwl svg{display:block!important;width:100%!important;height:100%!important;overflow:visible!important}
-#v9057RecipientOwl .ot-owl-group{transform-origin:200px 350px;animation:otBreathe 3.2s infinite ease-in-out}
-#v9057RecipientOwl .ot-eye-group{transform-origin:center;animation:otBlink 4.5s infinite ease-in-out}
-#v9057RecipientOwl .ot-hat{transform-origin:200px 125px;animation:otHat 3.2s infinite ease-in-out}
-#v9057RecipientOwl:after{content:"Cú ÔT";position:absolute;right:0;bottom:2px;padding:3px 8px;border-radius:999px;background:#fff;border:1px solid #dce6ef;color:#35516b;font-size:10px;font-weight:800}
-@media(max-width:760px){
- #v9050RecipientPage .v50-top{padding-right:92px!important}
- #v9057RecipientOwl{right:8px;width:82px;height:82px}
+
+<style id="v9062-static-owl-style">
+/* 9.0.62: Cú ÔT là phần tử GỐC trong HTML của trang Chọn người nhận */
+#v9050RecipientPage .v50-top{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) 150px auto!important;
+ align-items:center!important;
+ gap:18px!important;
+ min-height:150px!important;
+ padding:16px 20px!important;
+}
+#v9050RecipientPage .v9062-static-owl{
+ width:150px!important;height:120px!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ overflow:visible!important;
+ animation:v9062Float 2.8s ease-in-out infinite!important;
+ transform-origin:50% 90%;
+}
+#v9050RecipientPage .v9062-static-owl svg{
+ width:150px!important;height:150px!important;
+ display:block!important;overflow:visible!important;
+ transform:scale(1.32);
+}
+#v9050RecipientPage .v9062-static-owl .ot-eye-group{
+ transform-box:fill-box;transform-origin:center;
+ animation:v9062Blink 4.1s infinite!important;
+}
+#v9050RecipientPage .v9062-static-owl .ot-hat{
+ transform-box:fill-box;transform-origin:center bottom;
+ animation:v9062Hat 2.8s ease-in-out infinite!important;
+}
+/* Cú trên đầu trang Bài tập & Ôn luyện: tăng kích thước nhìn thấy thực tế */
+#v9058AssignOwl{min-width:180px!important;height:130px!important;margin-left:auto!important;display:flex!important;align-items:center!important;justify-content:center!important}
+#v9058AssignOwl .v58owl{width:165px!important;height:125px!important;overflow:visible!important;animation:v9062Float 2.8s ease-in-out infinite!important}
+#v9058AssignOwl .v58owl svg{width:165px!important;height:165px!important;transform:scale(1.35)!important;overflow:visible!important}
+@keyframes v9062Float{0%,100%{transform:translateY(0) rotate(-1.2deg)}50%{transform:translateY(-8px) rotate(1.2deg)}}
+@keyframes v9062Blink{0%,43%,47%,100%{transform:scaleY(1)}45%{transform:scaleY(.08)}}
+@keyframes v9062Hat{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(4deg)}}
+@media(max-width:820px){
+ #v9050RecipientPage .v50-top{grid-template-columns:minmax(0,1fr) 95px!important}
+ #v9050RecipientPage .v9062-static-owl{width:95px!important;height:90px!important}
+ #v9050RecipientPage .v9062-static-owl svg{width:110px!important;height:110px!important}
+ #v9050RecipientPage .v50-back{grid-column:1/-1!important;justify-self:start!important}
 }
 </style>
-<script id="v9057-visible-owl-controller">
-(function(){
-'use strict';
-function mountOwl(){
- const page=document.getElementById('v9050RecipientPage');
- if(!page || !page.classList.contains('open')) return;
- const top=page.querySelector('.v50-top');
- if(!top)return;
- let box=document.getElementById('v9057RecipientOwl');
- if(box && top.contains(box))return;
- if(box)box.remove();
- const src=document.querySelector('#otCssOwl .ot-chibi svg');
- if(!src)return;
- box=document.createElement('div');
- box.id='v9057RecipientOwl';
- const svg=src.cloneNode(true);
- svg.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));
- box.appendChild(svg);
- top.appendChild(box);
-}
-document.addEventListener('click',function(e){
- const b=e.target.closest('button,a'); if(!b)return;
- const t=(b.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
- if(t.includes('chọn người nhận')){
-   setTimeout(mountOwl,20);setTimeout(mountOwl,150);setTimeout(mountOwl,400);
- }
-},true);
-window.addEventListener('load',()=>setTimeout(mountOwl,300),{once:true});
-})();
-</script>
-
-
-<style id="v9058-layout-and-owl">
-/* 9.0.58 - gom CTA: một nút chính, bỏ 3 nút trùng chức năng */
-#assignmentsPanel > .panel-head{align-items:center!important}
-#assignmentsPanel > .panel-head .v9058-headcopy h2{margin:0 0 5px!important}
-#assignmentsPanel > .panel-head .v9058-headcopy p{margin:0!important}
-#v9058PrimaryCreate{white-space:nowrap!important;min-width:148px!important}
-#assignPane-compose > .v8735-intro button,
-#assignPane-compose > .tab-intro button{display:none!important}
-
-/* Cú ÔT trong trang Bài tập & Ôn luyện */
-#v9058AssignOwl{display:flex;align-items:center;gap:10px;margin-left:auto;margin-right:10px}
-#v9058AssignOwl .v58owl{width:72px;height:72px;flex:0 0 72px}
-.v58owl svg{display:block;width:100%;height:100%;overflow:visible}
-.v58owl .ot-owl-group{transform-origin:200px 350px;animation:otBreathe 3.2s infinite ease-in-out}
-.v58owl .ot-eye-group{transform-origin:center;animation:otBlink 4.5s infinite ease-in-out}
-.v58owl .ot-hat{transform-origin:200px 125px;animation:otHat 3.2s infinite ease-in-out}
-
-/* Cú ÔT luôn nhìn thấy trong Chọn người nhận */
-#v9050RecipientPage .v50-top{position:relative!important;min-height:126px!important;padding-right:180px!important}
-#v9058RecipientOwl{position:absolute;right:22px;top:8px;width:128px;height:112px;z-index:10;pointer-events:none}
-#v9058RecipientOwl .v58owl{width:100%;height:100%}
-#v9058RecipientOwl .v58tag{position:absolute;right:-2px;bottom:0;background:#fff;border:1px solid #d8e5ee;border-radius:999px;padding:3px 9px;font-size:10px;font-weight:800;color:#24516b;box-shadow:0 4px 10px rgba(20,50,80,.08)}
-
-@media(max-width:900px){
- #v9058AssignOwl{display:none}
- #v9050RecipientPage .v50-top{padding-right:112px!important}
- #v9058RecipientOwl{width:92px;height:92px;right:10px;top:16px}
-}
-</style>
-<script id="v9058-controller">
-(function(){
-'use strict';
-const OWL="<svg aria-label=\"Cú ÔT\" role=\"img\" viewbox=\"0 0 400 400\">\n<ellipse cx=\"200\" cy=\"362\" fill=\"rgba(30,64,175,.13)\" rx=\"98\" ry=\"13\"></ellipse>\n<g class=\"ot-owl-group\">\n<!-- chân -->\n<ellipse cx=\"154\" cy=\"347\" fill=\"#ffb719\" rx=\"22\" ry=\"14\"></ellipse>\n<ellipse cx=\"246\" cy=\"347\" fill=\"#ffb719\" rx=\"22\" ry=\"14\"></ellipse>\n<!-- tai -->\n<path d=\"M135 137 L92 96 Q83 88 88 80 Q94 72 104 79 L151 120 Z\" fill=\"#2563eb\"></path>\n<path d=\"M265 137 L308 96 Q317 88 312 80 Q306 72 296 79 L249 120 Z\" fill=\"#2563eb\"></path>\n<!-- thân -->\n<path d=\"M91 205 C91 127 137 102 200 102 C263 102 309 127 309 205\n                 C309 305 276 350 200 350 C124 350 91 305 91 205Z\" fill=\"#2563eb\"></path>\n<path d=\"M104 204 C104 139 143 116 200 116 C257 116 296 139 296 204\n                 C296 286 268 334 200 334 C132 334 104 286 104 204Z\" fill=\"#2f6cf0\"></path>\n<!-- bụng -->\n<ellipse cx=\"200\" cy=\"278\" fill=\"#f8fafc\" rx=\"73\" ry=\"64\"></ellipse>\n<path d=\"M154 274 Q166 260 178 274 Q166 290 154 274Z\" fill=\"#93c5fd\"></path>\n<path d=\"M188 292 Q200 278 212 292 Q200 308 188 292Z\" fill=\"#93c5fd\"></path>\n<path d=\"M222 274 Q234 260 246 274 Q234 290 222 274Z\" fill=\"#93c5fd\"></path>\n<!-- má -->\n<ellipse cx=\"112\" cy=\"224\" fill=\"#f38db5\" opacity=\".88\" rx=\"20\" ry=\"11\"></ellipse>\n<ellipse cx=\"288\" cy=\"224\" fill=\"#f38db5\" opacity=\".88\" rx=\"20\" ry=\"11\"></ellipse>\n<!-- mắt -->\n<g class=\"ot-eye-group\">\n<circle cx=\"154\" cy=\"188\" fill=\"#fff\" r=\"54\" stroke=\"#1e3a8a\" stroke-width=\"6\"></circle>\n<circle cx=\"246\" cy=\"188\" fill=\"#fff\" r=\"54\" stroke=\"#1e3a8a\" stroke-width=\"6\"></circle>\n<g class=\"ot-pupil\">\n<circle cx=\"154\" cy=\"190\" fill=\"#111827\" r=\"39\"></circle>\n<circle cx=\"139\" cy=\"170\" fill=\"#fff\" r=\"13\"></circle>\n<circle cx=\"170\" cy=\"209\" fill=\"#fff\" r=\"6\"></circle>\n</g>\n<g class=\"ot-pupil\">\n<circle cx=\"246\" cy=\"190\" fill=\"#111827\" r=\"39\"></circle>\n<circle cx=\"231\" cy=\"170\" fill=\"#fff\" r=\"13\"></circle>\n<circle cx=\"262\" cy=\"209\" fill=\"#fff\" r=\"6\"></circle>\n</g>\n</g>\n<!-- mỏ -->\n<path d=\"M187 215 Q200 225 213 215 L200 237 Z\" fill=\"#ffad18\"></path>\n<!-- mũ tốt nghiệp -->\n<g class=\"ot-hat\">\n<polygon fill=\"#172033\" points=\"200,84 270,108 200,132 130,108\"></polygon>\n<polygon fill=\"#26354d\" points=\"200,88 260,108 200,127 140,108\"></polygon>\n<path d=\"M157 119 Q200 137 243 119 L240 139 Q200 155 160 139Z\" fill=\"#172033\"></path>\n<path d=\"M248 112 Q271 121 269 150\" fill=\"none\" stroke=\"#ffbd18\" stroke-width=\"4\"></path>\n<circle cx=\"269\" cy=\"153\" fill=\"#ffbd18\" r=\"6\"></circle>\n</g>\n<!-- cánh trái + sách -->\n<g class=\"ot-wing-l\">\n<path d=\"M101 237 C65 241 65 294 103 301 Q119 278 120 249Z\" fill=\"#3b82f6\"></path>\n<g transform=\"translate(58 234)\">\n<rect fill=\"#ffffff\" height=\"83\" rx=\"3\" width=\"61\" x=\"0\" y=\"0\"></rect>\n<rect fill=\"#20a34a\" height=\"83\" rx=\"2\" width=\"56\" x=\"4\" y=\"0\"></rect>\n<rect fill=\"#e2e8f0\" height=\"83\" width=\"5\" x=\"4\" y=\"0\"></rect>\n<text fill=\"#fff\" font-family=\"Arial,sans-serif\" font-size=\"9\" font-weight=\"700\" text-anchor=\"middle\" x=\"34\" y=\"31\">ÔN TẬP</text>\n<text fill=\"#fff\" font-family=\"Arial,sans-serif\" font-size=\"7\" font-weight=\"700\" text-anchor=\"middle\" x=\"34\" y=\"44\">THÔNG MINH</text>\n<rect fill=\"#fff\" height=\"13\" rx=\"1\" width=\"17\" x=\"26\" y=\"57\"></rect>\n<path d=\"M34.5 58 V69 M27 59 Q34 56 34.5 61 Q35 56 42 59\" fill=\"none\" stroke=\"#166534\" stroke-width=\"1.4\"></path>\n</g>\n</g>\n<!-- cánh phải + ngón cái -->\n<g class=\"ot-wing-r\">\n<path d=\"M299 237 C333 241 333 288 299 298 Q282 277 281 249Z\" fill=\"#3b82f6\"></path>\n<g transform=\"translate(302 223)\">\n<path d=\"M8 26 C5 26 3 24 3 21 V10 C3 7 5 5 8 5 H12\n                     C14 5 16 3 17 1 L20 -7 C21 -10 25 -9 26 -6\n                     C27 -2 25 3 24 6 H32 C37 6 39 10 37 14\n                     L33 24 C32 27 29 29 25 29 H13 C11 29 10 28 8 26Z\" fill=\"#ffbf1f\" stroke=\"#172554\" stroke-width=\"2\"></path>\n<rect fill=\"#ffbf1f\" height=\"20\" rx=\"2\" stroke=\"#172554\" stroke-width=\"2\" width=\"9\" x=\"-2\" y=\"7\"></rect>\n</g>\n</g>\n</g>\n</svg>";
-const E=id=>document.getElementById(id);
-
-function owlNode(cls='v58owl'){
- const d=document.createElement('div');d.className=cls;d.innerHTML=OWL;return d;
-}
-function tidyAssignmentHeader(){
- const panel=E('assignmentsPanel'); if(!panel)return;
- const head=panel.querySelector(':scope > .panel-head'); if(!head)return;
- const title=head.querySelector('h2'), p=head.querySelector('p');
- if(title) title.textContent='Bài tập & Ôn luyện';
- if(p) p.textContent='Soạn, giao, theo dõi bài làm và quản lý ngân hàng bài/đề.';
- let copy=head.querySelector('.v9058-headcopy');
- if(!copy && title){
-   copy=document.createElement('div');copy.className='v9058-headcopy';
-   head.insertBefore(copy,head.firstChild);copy.append(title);if(p)copy.append(p);
- }
- // Xóa/hide các CTA cũ ở header để không còn 2 nút trắc nghiệm cạnh nhau
- [...head.querySelectorAll('button')].forEach(b=>{
-   if(b.id!=='v9058PrimaryCreate') b.style.display='none';
- });
- if(!E('v9058AssignOwl')){
-   const o=document.createElement('div');o.id='v9058AssignOwl';o.appendChild(owlNode());
-   head.appendChild(o);
- }
- if(!E('v9058PrimaryCreate')){
-   const b=document.createElement('button');b.id='v9058PrimaryCreate';b.type='button';
-   b.className='btn primary small';b.textContent='＋ Tạo bài/đề mới';
-   b.onclick=()=>{ if(typeof window.quizOpen==='function') window.quizOpen(); };
-   head.appendChild(b);
- }
-}
-function mountRecipientOwl(){
- const page=E('v9050RecipientPage'); if(!page)return false;
- const top=page.querySelector('.v50-top'); if(!top)return false;
- let box=E('v9058RecipientOwl');
- if(box && top.contains(box))return true;
- if(box)box.remove();
- box=document.createElement('div');box.id='v9058RecipientOwl';
- box.appendChild(owlNode());
- const tag=document.createElement('span');tag.className='v58tag';tag.textContent='Cú ÔT';box.appendChild(tag);
- top.appendChild(box);return true;
-}
-function refresh(){
- tidyAssignmentHeader();
- mountRecipientOwl();
-}
-
-/* chạy khi DOM sẵn sàng + vài nhịp ngắn vì trang người nhận được tạo động */
-if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',refresh,{once:true});
-else refresh();
-window.addEventListener('load',refresh,{once:true});
-document.addEventListener('click',function(e){
- const t=(e.target.closest('button,a')?.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
- if(t.includes('chọn người nhận')||t.includes('bài tập')||t.includes('soạn & giao bài')){
-   [0,60,180,400].forEach(ms=>setTimeout(refresh,ms));
- }
-},true);
-setTimeout(refresh,250);
-setTimeout(refresh,800);
-})();
-</script>
-
-
-<style id="v9059-final-ui-fix">
-/* Chỉ giữ 1 CTA ở đúng khu vực Soạn & giao bài */
-#v9058PrimaryCreate{display:none!important}
-#assignPane-compose .v8735-intro button,
-#assignPane-compose .tab-intro button{display:inline-flex!important}
-
-/* Cú ÔT: hiện chắc chắn trong trang Chọn người nhận, không phụ thuộc class open */
-#v9050RecipientPage .v50-top{position:relative!important;min-height:128px!important;padding-right:168px!important}
-#v9059RecipientOwl{
- position:absolute!important;right:20px!important;top:7px!important;
- width:126px!important;height:112px!important;display:block!important;
- visibility:visible!important;opacity:1!important;z-index:20!important;pointer-events:none!important;
-}
-#v9059RecipientOwl svg{display:block!important;width:100%!important;height:100%!important;visibility:visible!important;opacity:1!important;overflow:visible!important}
-#v9059RecipientOwl .ot-owl-group{transform-origin:200px 350px;animation:otBreathe 3.2s infinite ease-in-out}
-#v9059RecipientOwl .ot-eye-group{transform-origin:center;animation:otBlink 4.5s infinite ease-in-out}
-#v9059RecipientOwl .ot-hat{transform-origin:200px 125px;animation:otHat 3.2s infinite ease-in-out}
-@media(max-width:760px){
- #v9050RecipientPage .v50-top{padding-right:105px!important}
- #v9059RecipientOwl{right:8px!important;top:18px!important;width:88px!important;height:88px!important}
-}
-</style>
-<script id="v9059-final-ui-controller">
-(function(){
-'use strict';
-const E=id=>document.getElementById(id);
-
-function cleanButtons(){
- const top=E('v9058PrimaryCreate'); if(top) top.style.setProperty('display','none','important');
- const panel=E('assignmentsPanel'); if(!panel)return;
- const head=panel.querySelector(':scope > .panel-head');
- if(head){
-   [...head.querySelectorAll('button')].forEach(b=>{
-     if(b.id==='v9058PrimaryCreate') b.style.setProperty('display','none','important');
-   });
- }
- const pane=E('assignPane-compose');
- if(pane){
-   const btn=[...pane.querySelectorAll('button')].find(b=>(b.textContent||'').toLowerCase().includes('soạn trắc nghiệm'));
-   if(btn) btn.style.setProperty('display','inline-flex','important');
- }
-}
-function mountOwl(){
- const page=E('v9050RecipientPage'); if(!page)return;
- const top=page.querySelector('.v50-top'); if(!top)return;
- let old=E('v9059RecipientOwl'); if(old && top.contains(old))return;
- if(old)old.remove();
-
- // Ưu tiên lấy SVG mascot gốc; fallback lấy SVG đã nhúng ở bản 9.0.58
- let svg=document.querySelector('#otCssOwl .ot-chibi svg');
- if(!svg) svg=document.querySelector('#v9058AssignOwl svg');
- if(!svg) svg=document.querySelector('#v9058RecipientOwl svg');
- if(!svg)return;
-
- const box=document.createElement('div'); box.id='v9059RecipientOwl';
- const clone=svg.cloneNode(true);
- clone.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));
- box.appendChild(clone);
- top.appendChild(box);
-}
-function refresh(){cleanButtons();mountOwl();}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
-window.addEventListener('load',refresh,{once:true});
-document.addEventListener('click',function(e){
- const t=(e.target.closest('button,a')?.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
- if(t.includes('chọn người nhận')||t.includes('soạn & giao bài')||t.includes('bài tập & ôn luyện')){
-   [0,30,100,250,500].forEach(ms=>setTimeout(refresh,ms));
- }
-},true);
-setTimeout(refresh,300);setTimeout(refresh,1000);
-})();
-</script>
-
-
-<style id="v9060-owl-animation">
-/* Cú ÔT phải có chuyển động sống động, nhẹ, không gây rối UI */
-#v9059RecipientOwl,
-#v9058AssignOwl .v58owl{
-  transform-origin:50% 88%;
-  animation:v9060OwlFloat 2.8s ease-in-out infinite!important;
-  will-change:transform;
-}
-#v9059RecipientOwl .ot-owl-group,
-#v9058AssignOwl .ot-owl-group{
-  transform-origin:200px 350px;
-  animation:v9060OwlBody 2.8s ease-in-out infinite!important;
-}
-#v9059RecipientOwl .ot-eye-group,
-#v9058AssignOwl .ot-eye-group{
-  transform-box:fill-box;
-  transform-origin:center;
-  animation:v9060Blink 4.2s infinite!important;
-}
-#v9059RecipientOwl .ot-hat,
-#v9058AssignOwl .ot-hat{
-  transform-box:fill-box;
-  transform-origin:center bottom;
-  animation:v9060Hat 2.8s ease-in-out infinite!important;
-}
-#v9059RecipientOwl svg,
-#v9058AssignOwl svg{
-  overflow:visible!important;
-}
-@keyframes v9060OwlFloat{
-  0%,100%{transform:translateY(0) rotate(-1deg)}
-  25%{transform:translateY(-5px) rotate(1deg)}
-  50%{transform:translateY(-8px) rotate(-1deg)}
-  75%{transform:translateY(-3px) rotate(1deg)}
-}
-@keyframes v9060OwlBody{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.018)}
-}
-@keyframes v9060Blink{
-  0%,42%,46%,100%{transform:scaleY(1)}
-  44%{transform:scaleY(.10)}
-}
-@keyframes v9060Hat{
-  0%,100%{transform:rotate(-1deg)}
-  50%{transform:rotate(3deg)}
-}
-/* Tôn trọng cài đặt giảm chuyển động của hệ điều hành */
-@media (prefers-reduced-motion: reduce){
- #v9059RecipientOwl,#v9058AssignOwl .v58owl,
- #v9059RecipientOwl .ot-owl-group,#v9058AssignOwl .ot-owl-group,
- #v9059RecipientOwl .ot-eye-group,#v9058AssignOwl .ot-eye-group,
- #v9059RecipientOwl .ot-hat,#v9058AssignOwl .ot-hat{animation:none!important}
-}
-</style>
-
-
-<style id="v9061-owl-visible-size">
-/* Mascot khu Bài tập & Ôn luyện: đủ lớn để là điểm nhấn */
-#v9058AssignOwl{margin-left:auto!important;margin-right:18px!important;min-width:145px!important;height:116px!important;display:flex!important;align-items:center!important;justify-content:center!important}
-#v9058AssignOwl .v58owl{width:138px!important;height:112px!important;flex:0 0 138px!important}
-
-/* Mascot trang Chọn người nhận: vùng riêng, không bị nút Quay lại che */
-#v9050RecipientPage .v50-top{position:relative!important;min-height:154px!important;padding-right:215px!important}
-#v9061RecipientOwl{
- position:absolute!important;right:26px!important;top:8px!important;
- width:165px!important;height:138px!important;
- display:block!important;visibility:visible!important;opacity:1!important;
- z-index:999!important;pointer-events:none!important;
- transform-origin:50% 88%;animation:v9061Float 2.7s ease-in-out infinite!important;
-}
-#v9061RecipientOwl svg{display:block!important;width:100%!important;height:100%!important;visibility:visible!important;opacity:1!important;overflow:visible!important}
-#v9061RecipientOwl .ot-owl-group{transform-origin:200px 350px;animation:v9061Body 2.7s ease-in-out infinite!important}
-#v9061RecipientOwl .ot-eye-group{transform-box:fill-box;transform-origin:center;animation:v9061Blink 4.1s infinite!important}
-#v9061RecipientOwl .ot-hat{transform-box:fill-box;transform-origin:center bottom;animation:v9061Hat 2.7s ease-in-out infinite!important}
-@keyframes v9061Float{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-8px) rotate(1.5deg)}}
-@keyframes v9061Body{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
-@keyframes v9061Blink{0%,43%,47%,100%{transform:scaleY(1)}45%{transform:scaleY(.08)}}
-@keyframes v9061Hat{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(4deg)}}
-@media(max-width:800px){
- #v9058AssignOwl{min-width:105px!important;height:92px!important}
- #v9058AssignOwl .v58owl{width:105px!important;height:88px!important;flex-basis:105px!important}
- #v9050RecipientPage .v50-top{padding-right:140px!important}
- #v9061RecipientOwl{right:8px!important;top:22px!important;width:112px!important;height:100px!important}
-}
-</style>
-<script id="v9061-owl-stable-controller">
-(function(){
-'use strict';
-function cloneVisibleOwl(){
- /* Nguồn ưu tiên chính là Cú đang HIỆN ở đầu trang Bài tập & Ôn luyện */
- const source=document.querySelector('#v9058AssignOwl svg') ||
-              document.querySelector('#otCssOwl .ot-chibi svg') ||
-              document.querySelector('#v9059RecipientOwl svg');
- return source ? source.cloneNode(true) : null;
-}
-function ensureRecipientOwl(){
- const page=document.getElementById('v9050RecipientPage');
- if(!page)return;
- const top=page.querySelector('.v50-top');
- if(!top)return;
- let box=document.getElementById('v9061RecipientOwl');
- if(box && top.contains(box) && box.querySelector('svg'))return;
- if(box)box.remove();
- const svg=cloneVisibleOwl(); if(!svg)return;
- svg.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));
- box=document.createElement('div');box.id='v9061RecipientOwl';box.appendChild(svg);top.appendChild(box);
-}
-function tick(){
- const page=document.getElementById('v9050RecipientPage');
- if(!page)return;
- const cs=getComputedStyle(page);
- if(cs.display!=='none' && cs.visibility!=='hidden')ensureRecipientOwl();
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(tick,100),{once:true});
-else setTimeout(tick,100);
-document.addEventListener('click',function(e){
- const t=(e.target.closest('button,a')?.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
- if(t.includes('chọn người nhận'))[0,80,200,500,900].forEach(ms=>setTimeout(tick,ms));
-},true);
-/* watchdog rất nhẹ: chỉ kiểm tra mascot khi trang tồn tại/đang hiện, không quét DOM */
-setInterval(tick,700);
-})();
-</script>
 
 </body>
 </html>
