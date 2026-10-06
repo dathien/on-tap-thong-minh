@@ -9707,6 +9707,137 @@ setTimeout(refresh,800);
 })();
 </script>
 
+
+<style id="v9059-final-ui-fix">
+/* Chỉ giữ 1 CTA ở đúng khu vực Soạn & giao bài */
+#v9058PrimaryCreate{display:none!important}
+#assignPane-compose .v8735-intro button,
+#assignPane-compose .tab-intro button{display:inline-flex!important}
+
+/* Cú ÔT: hiện chắc chắn trong trang Chọn người nhận, không phụ thuộc class open */
+#v9050RecipientPage .v50-top{position:relative!important;min-height:128px!important;padding-right:168px!important}
+#v9059RecipientOwl{
+ position:absolute!important;right:20px!important;top:7px!important;
+ width:126px!important;height:112px!important;display:block!important;
+ visibility:visible!important;opacity:1!important;z-index:20!important;pointer-events:none!important;
+}
+#v9059RecipientOwl svg{display:block!important;width:100%!important;height:100%!important;visibility:visible!important;opacity:1!important;overflow:visible!important}
+#v9059RecipientOwl .ot-owl-group{transform-origin:200px 350px;animation:otBreathe 3.2s infinite ease-in-out}
+#v9059RecipientOwl .ot-eye-group{transform-origin:center;animation:otBlink 4.5s infinite ease-in-out}
+#v9059RecipientOwl .ot-hat{transform-origin:200px 125px;animation:otHat 3.2s infinite ease-in-out}
+@media(max-width:760px){
+ #v9050RecipientPage .v50-top{padding-right:105px!important}
+ #v9059RecipientOwl{right:8px!important;top:18px!important;width:88px!important;height:88px!important}
+}
+</style>
+<script id="v9059-final-ui-controller">
+(function(){
+'use strict';
+const E=id=>document.getElementById(id);
+
+function cleanButtons(){
+ const top=E('v9058PrimaryCreate'); if(top) top.style.setProperty('display','none','important');
+ const panel=E('assignmentsPanel'); if(!panel)return;
+ const head=panel.querySelector(':scope > .panel-head');
+ if(head){
+   [...head.querySelectorAll('button')].forEach(b=>{
+     if(b.id==='v9058PrimaryCreate') b.style.setProperty('display','none','important');
+   });
+ }
+ const pane=E('assignPane-compose');
+ if(pane){
+   const btn=[...pane.querySelectorAll('button')].find(b=>(b.textContent||'').toLowerCase().includes('soạn trắc nghiệm'));
+   if(btn) btn.style.setProperty('display','inline-flex','important');
+ }
+}
+function mountOwl(){
+ const page=E('v9050RecipientPage'); if(!page)return;
+ const top=page.querySelector('.v50-top'); if(!top)return;
+ let old=E('v9059RecipientOwl'); if(old && top.contains(old))return;
+ if(old)old.remove();
+
+ // Ưu tiên lấy SVG mascot gốc; fallback lấy SVG đã nhúng ở bản 9.0.58
+ let svg=document.querySelector('#otCssOwl .ot-chibi svg');
+ if(!svg) svg=document.querySelector('#v9058AssignOwl svg');
+ if(!svg) svg=document.querySelector('#v9058RecipientOwl svg');
+ if(!svg)return;
+
+ const box=document.createElement('div'); box.id='v9059RecipientOwl';
+ const clone=svg.cloneNode(true);
+ clone.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));
+ box.appendChild(clone);
+ top.appendChild(box);
+}
+function refresh(){cleanButtons();mountOwl();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
+window.addEventListener('load',refresh,{once:true});
+document.addEventListener('click',function(e){
+ const t=(e.target.closest('button,a')?.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+ if(t.includes('chọn người nhận')||t.includes('soạn & giao bài')||t.includes('bài tập & ôn luyện')){
+   [0,30,100,250,500].forEach(ms=>setTimeout(refresh,ms));
+ }
+},true);
+setTimeout(refresh,300);setTimeout(refresh,1000);
+})();
+</script>
+
+
+<style id="v9060-owl-animation">
+/* Cú ÔT phải có chuyển động sống động, nhẹ, không gây rối UI */
+#v9059RecipientOwl,
+#v9058AssignOwl .v58owl{
+  transform-origin:50% 88%;
+  animation:v9060OwlFloat 2.8s ease-in-out infinite!important;
+  will-change:transform;
+}
+#v9059RecipientOwl .ot-owl-group,
+#v9058AssignOwl .ot-owl-group{
+  transform-origin:200px 350px;
+  animation:v9060OwlBody 2.8s ease-in-out infinite!important;
+}
+#v9059RecipientOwl .ot-eye-group,
+#v9058AssignOwl .ot-eye-group{
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:v9060Blink 4.2s infinite!important;
+}
+#v9059RecipientOwl .ot-hat,
+#v9058AssignOwl .ot-hat{
+  transform-box:fill-box;
+  transform-origin:center bottom;
+  animation:v9060Hat 2.8s ease-in-out infinite!important;
+}
+#v9059RecipientOwl svg,
+#v9058AssignOwl svg{
+  overflow:visible!important;
+}
+@keyframes v9060OwlFloat{
+  0%,100%{transform:translateY(0) rotate(-1deg)}
+  25%{transform:translateY(-5px) rotate(1deg)}
+  50%{transform:translateY(-8px) rotate(-1deg)}
+  75%{transform:translateY(-3px) rotate(1deg)}
+}
+@keyframes v9060OwlBody{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.018)}
+}
+@keyframes v9060Blink{
+  0%,42%,46%,100%{transform:scaleY(1)}
+  44%{transform:scaleY(.10)}
+}
+@keyframes v9060Hat{
+  0%,100%{transform:rotate(-1deg)}
+  50%{transform:rotate(3deg)}
+}
+/* Tôn trọng cài đặt giảm chuyển động của hệ điều hành */
+@media (prefers-reduced-motion: reduce){
+ #v9059RecipientOwl,#v9058AssignOwl .v58owl,
+ #v9059RecipientOwl .ot-owl-group,#v9058AssignOwl .ot-owl-group,
+ #v9059RecipientOwl .ot-eye-group,#v9058AssignOwl .ot-eye-group,
+ #v9059RecipientOwl .ot-hat,#v9058AssignOwl .ot-hat{animation:none!important}
+}
+</style>
+
 </body>
 </html>
 <style>
