@@ -9077,6 +9077,323 @@ document.addEventListener('click',function(e){
 })();
 </script>
 
+
+<style id="v9052-class-receiver-style">
+/* Lớp nhận bài: dùng bộ chọn riêng, tránh select cũ bị listener/overlay khóa */
+#v9052ClassReceiver{position:relative;width:100%}
+#v9052ClassReceiverBtn{
+ width:100%;height:44px;border:1px solid #b9cce0;border-radius:10px;background:#fff;
+ padding:0 42px 0 13px;text-align:left;font:inherit;color:#273b50;cursor:pointer;position:relative
+}
+#v9052ClassReceiverBtn:after{content:"⌄";position:absolute;right:14px;top:8px;font-size:20px;color:#40576f}
+#v9052ClassReceiverMenu{
+ position:absolute;left:0;right:0;top:49px;z-index:9999;background:#fff;border:1px solid #cbd9e8;
+ border-radius:11px;box-shadow:0 14px 34px rgba(28,52,77,.16);padding:5px;display:none
+}
+#v9052ClassReceiver.open #v9052ClassReceiverMenu{display:block}
+#v9052ClassReceiverMenu button{
+ display:block;width:100%;height:40px;border:0;border-radius:8px;background:#fff;text-align:left;
+ padding:0 12px;font:inherit;cursor:pointer;color:#2f465d
+}
+#v9052ClassReceiverMenu button:hover,#v9052ClassReceiverMenu button.active{background:#eaf6f5;color:#087f78;font-weight:850}
+</style>
+<script id="v9052-class-receiver-controller">
+(function(){
+'use strict';
+const E=id=>document.getElementById(id);
+function classes(){
+ try{return [...new Set((state.students||[]).map(x=>x.className).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi',{numeric:true}))}
+ catch(e){return[]}
+}
+function findSelect(){
+ /* Select đang hiện ngay dưới label "Lớp nhận bài" */
+ const labels=[...document.querySelectorAll('label')];
+ const lab=labels.find(x=>(x.textContent||'').replace(/\s+/g,' ').trim().toLowerCase()==='lớp nhận bài');
+ if(lab){
+   const wrap=lab.parentElement;
+   const sel=wrap?.querySelector('select');
+   if(sel)return sel;
+ }
+ return E('qClass');
+}
+function mount(){
+ const sel=findSelect();if(!sel||E('v9052ClassReceiver'))return;
+ const cs=classes();
+ /* bảo đảm select gốc cũng có đủ option cho các controller khác */
+ const current=sel.value||cs[0]||'';
+ cs.forEach(c=>{
+   if(![...sel.options].some(o=>o.value===c)){
+     const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);
+   }
+ });
+ if(current&&[...sel.options].some(o=>o.value===current))sel.value=current;
+
+ const box=document.createElement('div');box.id='v9052ClassReceiver';
+ box.innerHTML='<button type="button" id="v9052ClassReceiverBtn"></button><div id="v9052ClassReceiverMenu"></div>';
+ sel.insertAdjacentElement('afterend',box);
+ sel.style.display='none';
+ render();
+}
+function render(){
+ const sel=findSelect(),box=E('v9052ClassReceiver');if(!sel||!box)return;
+ const cs=classes(),cur=sel.value||cs[0]||'';
+ E('v9052ClassReceiverBtn').textContent=cur||'Chọn lớp';
+ E('v9052ClassReceiverMenu').innerHTML=cs.map(c=>
+   '<button type="button" data-v52-class="'+String(c).replace(/"/g,'&quot;')+'" class="'+(c===cur?'active':'')+'">'+c+'</button>'
+ ).join('');
+}
+function choose(c){
+ const sel=findSelect();if(!sel)return;
+ sel.value=c;
+ /* phát đúng event để toàn bộ logic cũ cập nhật người nhận/bài */
+ sel.dispatchEvent(new Event('input',{bubbles:true}));
+ sel.dispatchEvent(new Event('change',{bubbles:true}));
+ E('v9052ClassReceiver')?.classList.remove('open');
+ render();
+ /* Nếu đang giao cả lớp, đồng bộ người nhận sang lớp mới thay vì giữ tên cá nhân cũ */
+ if(window.v9050Recipients?.mode==='class'){
+   const ss=(state.students||[]).filter(x=>x.className===c);
+   window.v9050Recipients={
+     className:c,mode:'class',group:'',
+     studentIds:ss.map(x=>String(x.id||x.studentId||x.code||x.name)),
+     studentNames:ss.map(x=>x.name||x.fullName||x.studentName||'Học sinh')
+   };
+ }
+}
+document.addEventListener('click',function(e){
+ const btn=e.target.closest('#v9052ClassReceiverBtn');
+ if(btn){e.preventDefault();e.stopImmediatePropagation();E('v9052ClassReceiver').classList.toggle('open');return}
+ const opt=e.target.closest('[data-v52-class]');
+ if(opt){e.preventDefault();e.stopImmediatePropagation();choose(opt.dataset.v52Class);return}
+ if(!e.target.closest('#v9052ClassReceiver'))E('v9052ClassReceiver')?.classList.remove('open');
+},true);
+
+/* Không observer: mount lúc load + lúc bấm tab Soạn & giao bài */
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(mount,150),{once:true});
+else setTimeout(mount,150);
+document.addEventListener('click',function(e){
+ const t=(e.target.closest('button')?.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+ if(t.includes('soạn & giao bài'))setTimeout(()=>{mount();render()},0);
+},false);
+setTimeout(mount,500);
+})();
+</script>
+
+
+<script id="v9053-authoritative-rosters">
+(function(){
+'use strict';
+const R10=[
+'Nguyễn Minh An','Nguyễn Thị Ngọc Ánh','Nguyễn Đỗ Thanh Binh','Nguyễn Thị Thanh Hương','Nguyễn Hoàng Khang',
+'Ngô Ngọc Lam','Nguyễn Tấn Lộc','Huỳnh Nhật Quang','Huỳnh Thị Như Hoàng','Nguyễn Phạm Xuân Nghi',
+'Nguyễn Ngọc Phương Nghi','Nguyễn Hoàng Triều','Nguyễn Ngô Hoàn Tuấn','Hoàng Công Thành','Lê Việt Quốc Vương',
+'Trần Xuân Lưu Bảo','Lê Nguyễn Ngọc Hương','Trần Ngọc Khánh Linh','Nguyễn Thành Nhơn','Nguyễn Phước Vĩnh',
+'Ngô Duy Khoa','Đỗ Đăng Khoa','Tăng Hoàng Long','Đặng Nguyễn Kim Ngân','Nguyễn Trung Bảo','Phạm Gia Bảo',
+'Nguyễn Tấn Đạt','Nguyễn Hồng Diễm','Trần Hữu Thành','Tô Quốc Thịnh','Nguyễn Xuân Trúc','Nguyễn Huyền Diệu',
+'Trần Quang Nhân','Lê Nguyễn Quốc Duy','Đỗ Minh Kha','Thân Nguyễn Quốc Bảo','Phùng Trần Thanh Trúc',
+'Nguyễn Huỳnh Hải Vy','Lê Huỳnh Hương Y','Mai Phương Uyên'
+];
+const R11=[
+'Thào Thị Sua','Đỗ Minh Tân','Nguyễn Minh Thắng','Nguyễn Tân Thành','Huỳnh Nguyễn Anh Thiên',
+'Nguyễn Ngọc Trường Thịnh','Đặng Quang Thịnh','Phan Huỳnh Minh Thư','Nguyễn Hoàng Bảo Thy','Nguyễn Hữu Long Trang',
+'Nguyễn Ngọc Thành Trí','Nguyễn Thành Trung','Vũ Tam Tú','Phạm Ngọc Tường Vy','Phạm Ngọc Tường Vy',
+'Nguyễn Đặng Hoàng Yến','Nguyễn Gia Kỳ','Phạm Nguyễn Khánh Linh','Đinh Ngọc Trúc Linh','Nguyễn Hoàng Thiên Long',
+'Nguyễn Đức Minh','Đinh Ngọc Thảo My','Lê Bảo Nam','Trần Thị Bảo Ngọc','Dương Hoài Ngọc',
+'Trần Thạch Phúc Nguyên','Phan Nguyễn Uyên Nhi','Lê Đỗ Quỳnh Như','Nguyễn Tiến Phát','Nguyễn Mạnh Phi',
+'Trần Huỳnh Thiên Phú','Nguyễn Trọng Phúc','Trần Lê Hữu Phước','Nguyễn Huỳnh Thanh Phước','Tạ Long Quân',
+'Hồ Nhật Anh Quân','Phạm Hoàng Quân','Huỳnh Minh Sơn','Trần Thành Tài'
+];
+const R12=[
+'Nguyễn Thị Ngọc Ánh','Nguyễn Đỗ Thanh Binh','Nguyễn Thị Thanh Hương','Nguyễn Hoàng Khang','Ngô Ngọc Lam',
+'Nguyễn Tấn Lộc','Huỳnh Nhật Quang','Huỳnh Thị Như Hoàng','Nguyễn Phạm Xuân Nghi','Nguyễn Ngọc Phương Nghi',
+'Nguyễn Hoàng Triều','Nguyễn Ngô Hoàn Tuấn','Hoàng Công Thành','Lê Việt Quốc Vương','Trần Xuân Lưu Bảo',
+'Lê Nguyễn Ngọc Hương','Trần Ngọc Khánh Linh','Nguyễn Thành Nhơn','Nguyễn Phước Vĩnh','Ngô Duy Khoa',
+'Đỗ Đăng Khoa','Tăng Hoàng Long','Đặng Nguyễn Kim Ngân','Nguyễn Trung Bảo','Phạm Gia Bảo','Nguyễn Tấn Đạt',
+'Nguyễn Hồng Diễm','Trần Hữu Thành','Tô Quốc Thịnh','Nguyễn Xuân Trúc','Nguyễn Huyền Diệu','Trần Quang Nhân',
+'Lê Nguyễn Quốc Duy','Đỗ Minh Kha','Thân Nguyễn Quốc Bảo','Phùng Trần Thanh Trúc','Nguyễn Huỳnh Hải Vy',
+'Lê Huỳnh Hương Y','Trần Tấn Tài','Mai Phương Uyên'
+];
+const norm=v=>String(v||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('vi');
+
+function makeProfile(cls,name,i,old){
+ const x=old?{...old}:{};
+ x.id=x.id||('v53_'+cls+'_'+i+'_'+Math.random().toString(36).slice(2,8));
+ x.name=name;x.className=cls;x.grade=cls.slice(0,2);
+ x.subject=x.subject||['Tin học','Toán','Tiếng Anh','Vật lí'][i%4];
+ x.accessCode=x.accessCode||'1234';
+ x.assignments=Array.isArray(x.assignments)?x.assignments:[];
+ x.journals=Array.isArray(x.journals)?x.journals:[];
+ x.goals=Array.isArray(x.goals)?x.goals:[];
+ return x;
+}
+function exactClass(cls,names){
+ state.students=Array.isArray(state.students)?state.students:[];
+ const existing=state.students.filter(x=>x.className===cls);
+ const used=new Set(), keep=[];
+ names.forEach((name,i)=>{
+   let idx=existing.findIndex((x,j)=>!used.has(j)&&norm(x.name)===norm(name));
+   let old=null;
+   if(idx>=0){used.add(idx);old=existing[idx]}
+   keep.push(makeProfile(cls,name,i,old));
+ });
+ /* Thay đúng roster của lớp này, không đụng dữ liệu lớp khác. */
+ state.students=state.students.filter(x=>x.className!==cls).concat(keep);
+}
+function repair(){
+ try{
+   exactClass('10A1',R10);
+   exactClass('11A1',R11);
+   exactClass('12A4',R12);
+   if(typeof saveState==='function')saveState();
+ }catch(e){console.error('v9053 roster repair',e)}
+}
+/* Vô hiệu hóa cơ chế cũ dùng tên toàn cục rồi chuyển học sinh sang 12A4.
+   Bản mới chỉ bảo đảm roster 12A4 riêng biệt, không lấy học sinh từ lớp khác. */
+window.ensureHomeroomRosterCore=function(){
+ exactClass('12A4',R12);
+ try{if(typeof saveState==='function')saveState()}catch(_){}
+};
+
+/* Chạy sau toàn bộ seed cũ để kết quả cuối cùng luôn đúng 40 / 39 / 40. */
+function finalRepair(){
+ repair();
+ /* nếu trang chọn người nhận đang mở, đóng/mở lại là đủ; không MutationObserver */
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(finalRepair,350),{once:true});
+else setTimeout(finalRepair,350);
+setTimeout(finalRepair,900);
+
+/* Trước khi mở trang người nhận, sửa roster một lần nữa để chống code cũ đã chạy xen kẽ. */
+const oldOpen=window.openRecipientModal;
+window.openRecipientModal=function(){
+ finalRepair();
+ return oldOpen.apply(this,arguments);
+};
+})();
+</script>
+
+
+<script id="v9054-recipient-page-combined-fix">
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const norm=v=>String(v||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('vi');
+
+function roster(cls){
+  const a=Array.isArray(window.state?.students)?window.state.students:[];
+  const seen=new Set();
+  return a.filter(x=>norm(x.className)===norm(cls)).filter(x=>{
+    const k=norm(x.name); if(!k||seen.has(k))return false; seen.add(k); return true;
+  });
+}
+function classes(){
+  return ['10A1','11A1','12A4'].filter(c=>roster(c).length);
+}
+function findRecipientPage(){
+  const heads=[...document.querySelectorAll('h1,h2,h3')];
+  const h=heads.find(x=>norm(x.textContent).includes('chọn người nhận bài'));
+  return h?.closest('section,main,div[id],div[class]') || null;
+}
+function selectedClass(page){
+  const active=[...page.querySelectorAll('button')].find(b =>
+    ['10a1','11a1','12a4'].includes(norm(b.textContent)) &&
+    (b.classList.contains('active') || getComputedStyle(b).backgroundColor!=='rgba(0, 0, 0, 0)')
+  );
+  return active ? active.textContent.trim() : (classes()[0]||'10A1');
+}
+function paint(page,cls,mode='class'){
+  const list=roster(cls);
+  const buttons=[...page.querySelectorAll('button')];
+  buttons.forEach(b=>{
+    const t=norm(b.textContent);
+    if(['10a1','11a1','12a4'].includes(t)){
+      const on=norm(cls)===t;
+      b.classList.toggle('active',on);
+      b.setAttribute('aria-pressed',on?'true':'false');
+    }
+  });
+
+  /* sửa các con số/tóm tắt cũ đang lấy sai sĩ số */
+  [...page.querySelectorAll('*')].forEach(el=>{
+    if(el.children.length) return;
+    const t=String(el.textContent||'').trim();
+    if(/^toàn bộ \d+ học sinh lớp 10a1 sẽ nhận bài\.?$/i.test(t) ||
+       /^toàn bộ \d+ học sinh lớp 11a1 sẽ nhận bài\.?$/i.test(t) ||
+       /^toàn bộ \d+ học sinh lớp 12a4 sẽ nhận bài\.?$/i.test(t)){
+      el.textContent=`Toàn bộ ${list.length} học sinh lớp ${cls} sẽ nhận bài.`;
+    }
+    if(/^\d+\s+học sinh$/i.test(t) && el.closest('aside,.recipient-summary,[class*="summary"],[class*="selected"],[class*="right"]')){
+      el.textContent=`${list.length} học sinh`;
+    }
+  });
+
+  /* cập nhật nhãn lớp trong khung đã chọn */
+  [...page.querySelectorAll('*')].forEach(el=>{
+    if(el.children.length) return;
+    const t=String(el.textContent||'').trim();
+    if(['10A1','11A1','12A4'].includes(t) && el.closest('aside,[class*="summary"],[class*="selected"],[class*="right"]')){
+      el.textContent=cls;
+    }
+  });
+
+  /* danh sách bên phải: chỉ thay vùng có nhiều tên học sinh */
+  const candidates=[...page.querySelectorAll('aside,[class*="summary"],[class*="selected"],[class*="right"]')];
+  const right=candidates.find(x=>norm(x.textContent).includes('đã chọn'));
+  if(right){
+    const nameNodes=[...right.querySelectorAll('li,p,div')].filter(x=>{
+      if(x.children.length) return false;
+      const t=String(x.textContent||'').trim();
+      return t && !/^(đã chọn|hủy|xác nhận|\d+\s+học sinh|10a1|11a1|12a4)$/i.test(t);
+    });
+    /* chỉ động vào danh sách nếu cấu trúc hiện tại thực sự có danh sách tên */
+    if(nameNodes.length>=2){
+      const parent=nameNodes[0].parentElement;
+      if(parent && nameNodes.every(n=>n.parentElement===parent)){
+        parent.innerHTML=list.map(st=>`<div class="v9054-recipient-name">${String(st.name||'')}</div>`).join('');
+      }
+    }
+  }
+}
+
+function bind(){
+  const page=findRecipientPage(); if(!page)return;
+  if(page.dataset.v9054Bound==='1')return;
+  page.dataset.v9054Bound='1';
+
+  page.addEventListener('click',function(e){
+    const b=e.target.closest('button'); if(!b)return;
+    const t=norm(b.textContent);
+    if(['10a1','11a1','12a4'].includes(t)){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const cls=b.textContent.trim();
+      paint(page,cls,'class');
+      return false;
+    }
+    if(t==='cả lớp'||t==='theo nhóm'||t==='cá nhân'){
+      /* Không chặn logic chọn nhóm/cá nhân của app; chỉ đồng bộ roster sau click. */
+      const cls=selectedClass(page);
+      setTimeout(()=>paint(page,cls,t),0);
+    }
+  },true);
+
+  paint(page, selectedClass(page));
+}
+
+/* Không dùng MutationObserver; gắn khi người dùng mở trang và khi DOM đã sẵn sàng. */
+document.addEventListener('click',function(e){
+  const b=e.target.closest('button,a'); if(!b)return;
+  const t=norm(b.textContent);
+  if(t.includes('chọn người nhận')) setTimeout(bind,0);
+},true);
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,500),{once:true});
+else setTimeout(bind,500);
+})();
+</script>
+<style id="v9054-recipient-page-combined-style">
+.v9054-recipient-name{padding:9px 8px;border-bottom:1px solid #e5e7eb;font-size:14px;line-height:1.25}
+</style>
+
 </body>
 </html>
 <style>
