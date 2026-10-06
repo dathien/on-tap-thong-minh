@@ -9611,6 +9611,102 @@ window.addEventListener('load',()=>setTimeout(mountOwl,300),{once:true});
 })();
 </script>
 
+
+<style id="v9058-layout-and-owl">
+/* 9.0.58 - gom CTA: một nút chính, bỏ 3 nút trùng chức năng */
+#assignmentsPanel > .panel-head{align-items:center!important}
+#assignmentsPanel > .panel-head .v9058-headcopy h2{margin:0 0 5px!important}
+#assignmentsPanel > .panel-head .v9058-headcopy p{margin:0!important}
+#v9058PrimaryCreate{white-space:nowrap!important;min-width:148px!important}
+#assignPane-compose > .v8735-intro button,
+#assignPane-compose > .tab-intro button{display:none!important}
+
+/* Cú ÔT trong trang Bài tập & Ôn luyện */
+#v9058AssignOwl{display:flex;align-items:center;gap:10px;margin-left:auto;margin-right:10px}
+#v9058AssignOwl .v58owl{width:72px;height:72px;flex:0 0 72px}
+.v58owl svg{display:block;width:100%;height:100%;overflow:visible}
+.v58owl .ot-owl-group{transform-origin:200px 350px;animation:otBreathe 3.2s infinite ease-in-out}
+.v58owl .ot-eye-group{transform-origin:center;animation:otBlink 4.5s infinite ease-in-out}
+.v58owl .ot-hat{transform-origin:200px 125px;animation:otHat 3.2s infinite ease-in-out}
+
+/* Cú ÔT luôn nhìn thấy trong Chọn người nhận */
+#v9050RecipientPage .v50-top{position:relative!important;min-height:126px!important;padding-right:180px!important}
+#v9058RecipientOwl{position:absolute;right:22px;top:8px;width:128px;height:112px;z-index:10;pointer-events:none}
+#v9058RecipientOwl .v58owl{width:100%;height:100%}
+#v9058RecipientOwl .v58tag{position:absolute;right:-2px;bottom:0;background:#fff;border:1px solid #d8e5ee;border-radius:999px;padding:3px 9px;font-size:10px;font-weight:800;color:#24516b;box-shadow:0 4px 10px rgba(20,50,80,.08)}
+
+@media(max-width:900px){
+ #v9058AssignOwl{display:none}
+ #v9050RecipientPage .v50-top{padding-right:112px!important}
+ #v9058RecipientOwl{width:92px;height:92px;right:10px;top:16px}
+}
+</style>
+<script id="v9058-controller">
+(function(){
+'use strict';
+const OWL="<svg aria-label=\"Cú ÔT\" role=\"img\" viewbox=\"0 0 400 400\">\n<ellipse cx=\"200\" cy=\"362\" fill=\"rgba(30,64,175,.13)\" rx=\"98\" ry=\"13\"></ellipse>\n<g class=\"ot-owl-group\">\n<!-- chân -->\n<ellipse cx=\"154\" cy=\"347\" fill=\"#ffb719\" rx=\"22\" ry=\"14\"></ellipse>\n<ellipse cx=\"246\" cy=\"347\" fill=\"#ffb719\" rx=\"22\" ry=\"14\"></ellipse>\n<!-- tai -->\n<path d=\"M135 137 L92 96 Q83 88 88 80 Q94 72 104 79 L151 120 Z\" fill=\"#2563eb\"></path>\n<path d=\"M265 137 L308 96 Q317 88 312 80 Q306 72 296 79 L249 120 Z\" fill=\"#2563eb\"></path>\n<!-- thân -->\n<path d=\"M91 205 C91 127 137 102 200 102 C263 102 309 127 309 205\n                 C309 305 276 350 200 350 C124 350 91 305 91 205Z\" fill=\"#2563eb\"></path>\n<path d=\"M104 204 C104 139 143 116 200 116 C257 116 296 139 296 204\n                 C296 286 268 334 200 334 C132 334 104 286 104 204Z\" fill=\"#2f6cf0\"></path>\n<!-- bụng -->\n<ellipse cx=\"200\" cy=\"278\" fill=\"#f8fafc\" rx=\"73\" ry=\"64\"></ellipse>\n<path d=\"M154 274 Q166 260 178 274 Q166 290 154 274Z\" fill=\"#93c5fd\"></path>\n<path d=\"M188 292 Q200 278 212 292 Q200 308 188 292Z\" fill=\"#93c5fd\"></path>\n<path d=\"M222 274 Q234 260 246 274 Q234 290 222 274Z\" fill=\"#93c5fd\"></path>\n<!-- má -->\n<ellipse cx=\"112\" cy=\"224\" fill=\"#f38db5\" opacity=\".88\" rx=\"20\" ry=\"11\"></ellipse>\n<ellipse cx=\"288\" cy=\"224\" fill=\"#f38db5\" opacity=\".88\" rx=\"20\" ry=\"11\"></ellipse>\n<!-- mắt -->\n<g class=\"ot-eye-group\">\n<circle cx=\"154\" cy=\"188\" fill=\"#fff\" r=\"54\" stroke=\"#1e3a8a\" stroke-width=\"6\"></circle>\n<circle cx=\"246\" cy=\"188\" fill=\"#fff\" r=\"54\" stroke=\"#1e3a8a\" stroke-width=\"6\"></circle>\n<g class=\"ot-pupil\">\n<circle cx=\"154\" cy=\"190\" fill=\"#111827\" r=\"39\"></circle>\n<circle cx=\"139\" cy=\"170\" fill=\"#fff\" r=\"13\"></circle>\n<circle cx=\"170\" cy=\"209\" fill=\"#fff\" r=\"6\"></circle>\n</g>\n<g class=\"ot-pupil\">\n<circle cx=\"246\" cy=\"190\" fill=\"#111827\" r=\"39\"></circle>\n<circle cx=\"231\" cy=\"170\" fill=\"#fff\" r=\"13\"></circle>\n<circle cx=\"262\" cy=\"209\" fill=\"#fff\" r=\"6\"></circle>\n</g>\n</g>\n<!-- mỏ -->\n<path d=\"M187 215 Q200 225 213 215 L200 237 Z\" fill=\"#ffad18\"></path>\n<!-- mũ tốt nghiệp -->\n<g class=\"ot-hat\">\n<polygon fill=\"#172033\" points=\"200,84 270,108 200,132 130,108\"></polygon>\n<polygon fill=\"#26354d\" points=\"200,88 260,108 200,127 140,108\"></polygon>\n<path d=\"M157 119 Q200 137 243 119 L240 139 Q200 155 160 139Z\" fill=\"#172033\"></path>\n<path d=\"M248 112 Q271 121 269 150\" fill=\"none\" stroke=\"#ffbd18\" stroke-width=\"4\"></path>\n<circle cx=\"269\" cy=\"153\" fill=\"#ffbd18\" r=\"6\"></circle>\n</g>\n<!-- cánh trái + sách -->\n<g class=\"ot-wing-l\">\n<path d=\"M101 237 C65 241 65 294 103 301 Q119 278 120 249Z\" fill=\"#3b82f6\"></path>\n<g transform=\"translate(58 234)\">\n<rect fill=\"#ffffff\" height=\"83\" rx=\"3\" width=\"61\" x=\"0\" y=\"0\"></rect>\n<rect fill=\"#20a34a\" height=\"83\" rx=\"2\" width=\"56\" x=\"4\" y=\"0\"></rect>\n<rect fill=\"#e2e8f0\" height=\"83\" width=\"5\" x=\"4\" y=\"0\"></rect>\n<text fill=\"#fff\" font-family=\"Arial,sans-serif\" font-size=\"9\" font-weight=\"700\" text-anchor=\"middle\" x=\"34\" y=\"31\">ÔN TẬP</text>\n<text fill=\"#fff\" font-family=\"Arial,sans-serif\" font-size=\"7\" font-weight=\"700\" text-anchor=\"middle\" x=\"34\" y=\"44\">THÔNG MINH</text>\n<rect fill=\"#fff\" height=\"13\" rx=\"1\" width=\"17\" x=\"26\" y=\"57\"></rect>\n<path d=\"M34.5 58 V69 M27 59 Q34 56 34.5 61 Q35 56 42 59\" fill=\"none\" stroke=\"#166534\" stroke-width=\"1.4\"></path>\n</g>\n</g>\n<!-- cánh phải + ngón cái -->\n<g class=\"ot-wing-r\">\n<path d=\"M299 237 C333 241 333 288 299 298 Q282 277 281 249Z\" fill=\"#3b82f6\"></path>\n<g transform=\"translate(302 223)\">\n<path d=\"M8 26 C5 26 3 24 3 21 V10 C3 7 5 5 8 5 H12\n                     C14 5 16 3 17 1 L20 -7 C21 -10 25 -9 26 -6\n                     C27 -2 25 3 24 6 H32 C37 6 39 10 37 14\n                     L33 24 C32 27 29 29 25 29 H13 C11 29 10 28 8 26Z\" fill=\"#ffbf1f\" stroke=\"#172554\" stroke-width=\"2\"></path>\n<rect fill=\"#ffbf1f\" height=\"20\" rx=\"2\" stroke=\"#172554\" stroke-width=\"2\" width=\"9\" x=\"-2\" y=\"7\"></rect>\n</g>\n</g>\n</g>\n</svg>";
+const E=id=>document.getElementById(id);
+
+function owlNode(cls='v58owl'){
+ const d=document.createElement('div');d.className=cls;d.innerHTML=OWL;return d;
+}
+function tidyAssignmentHeader(){
+ const panel=E('assignmentsPanel'); if(!panel)return;
+ const head=panel.querySelector(':scope > .panel-head'); if(!head)return;
+ const title=head.querySelector('h2'), p=head.querySelector('p');
+ if(title) title.textContent='Bài tập & Ôn luyện';
+ if(p) p.textContent='Soạn, giao, theo dõi bài làm và quản lý ngân hàng bài/đề.';
+ let copy=head.querySelector('.v9058-headcopy');
+ if(!copy && title){
+   copy=document.createElement('div');copy.className='v9058-headcopy';
+   head.insertBefore(copy,head.firstChild);copy.append(title);if(p)copy.append(p);
+ }
+ // Xóa/hide các CTA cũ ở header để không còn 2 nút trắc nghiệm cạnh nhau
+ [...head.querySelectorAll('button')].forEach(b=>{
+   if(b.id!=='v9058PrimaryCreate') b.style.display='none';
+ });
+ if(!E('v9058AssignOwl')){
+   const o=document.createElement('div');o.id='v9058AssignOwl';o.appendChild(owlNode());
+   head.appendChild(o);
+ }
+ if(!E('v9058PrimaryCreate')){
+   const b=document.createElement('button');b.id='v9058PrimaryCreate';b.type='button';
+   b.className='btn primary small';b.textContent='＋ Tạo bài/đề mới';
+   b.onclick=()=>{ if(typeof window.quizOpen==='function') window.quizOpen(); };
+   head.appendChild(b);
+ }
+}
+function mountRecipientOwl(){
+ const page=E('v9050RecipientPage'); if(!page)return false;
+ const top=page.querySelector('.v50-top'); if(!top)return false;
+ let box=E('v9058RecipientOwl');
+ if(box && top.contains(box))return true;
+ if(box)box.remove();
+ box=document.createElement('div');box.id='v9058RecipientOwl';
+ box.appendChild(owlNode());
+ const tag=document.createElement('span');tag.className='v58tag';tag.textContent='Cú ÔT';box.appendChild(tag);
+ top.appendChild(box);return true;
+}
+function refresh(){
+ tidyAssignmentHeader();
+ mountRecipientOwl();
+}
+
+/* chạy khi DOM sẵn sàng + vài nhịp ngắn vì trang người nhận được tạo động */
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',refresh,{once:true});
+else refresh();
+window.addEventListener('load',refresh,{once:true});
+document.addEventListener('click',function(e){
+ const t=(e.target.closest('button,a')?.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+ if(t.includes('chọn người nhận')||t.includes('bài tập')||t.includes('soạn & giao bài')){
+   [0,60,180,400].forEach(ms=>setTimeout(refresh,ms));
+ }
+},true);
+setTimeout(refresh,250);
+setTimeout(refresh,800);
+})();
+</script>
+
 </body>
 </html>
 <style>
