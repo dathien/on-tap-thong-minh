@@ -8228,6 +8228,55 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<style id="v9039-style">
+#v9038GradeField{display:none!important}
+#sampleBankGrade9037{display:block!important;min-width:170px!important}
+</style>
+<script id="v9039-class-selector">
+(function(){
+'use strict';
+function gradeOf(c){const m=String(c||'').match(/^\s*(10|11|12)/);return m?m[1]:'10'}
+function classes(){
+ const a=(window.state?.students||[]).map(x=>x.className).filter(Boolean),s=new Set(a);
+ if(![...s].some(x=>gradeOf(x)==='10'))s.add('10A1');
+ if(![...s].some(x=>gradeOf(x)==='11'))s.add('11A1');
+ if(![...s].some(x=>gradeOf(x)==='12'))s.add('12A5');
+ return [...s].filter(x=>/^(10|11|12)/.test(String(x))).sort((a,b)=>a.localeCompare(b,'vi',{numeric:true}));
+}
+function bank(){
+ const x=document.getElementById('sampleBankGrade9037');if(!x)return;
+ const f=x.closest('.field');if(!f)return;
+ f.style.display='';f.id='';
+ const l=f.querySelector('label');if(l)l.textContent='Lớp';
+ const keep=x.dataset.cls||x.value,cs=classes();
+ x.innerHTML=cs.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
+ x.value=cs.includes(keep)?keep:cs[0];x.dataset.cls=x.value;
+ const buttons=document.getElementById('v9038GradeButtons');if(buttons)buttons.remove();
+ x.onchange=function(){
+   const cls=this.value;this.dataset.cls=cls;
+   const g=gradeOf(cls);
+   /* renderer cũ chỉ cần biết khối; sau render trả UI về tên lớp */
+   this.value=g;
+   if(typeof window.renderAdaptiveSampleBank==='function')window.renderAdaptiveSampleBank();
+   setTimeout(()=>{bank();const z=document.getElementById('sampleBankGrade9037');if(z&&[...z.options].some(o=>o.value===cls)){z.value=cls;z.dataset.cls=cls}},0);
+ };
+}
+function submissions(){
+ document.querySelectorAll('select').forEach(x=>{
+  const f=x.closest('.field'),l=f?.querySelector('label');
+  if(!l||l.textContent.trim().toLowerCase()!=='khối lớp'||x.id==='sampleBankGrade9037')return;
+  l.textContent='Lớp';const old=x.value,cs=classes();
+  x.innerHTML='<option value="all">Tất cả lớp</option>'+cs.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
+  x.value=(old==='all'||cs.includes(old))?old:'all';
+ });
+}
+function init(){bank();submissions()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,100),{once:true});else setTimeout(init,100);
+document.addEventListener('click',e=>{const b=e.target.closest('button,a');if(!b)return;const t=(b.textContent||'').toLowerCase();if(t.includes('ngân hàng bài')||t.includes('bài học sinh nộp'))setTimeout(init,50)},false);
+})();
+</script>
+
 </body>
 </html>
 <style>
