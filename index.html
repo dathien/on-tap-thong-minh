@@ -9394,6 +9394,178 @@ else setTimeout(bind,500);
 .v9054-recipient-name{padding:9px 8px;border-bottom:1px solid #e5e7eb;font-size:14px;line-height:1.25}
 </style>
 
+
+<style id="v9055-shell-fix">
+/* Trang chọn người nhận không còn phủ toàn màn hình: chừa header + sidebar GV */
+#v9050RecipientPage{
+ position:fixed!important;
+ left:var(--v9055-side,270px)!important;
+ top:var(--v9055-top,72px)!important;
+ right:0!important;
+ bottom:0!important;
+ width:auto!important;height:auto!important;
+ z-index:8500!important;
+ background:#f3f6fa!important;
+ overflow:auto!important;
+}
+#v9050RecipientPage .v50-shell{max-width:none!important;margin:0!important;padding:18px 24px 30px!important}
+@media(max-width:900px){
+ #v9050RecipientPage{left:0!important;top:64px!important}
+}
+</style>
+<script id="v9055-shell-fix-controller">
+(function(){
+'use strict';
+function visible(el){if(!el)return false;const r=el.getBoundingClientRect(),cs=getComputedStyle(el);return r.width>0&&r.height>0&&cs.display!=='none'&&cs.visibility!=='hidden'}
+function detectShell(){
+ const sideCandidates=[
+   document.querySelector('#teacherSidebar'),
+   document.querySelector('.teacher-sidebar'),
+   document.querySelector('aside.sidebar'),
+   document.querySelector('.sidebar')
+ ].filter(visible);
+ let side=sideCandidates[0];
+ if(!side){
+   side=[...document.querySelectorAll('aside,nav')].find(el=>{
+     if(!visible(el))return false;
+     const t=(el.textContent||'').toLowerCase();
+     const r=el.getBoundingClientRect();
+     return r.left<20&&r.width>180&&r.width<360&&t.includes('tổng quan')&&t.includes('bài tập');
+   });
+ }
+ const headCandidates=[
+   document.querySelector('#teacherHeader'),
+   document.querySelector('.teacher-header'),
+   document.querySelector('header')
+ ].filter(visible);
+ let head=headCandidates[0];
+ if(!head){
+   head=[...document.querySelectorAll('header,div')].find(el=>{
+     if(!visible(el))return false;
+     const r=el.getBoundingClientRect(),t=(el.textContent||'').toLowerCase();
+     return r.top<10&&r.height>=45&&r.height<130&&r.width>500&&(t.includes('giáo viên')||t.includes('ôn tập'));
+   });
+ }
+ const sw=side?Math.round(side.getBoundingClientRect().right):270;
+ const hh=head?Math.round(head.getBoundingClientRect().bottom):72;
+ document.documentElement.style.setProperty('--v9055-side',sw+'px');
+ document.documentElement.style.setProperty('--v9055-top',hh+'px');
+}
+function openFix(){
+ detectShell();
+ document.body.style.overflow='hidden';
+}
+document.addEventListener('click',function(e){
+ const b=e.target.closest('button,a');if(!b)return;
+ const t=(b.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+ if(t.includes('chọn người nhận'))setTimeout(openFix,0);
+ if(t.includes('quay lại')||t==='hủy'||t.includes('xác nhận'))setTimeout(()=>{document.body.style.overflow=''},30);
+},true);
+window.addEventListener('resize',detectShell);
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',detectShell,{once:true});else detectShell();
+})();
+</script>
+
+
+<style id="v9056-recipient-in-shell">
+/* 9.0.56: Chọn người nhận là panel thật bên trong main.content */
+#v9050RecipientPage.v9056-in-content{
+ position:static!important;inset:auto!important;left:auto!important;top:auto!important;right:auto!important;bottom:auto!important;
+ width:100%!important;height:auto!important;min-height:680px!important;z-index:auto!important;
+ background:transparent!important;overflow:visible!important;display:none!important;
+}
+#v9050RecipientPage.v9056-in-content.open{display:block!important}
+#v9050RecipientPage.v9056-in-content .v50-shell{max-width:none!important;margin:0!important;padding:0!important}
+#v9050RecipientPage.v9056-in-content .v50-top{margin-bottom:14px!important}
+#v9056OwlBox{display:flex;align-items:center;gap:14px;margin:0 0 14px;padding:12px 16px;border:1px solid #d8e4ed;border-radius:16px;background:linear-gradient(135deg,#f7fbff,#f4fffb)}
+#v9056OwlBox .v56-owl{width:112px;height:112px;flex:0 0 112px}
+#v9056OwlBox .v56-owl svg{width:100%;height:100%;overflow:visible}
+#v9056OwlBox .v56-copy b{display:block;color:#173b57;font-size:15px;margin-bottom:4px}
+#v9056OwlBox .v56-copy span{color:#64748b;font-size:13px;line-height:1.5}
+#v9056OwlBox .ot-eye-group{transform-origin:center;animation:otBlink 4.5s infinite ease-in-out}
+#v9056OwlBox .ot-owl-group{transform-origin:200px 350px;animation:otBreathe 3.2s infinite ease-in-out}
+#v9056OwlBox .ot-hat{transform-origin:200px 125px;animation:otHat 3.2s infinite ease-in-out}
+@media(max-width:760px){#v9056OwlBox .v56-owl{width:86px;height:86px;flex-basis:86px}}
+</style>
+<script id="v9056-recipient-in-shell-controller">
+(function(){
+'use strict';
+const E=id=>document.getElementById(id);
+let previousPanels=[];
+
+function stripIds(root){
+ root.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
+}
+function addOwl(page){
+ if(E('v9056OwlBox'))return;
+ const source=E('otCssOwl')?.querySelector('.ot-chibi svg');
+ if(!source)return;
+ const box=document.createElement('div');box.id='v9056OwlBox';
+ const owl=document.createElement('div');owl.className='v56-owl';
+ const svg=source.cloneNode(true);stripIds(svg);owl.appendChild(svg);
+ const copy=document.createElement('div');copy.className='v56-copy';
+ copy.innerHTML='<b>Cú ÔT đồng hành cùng thầy/cô</b><span>Chọn lớp trước, sau đó chọn cả lớp, theo nhóm hoặc từng học sinh. Danh sách bên phải sẽ cập nhật theo lựa chọn.</span>';
+ box.append(owl,copy);
+ const top=page.querySelector('.v50-top');
+ if(top)top.insertAdjacentElement('afterend',box);
+ else page.querySelector('.v50-shell')?.prepend(box);
+}
+function moveIntoContent(){
+ const page=E('v9050RecipientPage');
+ const content=document.querySelector('.layout > main.content, main.content');
+ if(!page||!content)return false;
+ if(page.parentElement!==content)content.appendChild(page);
+ page.classList.add('v9056-in-content');
+ addOwl(page);
+ return true;
+}
+function openInShell(){
+ setTimeout(()=>{
+  if(!moveIntoContent())return;
+  const page=E('v9050RecipientPage');
+  const content=page.parentElement;
+  previousPanels=[...content.children].filter(x=>x!==page && x.matches('section.panel,.panel')).map(x=>({el:x,display:x.style.display,active:x.classList.contains('active')}));
+  previousPanels.forEach(o=>{o.el.classList.remove('active');o.el.style.display='none'});
+  page.classList.add('open');
+  document.body.style.overflow='';
+  page.scrollIntoView({block:'start'});
+ },0);
+}
+function closeInShell(){
+ const page=E('v9050RecipientPage');if(!page)return;
+ page.classList.remove('open');
+ previousPanels.forEach(o=>{
+   o.el.style.display=o.display;
+   o.el.classList.toggle('active',o.active);
+ });
+ previousPanels=[];
+ document.body.style.overflow='';
+}
+
+/* Sau controller 9.0.50: giữ logic dữ liệu của nó, chỉ đổi nơi hiển thị. */
+const oldOpen=window.openRecipientModal;
+window.openRecipientModal=function(){
+ const r=oldOpen.apply(this,arguments);
+ openInShell();
+ return r;
+};
+
+/* Nút Chọn người nhận có capture listener cũ, nên đồng bộ shell ngay sau click. */
+document.addEventListener('click',function(e){
+ const b=e.target.closest('button,a');if(!b)return;
+ const t=(b.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+ if(t.includes('chọn người nhận'))openInShell();
+ if(E('v9050RecipientPage')?.contains(b) && (t.includes('quay lại')||t==='hủy'||t.startsWith('xác nhận'))){
+   setTimeout(closeInShell,0);
+ }
+},true);
+
+/* Nếu trang đã được tạo trước khi patch chạy */
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(moveIntoContent,250),{once:true});
+else setTimeout(moveIntoContent,250);
+})();
+</script>
+
 </body>
 </html>
 <style>
