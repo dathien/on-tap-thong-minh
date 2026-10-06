@@ -8347,6 +8347,72 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<style id="v9043-submission-fast-class-style">
+#sampleSubmissionGrade{display:none!important}
+#v9043SubmissionClassField{min-width:300px}
+#v9043SubmissionClassButtons{display:flex;gap:7px;flex-wrap:wrap}
+#v9043SubmissionClassButtons button{
+ height:44px;padding:0 16px;border:1px solid #ccd8e6;border-radius:11px;
+ background:#fff;color:#26394d;font-weight:850;cursor:pointer
+}
+#v9043SubmissionClassButtons button.active{
+ background:#2563eb;color:#fff;border-color:#2563eb;box-shadow:0 3px 10px #2563eb2b
+}
+</style>
+<script id="v9043-submission-fast-class">
+(function(){
+'use strict';
+let chosen='all';
+function esc(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function data(){try{return typeof SUBMISSION_SAMPLE_DATA!=='undefined'?SUBMISSION_SAMPLE_DATA:[]}catch(e){return[]}}
+function classList(){
+ const s=new Set(data().map(x=>x.className).filter(Boolean));
+ (window.state?.students||[]).forEach(x=>{if(/^(10|11|12)/.test(x.className||''))s.add(x.className)});
+ if(![...s].some(x=>/^10/.test(x)))s.add('10A1');
+ if(![...s].some(x=>/^11/.test(x)))s.add('11A1');
+ if(![...s].some(x=>/^12/.test(x)))s.add('12A5');
+ return [...s].sort((a,b)=>a.localeCompare(b,'vi',{numeric:true}));
+}
+function build(){
+ const old=document.getElementById('sampleSubmissionGrade');if(!old)return;
+ const f=old.closest('.field');if(f)f.style.display='none';
+ const bar=f?.parentElement;if(!bar)return;
+ let nf=document.getElementById('v9043SubmissionClassField');
+ if(!nf){
+   nf=document.createElement('div');nf.className='field';nf.id='v9043SubmissionClassField';
+   nf.innerHTML='<label>Lớp</label><div id="v9043SubmissionClassButtons"></div>';
+   bar.insertBefore(nf,f);
+ }
+ const cs=classList();
+ document.getElementById('v9043SubmissionClassButtons').innerHTML=
+   '<button type="button" data-c="all">Tất cả lớp</button>'+
+   cs.map(c=>'<button type="button" data-c="'+esc(c)+'">'+esc(c)+'</button>').join('');
+ sync();
+}
+function sync(){
+ document.querySelectorAll('#v9043SubmissionClassButtons button').forEach(b=>b.classList.toggle('active',b.dataset.c===chosen));
+}
+function render(){
+ const subject=document.getElementById('sampleSubmissionSubject')?.value||'all';
+ const rows=data().filter(x=>(chosen==='all'||x.className===chosen)&&(subject==='all'||x.subject===subject));
+ const box=document.getElementById('sampleSubmissionList'),sum=document.getElementById('sampleSubmissionSummary');if(!box||!sum)return;
+ const avg=rows.length?(rows.reduce((n,x)=>n+(Number(x.score)||0),0)/rows.length).toFixed(1):'—';
+ sum.innerHTML='<div class="summary-box"><strong>'+rows.length+'</strong><span>Bài đã nộp</span></div><div class="summary-box"><strong>'+new Set(rows.map(x=>x.subject)).size+'</strong><span>Môn học</span></div><div class="summary-box"><strong>'+new Set(rows.map(x=>x.className)).size+'</strong><span>Lớp</span></div><div class="summary-box"><strong>'+avg+'</strong><span>Điểm TB</span></div>';
+ box.innerHTML=rows.length?'<div class="submission-sample-grid">'+rows.map(x=>'<article class="submission-card"><div class="submission-card-head"><div><h4>'+esc(x.title)+'</h4><div class="submission-meta"><b>'+esc(x.student)+'</b> · '+esc(x.className)+'<br>'+esc(x.subject)+' · '+esc(x.level)+'</div><div class="submission-time">◷ Nộp: '+(typeof formatSubmissionTime==='function'?formatSubmissionTime(x.submittedAt):esc(x.submittedAt))+'</div></div><div class="submission-score">'+esc(x.score)+'/10</div></div><div class="submission-answer"><b>Tóm tắt bài nộp:</b> '+esc(x.answer)+'<br><b>Nhận xét:</b> '+esc(x.comment)+'</div><div class="submission-actions"><button class="btn secondary small" type="button" data-v43-view="'+esc(x.id)+'">Xem bài nộp</button><button class="btn secondary small" type="button" data-v43-grade>Chấm &amp; nhận xét</button></div></article>').join('')+'</div>':'<div class="empty">Không có bài mẫu phù hợp bộ lọc.</div>';
+}
+document.addEventListener('click',function(e){
+ const b=e.target.closest('#v9043SubmissionClassButtons button');
+ if(b){e.preventDefault();e.stopPropagation();chosen=b.dataset.c;sync();render();return}
+ const v=e.target.closest('[data-v43-view]');if(v&&typeof window.viewSubmissionSample==='function'){window.viewSubmissionSample(v.dataset.v43View);return}
+ const g=e.target.closest('[data-v43-grade]');if(g&&typeof window.toast==='function')window.toast('Đây là dữ liệu xem trước; bài thật sẽ mở công cụ chấm và nhận xét.');
+},false);
+document.getElementById('sampleSubmissionSubject')?.addEventListener('change',render);
+function init(){build();render()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,30),{once:true});else setTimeout(init,30);
+})();
+</script>
+
 </body>
 </html>
 <style>
