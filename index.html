@@ -1607,7 +1607,7 @@ aside::-webkit-scrollbar{
 <div class="summary-strip" id="assignedHistorySummary"></div><div id="assignedHistoryList"></div><div id="assignedHistoryDetail"></div>
 </div>
 <div class="list-card" id="submissionSamples" style="margin:16px 0;padding:18px;border:1px solid #cfe3ea;border-radius:15px;background:#fbfeff">
-<div class="panel-head" style="margin-bottom:10px"><div><h3 style="margin:0">Bài đã nộp &amp; chấm điểm · Dữ liệu xem trước</h3><p style="margin:5px 0 0">12 bài mẫu: 4 môn ở cả 3 khối 10, 11, 12. Mỗi bài có ngày và thời gian nộp để giáo viên xem trước quy trình quản lý bài làm.</p></div></div>
+<div class="panel-head" style="margin-bottom:10px"><div><h3 style="margin:0">Bài đã nộp &amp; chấm điểm · Dữ liệu xem trước</h3><p style="margin:5px 0 0">Lọc theo lớp và môn học để xem bài đã nộp, kết quả và tiến độ chấm.</p></div></div>
 <div class="filter-bar"><div class="field"><label>Khối lớp</label><select id="sampleSubmissionGrade" onchange="renderSubmissionSamples()"><option value="all">Cả 3 khối</option><option value="10">Khối 10</option><option value="11">Khối 11</option><option value="12">Khối 12</option></select></div><div class="field"><label>Môn học</label><select id="sampleSubmissionSubject" onchange="renderSubmissionSamples()"><option value="all">Cả 4 môn</option><option value="Toán">Toán</option><option value="Vật lí">Vật lí</option><option value="Tiếng Anh">Tiếng Anh</option><option value="Tin học">Tin học</option></select></div></div>
 <div class="summary-strip" id="sampleSubmissionSummary"></div>
 <div id="sampleSubmissionList"></div>
@@ -8410,6 +8410,103 @@ document.addEventListener('click',function(e){
 document.getElementById('sampleSubmissionSubject')?.addEventListener('change',render);
 function init(){build();render()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,30),{once:true});else setTimeout(init,30);
+})();
+</script>
+
+
+<style id="v9044-subject-picker-style">
+#sampleSubmissionSubject{display:none!important}
+#v9044SubjectPicker{position:relative;min-width:280px}
+#v9044SubjectButton{width:100%;height:44px;border:1px solid #cbd9e8;border-radius:11px;background:#fff;padding:0 14px;display:flex;align-items:center;justify-content:space-between;font:inherit;color:#334155;cursor:pointer}
+#v9044SubjectMenu{position:absolute;left:0;right:0;top:49px;z-index:5000;background:#fff;border:1px solid #cbd9e8;border-radius:12px;box-shadow:0 12px 28px #18315326;padding:6px;max-height:330px;overflow:auto}
+#v9044SubjectMenu[hidden]{display:none!important}
+#v9044SubjectMenu button{display:block;width:100%;border:0;background:#fff;text-align:left;padding:10px 12px;border-radius:8px;font:inherit;cursor:pointer}
+#v9044SubjectMenu button:hover,#v9044SubjectMenu button.active{background:#eaf2ff;color:#1d4ed8;font-weight:800}
+</style>
+<script id="v9044-subject-picker-controller">
+(function(){
+'use strict';
+/* Cấu hình triển khai nội bộ. multi = GVCN/đa môn; single = app một môn. Không hiển thị trên UI. */
+const SUBJECT_SCOPE={mode:'multi',singleSubject:'Tin học'};
+const MAIN_SUBJECTS=['Toán','Vật lí','Hóa học','Sinh học','Lịch sử','Địa lí','Ngữ văn','Tiếng Anh','Tin học'];
+let chosenSubject='all';
+
+function esc(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function getData(){try{return typeof SUBMISSION_SAMPLE_DATA!=='undefined'?SUBMISSION_SAMPLE_DATA:[]}catch(e){return[]}}
+function addMissingDemoSubjects(){
+ const d=getData(); if(!d.length)return;
+ const templates=[
+  ['Hóa học','Cấu tạo nguyên tử','Nắm được cấu tạo nguyên tử và xác định đúng số hạt cơ bản.'],
+  ['Sinh học','Tế bào và các cấp tổ chức sống','Hoàn thành phần nhận biết cấu trúc và chức năng tế bào.'],
+  ['Lịch sử','Các nền văn minh cổ đại','Xác định đúng mốc thời gian và đặc điểm chính của sự kiện.'],
+  ['Địa lí','Địa lí tự nhiên','Đọc biểu đồ và nhận xét số liệu tương đối tốt.'],
+  ['Ngữ văn','Đọc hiểu văn bản','Xác định đúng nội dung và biện pháp nghệ thuật chính.']
+ ];
+ const cls=[['10','10A1'],['11','11A4'],['12','12A4']];
+ templates.forEach((t,si)=>cls.forEach((g,gi)=>{
+   if(d.some(x=>x.subject===t[0]&&x.className===g[1]))return;
+   d.push({id:'v44_'+si+'_'+gi,grade:g[0],className:g[1],student:'Học sinh mẫu',subject:t[0],
+     title:t[0]+' '+g[0]+' – '+t[1],submittedAt:'2026-10-02T08:00:00',
+     score:7.5+((si+gi)%4)*0.5,level:'Thông hiểu',answer:t[2],comment:'Tiếp tục luyện tập theo chủ đề để củng cố kiến thức.'});
+ }));
+}
+function subjects(){
+ if(SUBJECT_SCOPE.mode==='single')return [SUBJECT_SCOPE.singleSubject];
+ return MAIN_SUBJECTS;
+}
+function replaceInternalCopy(){
+ const panel=document.getElementById('sampleSubmissionList')?.closest('.card,.panel') || document.getElementById('sampleSubmissionSummary')?.parentElement;
+ if(!panel)return;
+ const p=panel.querySelector('.panel-head p');
+ if(p)p.textContent='Lọc theo lớp và môn học để xem bài đã nộp, kết quả và tiến độ chấm.';
+}
+function buildSubjectPicker(){
+ const old=document.getElementById('sampleSubmissionSubject');if(!old)return;
+ const field=old.closest('.field');if(!field)return;
+ const label=field.querySelector('label');if(label)label.textContent='Môn học';
+ let host=document.getElementById('v9044SubjectPicker');
+ if(!host){
+   host=document.createElement('div');host.id='v9044SubjectPicker';
+   host.innerHTML='<button type="button" id="v9044SubjectButton"><span></span><b>⌄</b></button><div id="v9044SubjectMenu" hidden></div>';
+   field.appendChild(host);
+ }
+ const list=subjects();
+ if(SUBJECT_SCOPE.mode==='single')chosenSubject=list[0];
+ const menu=document.getElementById('v9044SubjectMenu');
+ menu.innerHTML=(SUBJECT_SCOPE.mode==='multi'?'<button type="button" data-sub="all">Tất cả môn</button>':'')+
+   list.map(x=>'<button type="button" data-sub="'+esc(x)+'">'+esc(x)+'</button>').join('');
+ syncSubject();
+}
+function syncSubject(){
+ const label=chosenSubject==='all'?'Tất cả môn':chosenSubject;
+ const span=document.querySelector('#v9044SubjectButton span');if(span)span.textContent=label;
+ document.querySelectorAll('#v9044SubjectMenu [data-sub]').forEach(b=>b.classList.toggle('active',b.dataset.sub===chosenSubject));
+}
+function renderFiltered(){
+ const chosenClass=document.querySelector('#v9043SubmissionClassButtons button.active')?.dataset.c||'all';
+ const rows=getData().filter(x=>(chosenClass==='all'||x.className===chosenClass)&&(chosenSubject==='all'||x.subject===chosenSubject));
+ const box=document.getElementById('sampleSubmissionList'),sum=document.getElementById('sampleSubmissionSummary');if(!box||!sum)return;
+ const avg=rows.length?(rows.reduce((n,x)=>n+(Number(x.score)||0),0)/rows.length).toFixed(1):'—';
+ sum.innerHTML='<div class="summary-box"><strong>'+rows.length+'</strong><span>Bài đã nộp</span></div><div class="summary-box"><strong>'+new Set(rows.map(x=>x.subject)).size+'</strong><span>Môn học</span></div><div class="summary-box"><strong>'+new Set(rows.map(x=>x.className)).size+'</strong><span>Lớp</span></div><div class="summary-box"><strong>'+avg+'</strong><span>Điểm TB</span></div>';
+ box.innerHTML=rows.length?'<div class="submission-sample-grid">'+rows.map(x=>'<article class="submission-card"><div class="submission-card-head"><div><h4>'+esc(x.title)+'</h4><div class="submission-meta"><b>'+esc(x.student)+'</b> · '+esc(x.className)+'<br>'+esc(x.subject)+' · '+esc(x.level)+'</div><div class="submission-time">◷ Nộp: '+(typeof formatSubmissionTime==='function'?formatSubmissionTime(x.submittedAt):esc(x.submittedAt))+'</div></div><div class="submission-score">'+esc(x.score)+'/10</div></div><div class="submission-answer"><b>Tóm tắt bài nộp:</b> '+esc(x.answer)+'<br><b>Nhận xét:</b> '+esc(x.comment)+'</div><div class="submission-actions"><button class="btn secondary small" type="button" data-v43-view="'+esc(x.id)+'">Xem bài nộp</button><button class="btn secondary small" type="button" data-v43-grade>Chấm &amp; nhận xét</button></div></article>').join('')+'</div>':'<div class="empty">Không có bài đã nộp phù hợp bộ lọc.</div>';
+}
+document.addEventListener('click',function(e){
+ const trigger=e.target.closest('#v9044SubjectButton');
+ if(trigger){e.preventDefault();e.stopPropagation();const m=document.getElementById('v9044SubjectMenu');m.hidden=!m.hidden;return}
+ const opt=e.target.closest('#v9044SubjectMenu [data-sub]');
+ if(opt){e.preventDefault();e.stopPropagation();chosenSubject=opt.dataset.sub;syncSubject();document.getElementById('v9044SubjectMenu').hidden=true;renderFiltered();return}
+ if(!e.target.closest('#v9044SubjectPicker')){const m=document.getElementById('v9044SubjectMenu');if(m)m.hidden=true}
+ const cls=e.target.closest('#v9043SubmissionClassButtons button');
+ if(cls)setTimeout(renderFiltered,0);
+},false);
+
+function init(){
+ addMissingDemoSubjects();
+ replaceInternalCopy();
+ buildSubjectPicker();
+ renderFiltered();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,40),{once:true});else setTimeout(init,40);
 })();
 </script>
 
