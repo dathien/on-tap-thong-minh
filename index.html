@@ -8173,6 +8173,61 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<style id="v9038-grade-buttons-style">
+#sampleBankGrade9037{display:none!important}
+#v9038GradeField{min-width:260px!important}
+#v9038GradeButtons{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+#v9038GradeButtons button{height:46px;border:1px solid #cad9e2;border-radius:12px;background:#fff;color:#31465b;font-weight:850;cursor:pointer}
+#v9038GradeButtons button:hover{border-color:#5b8def;background:#f5f8ff}
+#v9038GradeButtons button.active{background:#2563eb;color:#fff;border-color:#2563eb;box-shadow:0 4px 12px #2563eb33}
+</style>
+<script id="v9038-grade-buttons">
+(function(){
+'use strict';
+let grade='10';
+
+function build(){
+ const old=document.getElementById('sampleBankGrade9037');
+ if(!old)return;
+ const field=old.closest('.field');if(!field)return;
+ field.id='v9038GradeField';
+ const label=field.querySelector('label');if(label)label.textContent='Khối lớp';
+ let host=document.getElementById('v9038GradeButtons');
+ if(!host){
+   host=document.createElement('div');host.id='v9038GradeButtons';
+   host.innerHTML='<button type="button" data-grade="10">Lớp 10</button><button type="button" data-grade="11">Lớp 11</button><button type="button" data-grade="12">Lớp 12</button>';
+   field.appendChild(host);
+ }
+ sync();
+}
+function sync(){
+ document.querySelectorAll('#v9038GradeButtons button').forEach(b=>b.classList.toggle('active',b.dataset.grade===grade));
+ const old=document.getElementById('sampleBankGrade9037');if(old)old.value=grade;
+}
+document.addEventListener('click',function(e){
+ const b=e.target.closest('#v9038GradeButtons button');if(!b)return;
+ e.preventDefault();
+ grade=b.dataset.grade;
+ sync();
+ const old=document.getElementById('sampleBankGrade9037');
+ if(old){old.value=grade;old.dispatchEvent(new Event('change',{bubbles:false}))}
+},false);
+
+/* Nếu render ngân hàng chạy lại thì nút vẫn giữ đúng khối đang chọn. */
+const rr=window.renderAdaptiveSampleBank;
+if(typeof rr==='function'){
+ window.renderAdaptiveSampleBank=function(){
+   const old=document.getElementById('sampleBankGrade9037');if(old)old.value=grade;
+   const r=rr.apply(this,arguments);
+   setTimeout(()=>{build();sync()},0);
+   return r;
+ };
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(build,80),{once:true});else setTimeout(build,80);
+})();
+</script>
+
 </body>
 </html>
 <style>
