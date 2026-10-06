@@ -8229,51 +8229,85 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </script>
 
 
-<style id="v9039-style">
+
+
+
+
+<style id="v9040-class-select-stable-style">
 #v9038GradeField{display:none!important}
-#sampleBankGrade9037{display:block!important;min-width:170px!important}
+#sampleBankGrade9037{display:block!important;min-width:170px!important;pointer-events:auto!important}
 </style>
-<script id="v9039-class-selector">
+<script id="v9040-class-select-stable">
 (function(){
 'use strict';
 function gradeOf(c){const m=String(c||'').match(/^\s*(10|11|12)/);return m?m[1]:'10'}
-function classes(){
- const a=(window.state?.students||[]).map(x=>x.className).filter(Boolean),s=new Set(a);
+function getClasses(){
+ const s=new Set((window.state?.students||[]).map(x=>x.className).filter(Boolean));
  if(![...s].some(x=>gradeOf(x)==='10'))s.add('10A1');
  if(![...s].some(x=>gradeOf(x)==='11'))s.add('11A1');
  if(![...s].some(x=>gradeOf(x)==='12'))s.add('12A5');
  return [...s].filter(x=>/^(10|11|12)/.test(String(x))).sort((a,b)=>a.localeCompare(b,'vi',{numeric:true}));
 }
-function bank(){
+let selectedClass='';
+
+/* Render ngân hàng theo lớp mà KHÔNG sửa/rebuild select đang mở. */
+function renderForClass(){
+ const x=document.getElementById('sampleBankGrade9037');
+ if(!x)return;
+ selectedClass=x.value||selectedClass||getClasses()[0]||'10A1';
+ const grade=gradeOf(selectedClass);
+
+ /* renderer 9.0.37 đọc giá trị select để suy ra khối.
+    Tạm đổi value trong cùng task, render, rồi trả ngay; không innerHTML select. */
+ const old=x.value;
+ const ghost=document.createElement('option');
+ ghost.value=grade;ghost.textContent=grade;ghost.hidden=true;
+ x.appendChild(ghost);x.value=grade;
+ try{
+   /* gọi renderer 9.0.37 được lưu trước patch 9.0.38 nếu có */
+   if(typeof window.renderGradeBank==='function')window.renderGradeBank();
+   else if(typeof window.renderAdaptiveSampleBank==='function')window.renderAdaptiveSampleBank();
+ }catch(err){console.error(err)}
+ x.value=old||selectedClass;
+ ghost.remove();
+}
+
+/* Chỉ dựng options MỘT LẦN khi trang sẵn sàng. */
+function setupBank(){
  const x=document.getElementById('sampleBankGrade9037');if(!x)return;
  const f=x.closest('.field');if(!f)return;
  f.style.display='';f.id='';
  const l=f.querySelector('label');if(l)l.textContent='Lớp';
- const keep=x.dataset.cls||x.value,cs=classes();
- x.innerHTML=cs.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
- x.value=cs.includes(keep)?keep:cs[0];x.dataset.cls=x.value;
  const buttons=document.getElementById('v9038GradeButtons');if(buttons)buttons.remove();
- x.onchange=function(){
-   const cls=this.value;this.dataset.cls=cls;
-   const g=gradeOf(cls);
-   /* renderer cũ chỉ cần biết khối; sau render trả UI về tên lớp */
-   this.value=g;
-   if(typeof window.renderAdaptiveSampleBank==='function')window.renderAdaptiveSampleBank();
-   setTimeout(()=>{bank();const z=document.getElementById('sampleBankGrade9037');if(z&&[...z.options].some(o=>o.value===cls)){z.value=cls;z.dataset.cls=cls}},0);
- };
+ const cs=getClasses();
+ const keep=selectedClass||cs[0]||'10A1';
+ x.innerHTML=cs.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
+ x.value=cs.includes(keep)?keep:cs[0];
+ selectedClass=x.value;
+ if(!x.dataset.v9040){
+   x.dataset.v9040='1';
+   x.addEventListener('change',function(){
+     selectedClass=this.value;
+     /* để dropdown đóng xong rồi mới render nội dung; không rebuild chính select */
+     requestAnimationFrame(()=>setTimeout(renderForClass,0));
+   });
+ }
 }
-function submissions(){
+
+/* Bài học sinh nộp: dựng danh sách lớp một lần, không MutationObserver/click hook. */
+function setupSubmitted(){
  document.querySelectorAll('select').forEach(x=>{
-  const f=x.closest('.field'),l=f?.querySelector('label');
-  if(!l||l.textContent.trim().toLowerCase()!=='khối lớp'||x.id==='sampleBankGrade9037')return;
-  l.textContent='Lớp';const old=x.value,cs=classes();
-  x.innerHTML='<option value="all">Tất cả lớp</option>'+cs.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
-  x.value=(old==='all'||cs.includes(old))?old:'all';
+   const f=x.closest('.field'),l=f?.querySelector('label');
+   if(!l||l.textContent.trim().toLowerCase()!=='khối lớp'||x.id==='sampleBankGrade9037'||x.dataset.v9040)return;
+   l.textContent='Lớp';x.dataset.v9040='1';
+   const old=x.value,cs=getClasses();
+   x.innerHTML='<option value="all">Tất cả lớp</option>'+cs.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
+   x.value=(old==='all'||cs.includes(old))?old:'all';
  });
 }
-function init(){bank();submissions()}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,100),{once:true});else setTimeout(init,100);
-document.addEventListener('click',e=>{const b=e.target.closest('button,a');if(!b)return;const t=(b.textContent||'').toLowerCase();if(t.includes('ngân hàng bài')||t.includes('bài học sinh nộp'))setTimeout(init,50)},false);
+function init(){setupBank();setupSubmitted()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,80),{once:true});
+else setTimeout(init,80);
 })();
 </script>
 
