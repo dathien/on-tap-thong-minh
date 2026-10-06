@@ -8594,111 +8594,41 @@ addVisualQuestions();
 </script>
 
 
-<style id="v9046-submission-compact-style">
-/* Bài học sinh nộp: ưu tiên 1 vùng quản lý gọn, bỏ cảm giác 2 dashboard nối tiếp */
-#v9046SubmissionWorkspace{margin-top:12px}
-#v9046SubmissionWorkspace .v9046-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-#v9046SubmissionWorkspace .v9046-title h3{margin:0;font-size:18px}
-#v9046SubmissionWorkspace .v9046-title p{margin:4px 0 0;color:#718096;font-size:13px}
-#v9046SubmissionWorkspace .v9046-tools{display:grid;grid-template-columns:minmax(310px,1fr) minmax(220px,.7fr);gap:12px;align-items:end}
-#v9046SubmissionWorkspace .v9046-field label{display:block;font-size:12px;font-weight:800;margin-bottom:7px;color:#41556d}
-#v9046SubmissionWorkspace #v9043SubmissionClassButtons{display:flex;gap:6px;flex-wrap:wrap}
-#v9046SubmissionWorkspace #v9043SubmissionClassButtons button{height:38px;padding:0 13px}
-#v9046SubmissionWorkspace #v9044SubjectButton{height:38px}
-#v9046SubmissionWorkspace .v9046-stats{display:flex;gap:8px;margin:12px 0}
-#v9046SubmissionWorkspace .v9046-stat{flex:1;min-width:0;border:1px solid #dbe5ef;border-radius:11px;padding:9px 11px;background:#fff}
-#v9046SubmissionWorkspace .v9046-stat strong{font-size:18px;color:#2563eb;margin-right:5px}
-#v9046SubmissionWorkspace .v9046-stat span{font-size:12px;color:#64748b}
-#v9046SubmissionWorkspace .submission-sample-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-#v9046SubmissionWorkspace .submission-card{padding:12px!important}
-#v9046SubmissionWorkspace .submission-card h4{font-size:14px;margin:0 0 5px}
-#v9046SubmissionWorkspace .submission-meta,#v9046SubmissionWorkspace .submission-time{font-size:12px}
-#v9046SubmissionWorkspace .submission-answer{display:none}
-#v9046SubmissionWorkspace .submission-actions{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
-#v9046SubmissionWorkspace .submission-actions button{padding:7px 10px!important}
-#v9046SubmissionWorkspace .submission-score{font-size:14px!important;padding:7px 9px!important}
-#v9046SubmissionWorkspace .v9046-more{margin-top:10px;text-align:center}
-#v9046SubmissionWorkspace .v9046-more button{height:38px;padding:0 16px;border:1px solid #cbd9e8;border-radius:10px;background:#fff;font-weight:800;cursor:pointer}
-/* Ẩn dashboard bài tập dài phía dưới trong tab Bài học sinh nộp */
-.v9046-hide-legacy{display:none!important}
+
+
+
+
+<style id="v9047-safe-compact">
+#sampleSubmissionSummary{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;margin:10px 0!important}
+#sampleSubmissionSummary .summary-box{min-height:auto!important;padding:10px 12px!important;border-radius:11px!important}
+#sampleSubmissionSummary .summary-box strong{font-size:20px!important}
+#sampleSubmissionSummary .summary-box span{font-size:12px!important}
+#sampleSubmissionList .submission-sample-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+#sampleSubmissionList .submission-card{padding:12px!important;min-height:0!important}
+#sampleSubmissionList .submission-card h4{font-size:14px!important;margin:0 0 5px!important}
+#sampleSubmissionList .submission-meta,#sampleSubmissionList .submission-time{font-size:12px!important;line-height:1.45!important}
+#sampleSubmissionList .submission-answer{display:none!important}
+#sampleSubmissionList .submission-actions{margin-top:8px!important;gap:6px!important}
+#sampleSubmissionList .submission-actions button{padding:7px 10px!important}
+#sampleSubmissionList .submission-score{font-size:14px!important;padding:7px 9px!important}
+#v9043SubmissionClassButtons button,#v9044SubjectButton{height:38px!important}
+#sampleSubmissionList{max-height:620px;overflow:auto;padding-right:3px}
 @media(max-width:800px){
- #v9046SubmissionWorkspace .v9046-tools{grid-template-columns:1fr}
- #v9046SubmissionWorkspace .submission-sample-grid{grid-template-columns:1fr}
- #v9046SubmissionWorkspace .v9046-stats{display:grid;grid-template-columns:1fr 1fr}
+ #sampleSubmissionSummary{grid-template-columns:1fr 1fr!important}
+ #sampleSubmissionList .submission-sample-grid{grid-template-columns:1fr!important}
 }
 </style>
-<script id="v9046-submission-compact-controller">
+<script id="v9047-safe-copy">
 (function(){
-'use strict';
-let page=1; const pageSize=8;
-
-function compact(){
- const list=document.getElementById('sampleSubmissionList');
- const sum=document.getElementById('sampleSubmissionSummary');
- if(!list||!sum)return;
- const card=list.closest('.card,.panel');
- if(!card||card.id==='v9046SubmissionWorkspace')return;
- card.id='v9046SubmissionWorkspace';
-
- /* Header gọn */
- const head=card.querySelector('.panel-head');
- if(head){
-   head.classList.add('v9046-head');
-   const h=head.querySelector('h2,h3');
-   const p=head.querySelector('p');
-   if(h)h.textContent='Bài học sinh nộp';
-   if(p)p.textContent='Lọc nhanh, xem bài và chấm điểm tại một nơi.';
+ function tidy(){
+  const list=document.getElementById('sampleSubmissionList');if(!list)return;
+  const card=list.closest('.card,.panel');if(!card)return;
+  const head=card.querySelector('.panel-head');if(!head)return;
+  const h=head.querySelector('h2,h3'),p=head.querySelector('p');
+  if(h)h.textContent='Bài học sinh nộp';
+  if(p)p.textContent='Lọc theo lớp và môn học để xem, chấm và nhận xét bài nộp.';
  }
- /* Đưa bộ lọc lớp + môn vào cùng một hàng */
- const classField=document.getElementById('v9043SubmissionClassField');
- const subjectHost=document.getElementById('v9044SubjectPicker');
- const subjectField=subjectHost?.closest('.field');
- if(classField&&subjectField){
-   let tools=card.querySelector('.v9046-tools');
-   if(!tools){
-     tools=document.createElement('div');tools.className='v9046-tools';
-     const anchor=sum;
-     anchor.parentNode.insertBefore(tools,anchor);
-   }
-   classField.classList.add('v9046-field');subjectField.classList.add('v9046-field');
-   tools.appendChild(classField);tools.appendChild(subjectField);
- }
- /* Thống kê 4 ô thành 1 dòng nhỏ */
- sum.classList.add('v9046-stats');
- [...sum.children].forEach(x=>x.classList.add('v9046-stat'));
-
- /* Ẩn khu dashboard quản lý bài tập thứ hai nằm sau card này nếu nhận diện được */
- let n=card.nextElementSibling, count=0;
- while(n && count<5){
-   const text=(n.textContent||'').replace(/\s+/g,' ').toLowerCase();
-   if((text.includes('bài tập')&&text.includes('đã làm')&&text.includes('đã chấm')) ||
-      (text.includes('ngày giao')&&text.includes('học sinh')&&text.includes('trạng thái')&&text.includes('thao tác'))){
-      n.classList.add('v9046-hide-legacy');
-   }
-   n=n.nextElementSibling;count++;
- }
- paginate();
-}
-function paginate(){
- const grid=document.querySelector('#v9046SubmissionWorkspace .submission-sample-grid');if(!grid)return;
- const cards=[...grid.children];
- cards.forEach((x,i)=>x.style.display=i<page*pageSize?'':'none');
- let more=document.querySelector('#v9046SubmissionWorkspace .v9046-more');
- if(cards.length>page*pageSize){
-   if(!more){more=document.createElement('div');more.className='v9046-more';more.innerHTML='<button type="button">Xem thêm</button>';grid.after(more)}
-   more.hidden=false;
- }else if(more)more.hidden=true;
-}
-document.addEventListener('click',function(e){
- const m=e.target.closest('#v9046SubmissionWorkspace .v9046-more button');
- if(m){e.preventDefault();page++;paginate();return}
- const filter=e.target.closest('#v9043SubmissionClassButtons button,#v9044SubjectMenu [data-sub]');
- if(filter){page=1;setTimeout(()=>{compact();paginate()},0)}
-},false);
-
-const mo=new MutationObserver(()=>{if(document.getElementById('sampleSubmissionList'))requestAnimationFrame(compact)});
-mo.observe(document.body,{childList:true,subtree:true});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(compact,80),{once:true});else setTimeout(compact,80);
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(tidy,60),{once:true});else setTimeout(tidy,60);
 })();
 </script>
 
