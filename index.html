@@ -8237,55 +8237,113 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 
 
-<style id="v9041-style">
+
+
+
+
+<style id="v9042-style">
 #sampleBankGrade9037,#v9038GradeField{display:none!important}
-#v9041ClassField{min-width:250px}
-#v9041ClassButtons{display:flex;gap:7px;flex-wrap:wrap}
-#v9041ClassButtons button{height:44px;padding:0 16px;border:1px solid #ccd8e6;border-radius:11px;background:#fff;font-weight:800;cursor:pointer}
-#v9041ClassButtons button.active{background:#2563eb;color:#fff;border-color:#2563eb}
+#v9042ClassField{min-width:250px}
+#v9042ClassButtons{display:flex;gap:7px;flex-wrap:wrap}
+#v9042ClassButtons button{height:44px;padding:0 16px;border:1px solid #ccd8e6;border-radius:11px;background:#fff;font-weight:850;cursor:pointer}
+#v9042ClassButtons button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 </style>
-<script id="v9041-fix">
+<script id="v9042-controller">
 (function(){
 'use strict';
-let cls='';
-const grade=c=>(String(c).match(/^(10|11|12)/)||['','10'])[1];
-function list(){
+let bankClass='';
+
+const TOPICS={
+'10':{
+'Toán':['Mệnh đề và tập hợp','Bất phương trình và hệ bất phương trình','Hàm số và đồ thị','Hệ thức lượng trong tam giác','Vectơ','Thống kê','Xác suất','Tọa độ trong mặt phẳng','Đại số tổ hợp','Ôn tập học kỳ'],
+'Vật lí':['Mở đầu Vật lí','Động học','Chuyển động biến đổi','Ba định luật Newton','Moment lực','Năng lượng','Động lượng','Chuyển động tròn','Biến dạng vật rắn','Ôn tập'],
+'Hóa học':['Cấu tạo nguyên tử','Bảng tuần hoàn','Liên kết hóa học','Phản ứng oxi hóa – khử','Năng lượng hóa học','Tốc độ phản ứng','Halogen','Hydrogen halide','Hóa học thực tiễn','Ôn tập'],
+'Sinh học':['Giới thiệu sinh học','Các cấp tổ chức sống','Tế bào','Trao đổi chất qua màng','Chuyển hóa năng lượng','Chu kì tế bào','Vi sinh vật','Virus','Công nghệ tế bào','Ôn tập'],
+'Tin học':['Thông tin và dữ liệu','Hệ nhị phân','Mạng máy tính','An toàn số','Đồ họa máy tính','Python cơ bản','Biến và lệnh gán','Lệnh vào ra','Rẽ nhánh','Vòng lặp']
+},
+'11':{
+'Toán':['Hàm số lượng giác','Phương trình lượng giác','Dãy số','Cấp số cộng – cấp số nhân','Giới hạn','Hàm số liên tục','Đạo hàm','Quan hệ song song','Quan hệ vuông góc','Xác suất'],
+'Vật lí':['Dao động','Sóng','Điện trường','Điện thế','Tụ điện','Dòng điện không đổi','Nguồn điện','Mạch điện','Từ trường','Cảm ứng điện từ'],
+'Hóa học':['Cân bằng hóa học','Nitrogen','Sulfur','Đại cương hữu cơ','Hydrocarbon','Dẫn xuất halogen','Alcohol – phenol','Aldehyde – ketone','Carboxylic acid','Ôn tập'],
+'Sinh học':['Trao đổi nước ở thực vật','Dinh dưỡng khoáng','Quang hợp','Hô hấp','Tuần hoàn','Miễn dịch','Cảm ứng','Sinh trưởng','Sinh sản','Ôn tập'],
+'Tin học':['Hệ điều hành','Phần mềm nguồn mở','Lưu trữ trực tuyến','Cơ sở dữ liệu','Hệ quản trị CSDL','CSDL quan hệ','SQL cơ bản','Bảo mật CSDL','Khai thác dữ liệu','Ôn tập']
+},
+'12':{
+'Toán':['Tính đơn điệu và cực trị','Giá trị lớn nhất – nhỏ nhất','Đường tiệm cận','Khảo sát hàm số','Vectơ Oxyz','Mặt phẳng Oxyz','Đường thẳng Oxyz','Nguyên hàm','Tích phân','Xác suất có điều kiện'],
+'Vật lí':['Vật lí nhiệt','Khí lí tưởng','Từ trường','Cảm ứng điện từ','Dòng điện xoay chiều','Sóng điện từ','Lượng tử ánh sáng','Vật lí hạt nhân','Phóng xạ','Ôn thi'],
+'Hóa học':['Ester – lipid','Carbohydrate','Hợp chất nitrogen','Polymer','Pin điện hóa','Điện phân','Kim loại','Phức chất','Hóa học môi trường','Ôn thi'],
+'Sinh học':['Gene và cơ chế di truyền','Đột biến gene','Nhiễm sắc thể','Di truyền Mendel','Di truyền quần thể','Di truyền người','Tiến hóa','Sinh thái quần thể','Quần xã','Hệ sinh thái'],
+'Tin học':['Trí tuệ nhân tạo','Mạng máy tính','Giao tiếp mạng','HTML','CSS','Thiết kế web','JavaScript cơ bản','An toàn thông tin','Ứng dụng AI','Ôn tập']
+}};
+function gradeOf(c){const m=String(c||'').match(/^(10|11|12)/);return m?m[1]:'10'}
+function classes(){
  const a=[...new Set((window.state?.students||[]).map(x=>x.className).filter(x=>/^(10|11|12)/.test(x)))];
- if(!a.some(x=>grade(x)==='10'))a.push('10A1');
- if(!a.some(x=>grade(x)==='11'))a.push('11A1');
- if(!a.some(x=>grade(x)==='12'))a.push('12A5');
+ if(!a.some(x=>gradeOf(x)==='10'))a.push('10A1');
+ if(!a.some(x=>gradeOf(x)==='11'))a.push('11A1');
+ if(!a.some(x=>gradeOf(x)==='12'))a.push('12A5');
  return a.sort((a,b)=>a.localeCompare(b,'vi',{numeric:true}));
 }
-function build(){
+function esc(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function ensureBankPicker(){
  const bar=document.querySelector('#adaptiveSampleBank .filter-bar');if(!bar)return;
- let f=document.getElementById('v9041ClassField');
- if(!f){f=document.createElement('div');f.className='field';f.id='v9041ClassField';f.innerHTML='<label>Lớp</label><div id="v9041ClassButtons"></div>';bar.insertBefore(f,bar.firstChild)}
- const a=list();if(!cls||!a.includes(cls))cls=a[0];
- document.getElementById('v9041ClassButtons').innerHTML=a.map(x=>'<button type="button" data-c="'+x+'" class="'+(x===cls?'active':'')+'">'+x+'</button>').join('');
+ let f=document.getElementById('v9042ClassField');
+ if(!f){f=document.createElement('div');f.className='field';f.id='v9042ClassField';f.innerHTML='<label>Lớp</label><div id="v9042ClassButtons"></div>';bar.insertBefore(f,bar.firstChild)}
+ const cs=classes();if(!bankClass||!cs.includes(bankClass))bankClass=cs[0];
+ document.getElementById('v9042ClassButtons').innerHTML=cs.map(c=>'<button type="button" data-c="'+esc(c)+'" class="'+(c===bankClass?'active':'')+'">'+esc(c)+'</button>').join('');
 }
-function refresh(){
- const x=document.getElementById('sampleBankGrade9037');if(!x)return;
- const g=grade(cls),o=document.createElement('option');o.value=g;o.textContent=g;x.appendChild(o);x.value=g;
- try{if(typeof window.renderGradeBank==='function')window.renderGradeBank()}catch(e){console.error(e)}
- o.remove();
+function renderBank(){
+ ensureBankPicker();
+ const grade=gradeOf(bankClass), subject=document.getElementById('sampleBankSubject')?.value||'Toán';
+ const scheme=document.getElementById('sampleBankScheme')?.value||'4';
+ const term=(document.getElementById('sampleBankSearch')?.value||'').trim().toLowerCase();
+ const box=document.getElementById('sampleBankList');if(!box)return;
+ const source=(window.ADAPTIVE_SAMPLE_SETS||[]).filter(x=>x.subject===subject);
+ const topics=(TOPICS[grade]&&TOPICS[grade][subject])||source.map(x=>x.topic);
+ const rows=source.map((x,i)=>({set:x,topic:topics[i%topics.length]||x.topic,index:i})).filter(r=>!term||(r.topic+' '+subject).toLowerCase().includes(term));
+ const badges=scheme==='3'?'<span>2 Nhận biết</span><span>3 Thông hiểu</span><span>5 Vận dụng</span>':'<span>2 Nhận biết</span><span>3 Thông hiểu</span><span>3 Vận dụng</span><span>2 Vận dụng cao</span>';
+ box.innerHTML='<div class="sample-bank-grid">'+rows.map(r=>'<article class="sample-bank-card"><h4>'+esc(bankClass)+' · Bài '+(r.index+1)+' · '+esc(r.topic)+'</h4><p><span class="v9037-grade">'+esc(bankClass)+'</span>'+esc(subject)+' · 10 câu A–D · Phân hóa '+scheme+' mức</p><div class="sample-levels">'+badges+'</div><div class="action-row"><button type="button" class="btn secondary small" data-v42-preview="'+esc(r.set.id)+'">Xem nhanh</button><button type="button" class="btn primary small" data-v42-load="'+esc(r.set.id)+'">Chọn &amp; chỉnh sửa</button></div></article>').join('')+'</div>';
 }
 document.addEventListener('click',e=>{
- const b=e.target.closest('#v9041ClassButtons button');if(!b)return;
- e.preventDefault();e.stopPropagation();cls=b.dataset.c;
- document.querySelectorAll('#v9041ClassButtons button').forEach(x=>x.classList.toggle('active',x.dataset.c===cls));
- refresh();
-},false);
-function bindEnter(){
- const p=document.getElementById('teacherLoginPanel');if(!p||p.dataset.enter41)return;p.dataset.enter41='1';
- p.addEventListener('keydown',e=>{
-  if(e.key!=='Enter'||e.isComposing)return;
-  if(!['teacherLoginUser','teacherLoginPass'].includes(e.target?.id))return;
-  e.preventDefault();e.stopPropagation();
-  if(typeof window.teacherLoginSubmit==='function')window.teacherLoginSubmit();
- });
+ const b=e.target.closest('#v9042ClassButtons button');if(b){e.preventDefault();bankClass=b.dataset.c;document.querySelectorAll('#v9042ClassButtons button').forEach(x=>x.classList.toggle('active',x.dataset.c===bankClass));renderBank();return}
+ const p=e.target.closest('[data-v42-preview]');if(p&&typeof window.previewAdaptiveSample==='function'){window.previewAdaptiveSample(p.dataset.v42Preview);return}
+ const l=e.target.closest('[data-v42-load]');if(l&&typeof window.loadAdaptiveSample==='function'){window.loadAdaptiveSample(l.dataset.v42Load);setTimeout(()=>{const t=document.getElementById('qTitle');if(t)t.value=bankClass+' · '+t.value.replace(/^(10|11|12)[A-Za-z0-9]*\s*·\s*/,'')},0)}
+});
+['sampleBankSubject','sampleBankScheme'].forEach(id=>document.getElementById(id)?.addEventListener('change',renderBank));
+document.getElementById('sampleBankSearch')?.addEventListener('input',renderBank);
+
+/* Bài học sinh nộp: dùng LỚP thật, không dùng Khối. */
+function setupSubmissions(){
+ const sel=document.getElementById('sampleSubmissionGrade');if(!sel)return;
+ const field=sel.closest('.field'),lab=field?.querySelector('label');if(lab)lab.textContent='Lớp';
+ /* Chuẩn hóa dữ liệu xem trước về các lớp đang dùng. */
+ if(Array.isArray(window.SUBMISSION_SAMPLE_DATA)){ /* const toàn cục thường không nằm trên window */ }
+ try{
+   SUBMISSION_SAMPLE_DATA.forEach(x=>{if(x.grade==='11')x.className='11A1';if(x.grade==='12')x.className='12A5';});
+ }catch(e){}
+ const data=typeof SUBMISSION_SAMPLE_DATA!=='undefined'?SUBMISSION_SAMPLE_DATA:[];
+ const cs=[...new Set(data.map(x=>x.className).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi',{numeric:true}));
+ sel.removeAttribute('onchange');
+ sel.innerHTML='<option value="all">Tất cả lớp</option>'+cs.map(c=>'<option value="'+esc(c)+'">'+esc(c)+'</option>').join('');
+ sel.onchange=renderSubmissionsByClass;
 }
-function init(){build();bindEnter()}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,30),{once:true});else setTimeout(init,30);
+function renderSubmissionsByClass(){
+ const c=document.getElementById('sampleSubmissionGrade')?.value||'all',m=document.getElementById('sampleSubmissionSubject')?.value||'all';
+ const box=document.getElementById('sampleSubmissionList'),sum=document.getElementById('sampleSubmissionSummary');if(!box||!sum)return;
+ const data=typeof SUBMISSION_SAMPLE_DATA!=='undefined'?SUBMISSION_SAMPLE_DATA:[];
+ const rows=data.filter(x=>(c==='all'||x.className===c)&&(m==='all'||x.subject===m));
+ const avg=rows.length?(rows.reduce((n,x)=>n+x.score,0)/rows.length).toFixed(1):'—';
+ sum.innerHTML='<div class="summary-box"><strong>'+rows.length+'</strong><span>Bài đã nộp</span></div><div class="summary-box"><strong>'+new Set(rows.map(x=>x.subject)).size+'</strong><span>Môn học</span></div><div class="summary-box"><strong>'+new Set(rows.map(x=>x.className)).size+'</strong><span>Lớp</span></div><div class="summary-box"><strong>'+avg+'</strong><span>Điểm TB</span></div>';
+ box.innerHTML=rows.length?'<div class="submission-sample-grid">'+rows.map(x=>'<article class="submission-card"><div class="submission-card-head"><div><h4>'+esc(x.title)+'</h4><div class="submission-meta"><b>'+esc(x.student)+'</b> · '+esc(x.className)+'<br>'+esc(x.subject)+' · '+esc(x.level)+'</div><div class="submission-time">◷ Nộp: '+formatSubmissionTime(x.submittedAt)+'</div></div><div class="submission-score">'+x.score+'/10</div></div><div class="submission-answer"><b>Tóm tắt bài nộp:</b> '+esc(x.answer)+'<br><b>Nhận xét:</b> '+esc(x.comment)+'</div><div class="submission-actions"><button class="btn secondary small" type="button" onclick="viewSubmissionSample(\''+x.id+'\')">Xem bài nộp</button><button class="btn secondary small" type="button" onclick="toast(\'Đây là dữ liệu xem trước; bài thật sẽ mở công cụ chấm và nhận xét.\')">Chấm &amp; nhận xét</button></div></article>').join('')+'</div>':'<div class="empty">Không có bài mẫu phù hợp bộ lọc.</div>';
+}
+document.getElementById('sampleSubmissionSubject')?.addEventListener('change',renderSubmissionsByClass);
+
+/* Enter đăng nhập GV */
+function bindEnter(){
+ const p=document.getElementById('teacherLoginPanel');if(!p||p.dataset.v42)return;p.dataset.v42='1';
+ p.addEventListener('keydown',e=>{if(e.key!=='Enter'||e.isComposing)return;if(!['teacherLoginUser','teacherLoginPass'].includes(e.target?.id))return;e.preventDefault();if(typeof window.teacherLoginSubmit==='function')window.teacherLoginSubmit();});
+}
+function init(){ensureBankPicker();renderBank();setupSubmissions();renderSubmissionsByClass();bindEnter()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,40),{once:true});else setTimeout(init,40);
 })();
 </script>
 
