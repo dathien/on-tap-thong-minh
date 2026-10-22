@@ -1978,7 +1978,7 @@ function exportWord(){const s=currentStudent();if(!s){toast('Chưa có hồ sơ 
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
-</script>
+<\/script>
 </body></html>`;downloadBlob(new Blob(['\ufeff',html],{type:'application/msword'}),`Bao_cao_${safeName(s.name)}_${today()}.doc`);toast('Đã xuất báo cáo Word')}
 function backupData(){downloadBlob(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),`Sao_luu_Hoc_Tap_Thong_Minh_${today()}.httt`);toast('Đã tải tệp sao lưu')}
 function restoreData(){const f=document.getElementById('restoreFile').files[0];if(!f){toast('Hãy chọn tệp sao lưu');return}const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);if(!Array.isArray(data.students))throw new Error('invalid');state=Object.assign(defaultState(),data);saveState();loadProfileForm();loadSurveyForm();renderAll();toast('Đã khôi phục dữ liệu')}catch(e){toast('Tệp sao lưu không hợp lệ')}};r.readAsText(f)}
@@ -2191,7 +2191,7 @@ function printAssignmentContent(){const {a}=docSelection();if(!a)return toast('C
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
-</script>
+<\/script>
 </body></html>';w.document.write(html);w.document.close();w.focus();w.print()}
 document.getElementById('docStudent')?.addEventListener('change',refreshDocAssignments);document.getElementById('docAssignment')?.addEventListener('change',loadDocContent);
 const oldRenderAssignments=renderAssignments;renderAssignments=function(){oldRenderAssignments();refreshDocSelectors()};
@@ -2973,7 +2973,7 @@ const __journalOldGoPanel=goPanel;goPanel=function(name){__journalOldGoPanel(nam
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
-</script>
+<\/script>
 </body></html>`);w.document.close()}
  function seed(){A(state.students).forEach(s=>{if(DEMO[s.name]&&!s.achievementDemo)s.achievementDemo={...DEMO[s.name]}});try{saveState()}catch(_){}}
  const base=window.renderTodayLearning;window.renderTodayLearning=function(){if(typeof base==='function')base();const s=current(),box=document.getElementById('todayUnifiedContent');if(s&&box&&!box.querySelector('.ach-card'))box.insertAdjacentHTML('afterbegin',summary(s))}
