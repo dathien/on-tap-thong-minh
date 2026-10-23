@@ -1,0 +1,24 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kiểm thử kết nối Ôn Tập Thông Minh</title><style>body{font:17px system-ui;background:#f1f5f9;color:#183153;margin:0;padding:24px}.card{max-width:650px;margin:auto;background:white;padding:26px;border-radius:18px;box-shadow:0 8px 25px #17334b15}input,button{font:inherit;padding:12px;border-radius:9px;border:1px solid #b8c5d1;box-sizing:border-box}input{width:100%;margin:5px 0 15px}button{background:#1463c2;color:white;cursor:pointer;margin:4px 5px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#edf4fc;padding:16px;border-radius:8px}small{color:#5a6a7b}</style>
+<div class="card"><h1>Kiểm thử kết nối Google Sheets</h1><p>Trang kỹ thuật độc lập. Chưa thay thế chức năng đăng nhập hoặc lưu bài của ứng dụng chính.</p>
+<label>Tên đăng nhập<input id="username" autocomplete="username"></label><label>Mật khẩu<input id="password" type="password" autocomplete="current-password"></label>
+<button id="login">Đăng nhập thử</button><button id="me" disabled>Kiểm tra phiên</button><button id="sub" disabled>Danh sách bài đã nộp</button><button id="logout" disabled>Đăng xuất</button>
+<pre id="out" role="status">Chưa kiểm tra.</pre><small>Không ghi mật khẩu hoặc token vào localStorage. Không dùng tài khoản thật trước khi kiểm tra phân quyền và giới hạn đăng nhập của backend.</small></div>
+<script>
+let token='',role='';
+const out=document.getElementById('out');
+async function call(action,extra={}) {
+ out.textContent='Đang xử lý…';
+ try {
+ const r=await fetch('/api/gas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,...extra,...(token?{token}:{})})});
+ const j=await r.json();out.textContent=JSON.stringify({http:r.status,ok:j.ok,error:j.error,data:action==='login'&&j.ok?{user:j.data?.user,expiresInSeconds:j.data?.expiresInSeconds}:j.data},null,2);
+ if(!r.ok||!j.ok)throw Error(j.error||'Lỗi API');
+ return j.data;
+ } catch(e){out.textContent+='\n'+e.message;return null}
+}
+function setButtons(){document.getElementById('me').disabled=!token;document.getElementById('sub').disabled=!token||!['ADMIN','TEACHER'].includes(role);document.getElementById('logout').disabled=!token}
+document.getElementById('login').onclick=async()=>{const username=document.getElementById('username').value.trim(),password=document.getElementById('password').value;if(!username||!password){out.textContent='Cần nhập tài khoản và mật khẩu';return}const d=await call('login',{username,password});document.getElementById('password').value='';if(d?.token){token=d.token;role=d.user?.role||'';setButtons()}};
+document.getElementById('me').onclick=()=>call('me');
+document.getElementById('sub').onclick=()=>call('teacherSubmissions');
+document.getElementById('logout').onclick=async()=>{await call('logout');token='';role='';setButtons()};
+</script></html>
